@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\duste\\Revature\\Projects\\ar-dk-ps-project2\\ClassRegistrationApp\\ClassRegistrationApp\\ClassRegistration.App.csproj",
-      "projectName": "ClassRegistration.App",
-      "projectPath": "C:\\Users\\duste\\Revature\\Projects\\ar-dk-ps-project2\\ClassRegistrationApp\\ClassRegistrationApp\\ClassRegistration.App.csproj",
+      "projectUniqueName": "C:\\Users\\duste\\Revature\\Projects\\ar-dk-ps-project2\\ClassRegistrationApp\\ClassRegistration.DataAccess\\ClassRegistration.DataAccess.csproj",
+      "projectName": "ClassRegistration.DataAccess",
+      "projectPath": "C:\\Users\\duste\\Revature\\Projects\\ar-dk-ps-project2\\ClassRegistrationApp\\ClassRegistration.DataAccess\\ClassRegistration.DataAccess.csproj",
       "packagesPath": "C:\\Users\\duste\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\duste\\Revature\\Projects\\ar-dk-ps-project2\\ClassRegistrationApp\\ClassRegistrationApp\\obj\\",
+      "outputPath": "C:\\Users\\duste\\Revature\\Projects\\ar-dk-ps-project2\\ClassRegistrationApp\\ClassRegistration.DataAccess\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\duste\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -54,9 +54,6 @@
         "assetTargetFallback": true,
         "warn": true,
         "frameworkReferences": {
-          "Microsoft.AspNetCore.App": {
-            "privateAssets": "none"
-          },
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
