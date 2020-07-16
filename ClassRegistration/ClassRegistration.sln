@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30309.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassRegistration.App", "ClassRegistration.App\ClassRegistration.App.csproj", "{58FCE200-6131-4743-8A2B-686DDDBAAFC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassRegistration.App", "ClassRegistration.App\ClassRegistration.App.csproj", "{58FCE200-6131-4743-8A2B-686DDDBAAFC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassRegistration.DataAccess", "ClassRegistration.DataAccess\ClassRegistration.DataAccess.csproj", "{911896EB-72A8-4222-8D06-964B9C76FB63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassRegistration.DataAccess", "ClassRegistration.DataAccess\ClassRegistration.DataAccess.csproj", "{911896EB-72A8-4222-8D06-964B9C76FB63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassRegistration.Test", "ClassRegistration.Test\ClassRegistration.Test.csproj", "{D377D573-083B-4974-AC96-073A6F883220}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{911896EB-72A8-4222-8D06-964B9C76FB63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{911896EB-72A8-4222-8D06-964B9C76FB63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{911896EB-72A8-4222-8D06-964B9C76FB63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D377D573-083B-4974-AC96-073A6F883220}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D377D573-083B-4974-AC96-073A6F883220}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D377D573-083B-4974-AC96-073A6F883220}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D377D573-083B-4974-AC96-073A6F883220}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
