@@ -4,16 +4,24 @@
 # https://aka.ms/yaml
 
 trigger:
+  branches: 
+    include:
+    - master
+    - development
+  paths:
+    exclude:
+    - README.md
+    - .gitignore
+
+pr:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+variables:
+  solutionPath: ClassRegistration
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+jobs:
+- job: build_linux
+  pool:
+    vmImage: 'ubuntu-latest'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+
