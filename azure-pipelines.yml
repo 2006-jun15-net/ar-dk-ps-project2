@@ -24,4 +24,11 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
 
-
+  steps:
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: 'ar-dk-ps-sonarcloud'
+      organization: '2006-jun15-net'
+      scannerMode: 'MSBuild'
+      projectKey: '2006-jun15-net_ar-dk-ps-project2'
+      projectName: 'ar-dk-ps-project2'
