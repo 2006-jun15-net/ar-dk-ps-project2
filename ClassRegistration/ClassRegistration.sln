@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30309.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassRegistrationApp", "ClassRegistrationApp\ClassRegistrationApp.csproj", "{58FCE200-6131-4743-8A2B-686DDDBAAFC5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassRegistration.App", "ClassRegistration.App\ClassRegistration.App.csproj", "{58FCE200-6131-4743-8A2B-686DDDBAAFC5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassRegistration.DataAccess", "ClassRegistration.DataAccess\ClassRegistration.DataAccess.csproj", "{911896EB-72A8-4222-8D06-964B9C76FB63}"
 EndProject
