@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ClassRegistration.Domain.Repositories;
 
 namespace ClassRegistration.App {
     public class Startup {
@@ -20,7 +21,10 @@ namespace ClassRegistration.App {
             services.AddControllers ();
 
             services.AddDbContext<Course_registration_dbContext> (options =>
-                 options.UseSqlServer (Configuration.GetConnectionString ("SqlServer")));
+                 options.UseSqlServer (Configuration.GetConnectionString ("courseregistrationDb")));
+
+
+            services.AddScoped<CourseRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
