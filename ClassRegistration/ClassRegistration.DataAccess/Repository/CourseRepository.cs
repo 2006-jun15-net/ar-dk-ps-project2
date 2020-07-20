@@ -14,11 +14,16 @@ namespace ClassRegistration.DataAccess.Repository {
 
         public virtual async Task<IEnumerable<CourseModel>> FindByStudent (int studentId) {
 
-            var enrollments = _context.Enrollment.Where (e => e.StudentId == studentId);
+            var courses = from c in _context.Course
+                          join s in _context.Section on c.CourseId equals s.CourseId 
+                          join e in _context.Enrollment on s.SectId equals e.SectId
+                          where e.StudentId == studentId
+                          select c;
 
-            return await enrollments.Include (e => e.Sect).Select (e => e.Sect)
-                                .Include (s => s.Course).Select (s => new CourseModel {
-                                    CourseName = s.Course.CourseName
+            return await courses.Select (
+                                c => new CourseModel {
+                                    CourseName = c.CourseName,
+                                    StudentId = studentId
                                 }).ToListAsync ();
         }
     }
