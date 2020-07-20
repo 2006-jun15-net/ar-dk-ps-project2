@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
   branches: 
     include:
@@ -36,7 +31,6 @@ jobs:
         sonar.exclusions=**/lib/**
         sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
         sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/*/coverage.opencover.xml
-
   - script: dotnet build -c Release
     displayName: dotnet build
     workingDirectory: $(solutionPath)
@@ -66,3 +60,12 @@ jobs:
   - script: dotnet publish -c Release -o ../publish
     displayName: dotnet publish
     workingDirectory: $(solutionPath)
+
+  - task: AzureRmWebAppDeployment@4
+    displayName: azure app service deploy
+    inputs:
+      ConnectionType: 'AzureRM'
+      azureSubscription: 'Azure subscription 1(3edca897-65af-4673-84e4-b3d1c79e363a)'
+      appType: 'webApp'
+      WebAppName: 'ar-dk-ps-project2'
+      packageForLinux: '$(System.DefaultWorkingDirectory)/publish'
