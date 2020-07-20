@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassRegistration.App", "Cl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassRegistration.DataAccess", "ClassRegistration.DataAccess\ClassRegistration.DataAccess.csproj", "{911896EB-72A8-4222-8D06-964B9C76FB63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassRegistration.Test", "ClassRegistration.Test\ClassRegistration.Test.csproj", "{D377D573-083B-4974-AC96-073A6F883220}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassRegistration.Test", "ClassRegistration.Test\ClassRegistration.Test.csproj", "{D377D573-083B-4974-AC96-073A6F883220}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassRegistration.Domain", "ClassRegistration.Domain\ClassRegistration.Domain.csproj", "{99E16E84-3913-431A-9500-3EC296143BC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{D377D573-083B-4974-AC96-073A6F883220}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D377D573-083B-4974-AC96-073A6F883220}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D377D573-083B-4974-AC96-073A6F883220}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99E16E84-3913-431A-9500-3EC296143BC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99E16E84-3913-431A-9500-3EC296143BC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99E16E84-3913-431A-9500-3EC296143BC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99E16E84-3913-431A-9500-3EC296143BC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
