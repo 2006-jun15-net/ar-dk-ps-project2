@@ -1,7 +1,6 @@
 ﻿using ClassRegistration.Domain;
-using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ClassRegistration.App.Controllers {
@@ -22,17 +21,34 @@ namespace ClassRegistration.App.Controllers {
 
         // GET api/<StudentController>/5
         [HttpGet ("{id}")]
-        public async Task<StudentModel> Get (int id) {
-            return await _studentRepository.FindById (id);
+        public async Task<IActionResult> Get (int id) {
+
+            var student = await _studentRepository.FindById (id);
+
+            if (student == default) {
+                return NotFound ();
+            }
+
+            return Ok (student);
         }
 
         // GET api/<StudentController>/5/courses
         [HttpGet ("{id}/courses")]
-        public async Task<IEnumerable<CourseModel>> GetCourses (int id) {
+        public async Task<IActionResult> GetCourses (int id) {
 
+            var student = await _studentRepository.FindById (id);
 
+            if (student == default) {
+                return NotFound ();
+            }
 
-            return await _courseRepository.FindByStudent (id);
+            var courses = await _courseRepository.FindByStudent (id);
+
+            if (courses.Count () == 0) {
+                return NoContent ();
+            }
+
+            return Ok (courses);
         }
     }
 }
