@@ -8,8 +8,8 @@ namespace ClassRegistration.Domain {
     
     public interface IStudentRepository {
 
-        Task AddEnrollment (int studentId, EnrollmentModel enrollment);
+        Task<StudentModel> FindById (int id);
 
-        Task<bool> DeleteEnrollment (int studentId, int enrollmentId);
+        Task AddEnrollment (int studentId, EnrollmentModel enrollment);
     }
 }

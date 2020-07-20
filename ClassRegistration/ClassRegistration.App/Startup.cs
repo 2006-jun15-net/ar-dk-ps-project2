@@ -1,4 +1,6 @@
 using ClassRegistration.DataAccess.Entity;
+using ClassRegistration.DataAccess.Repository;
+using ClassRegistration.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -18,9 +20,12 @@ namespace ClassRegistration.App {
         public void ConfigureServices (IServiceCollection services) {
 
             services.AddControllers ();
-
+            
             services.AddDbContext<Course_registration_dbContext> (options =>
                  options.UseSqlServer (Configuration.GetConnectionString ("SqlServer")));
+
+            services.AddScoped<IEnrollmentRepository, EnrollmentRepository> ();
+            services.AddScoped<IStudentRepository, StudentRepository> ();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
