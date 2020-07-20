@@ -1,6 +1,6 @@
-using ClassRegistration.App.Interfaces;
-using ClassRegistration.App.Repositories;
+using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.DataAccess.Entity;
+using ClassRegistration.DataAccess.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +23,7 @@ namespace ClassRegistration.App {
 
 
             //included a service for accessing the enrollment repository.
-            services.AddScoped<IEnrollmentRepo, EnrollmentRepo>();
+            services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
 
             services.AddDbContext<Course_registration_dbContext> (options =>
                  options.UseSqlServer (Configuration.GetConnectionString ("SqlServer")));
