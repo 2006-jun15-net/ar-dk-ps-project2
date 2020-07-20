@@ -1,6 +1,6 @@
 ﻿
-using ClassRegistration.App.Interfaces;
-using ClassRegistration.App.Repositories;
+
+using ClassRegistration.DataAccess.Repositories;
 using ClassRegistration.DataAccess.Entity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography.X509Certificates;
+using ClassRegistration.DataAccess;
+using ClassRegistration.DataAccess.Interfaces;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,16 +24,16 @@ namespace ClassRegistration.App.Controllers
         /// <summary>
         /// private IEnrollment field.
         /// </summary>
-        private IEnrollmentRepo _enrollmentRepository;
+        private IEnrollmentRepository _enrollmentRepository;
 
         
         /// <summary>
         /// Constructor initializes IEnrollment field.
         /// </summary>
         /// <param name="enrollmentRepo"></param>
-        public EnrollmentController(IEnrollmentRepo enrollmentRepo)
+        public EnrollmentController(IEnrollmentRepository enrollmentRepo)
         {
-            this._enrollmentRepository = enrollmentRepo;
+           _enrollmentRepository = enrollmentRepo;
 
         }
         
@@ -45,7 +48,7 @@ namespace ClassRegistration.App.Controllers
 
         // GET api/<EnrollmentController>/id
         [HttpGet("{id}/{term}")]
-        public Object GetTotalCredits(int id,string term)
+        public IActionResult GetTotalCredits(int id,string term)
         {
             //return Ok(_enrollmentRepo.GetTotalCredits(id));
 
@@ -53,28 +56,36 @@ namespace ClassRegistration.App.Controllers
             int WinterMinimumCredits = 8;  //winter minimum credits
             int SummerMinCredits = 8;       //summer minimum credits
 
-           
-            int totalCredits = _enrollmentRepository.GetCredits(id, term);
 
-            if(totalCredits >= FallMinimumCredits && term == "Fall")
+            int totalCredits = _enrollmentRepository.GetCredits(id, term); //gets total credits of a student with an id and term they are enrolled.
+
+            string[] semesters = { "Fall", "Winter", "Summer" };  // an array of semesters for validation
+            foreach(var semester in semesters)
             {
-                return Ok(totalCredits);
+                if(semester == term)
+                {
+                    if (totalCredits >= FallMinimumCredits && term == "Fall")
+                    {
+                        return Ok(totalCredits);
 
+                    }
+                    else if (totalCredits >= WinterMinimumCredits && term == "Winter")
+                    {
+                        return Ok(totalCredits);
+
+
+                    }
+
+                    else if (totalCredits >= SummerMinCredits && term == "Summer")
+                    {
+                        return Ok(totalCredits);
+
+
+                    }
+
+                }
             }
-            else if(totalCredits >= WinterMinimumCredits && term == "Winter" )
-            {
-                return Ok(totalCredits);
-
-
-            }
-
-            else if(totalCredits >= SummerMinCredits && term == "Summer")
-            {
-                return Ok(totalCredits);
-
-
-            }
-
+          
             return NotFound();
 
 
