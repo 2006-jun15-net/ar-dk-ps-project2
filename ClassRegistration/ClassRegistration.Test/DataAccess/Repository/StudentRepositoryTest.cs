@@ -2,7 +2,6 @@
 
 namespace ClassRegistration.Test.DataAccess.Repository {
 
-    public class CourseRepositoryTest {
-
+    public class StudentRepositoryTest {
     }
 }

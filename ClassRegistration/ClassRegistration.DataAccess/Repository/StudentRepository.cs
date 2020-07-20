@@ -11,6 +11,8 @@ namespace ClassRegistration.DataAccess.Repository {
 
         public StudentRepository (Course_registration_dbContext context) : base (context) { }
 
+        public StudentRepository () : this (null) { }
+
         public virtual async Task<StudentModel> FindById (int id) {
 
             var students = from s in _context.Student

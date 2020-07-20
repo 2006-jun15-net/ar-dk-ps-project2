@@ -3,6 +3,7 @@ using ClassRegistration.App.Controllers;
 using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Repository;
 using ClassRegistration.Domain.Model;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,13 @@ namespace ClassRegistration.Test.Controllers {
                 new StudentModel {
 
                     Id = 1,
-                    Name = "Test Student"
+                    Name = "Test 1"
+                },
+
+                new StudentModel {
+
+                    Id = 2,
+                    Name = "Test 2"
                 }
             };
             
@@ -59,15 +66,48 @@ namespace ClassRegistration.Test.Controllers {
         }
 
         [Fact]
-        public void TestGet () {
+        public async void TestGet () {
 
-            var student = _studentController.Get (1);
+            OkObjectResult response = await _studentController.Get (1) as OkObjectResult;
+            var student = response.Value as StudentModel;
+
+            Assert.Equal (200, response.StatusCode);
+            Assert.Equal (1, student.Id);
+            Assert.Equal ("Test 1", student.Name);
         }
 
         [Fact]
-        public void TestGetCourses () {
+        public async void TestGetFail () {
 
-            var coursesForStudent = _studentController.GetCourses (1);
+            NotFoundResult response = await _studentController.Get(3) as NotFoundResult;
+
+            Assert.Equal (404, response.StatusCode);
+        }
+
+        [Fact]
+        public async void TestGetCourses () {
+
+            OkObjectResult response = await _studentController.GetCourses (1) as OkObjectResult;
+            var courses = response.Value as IEnumerable<CourseModel>;
+
+            Assert.Equal (200, response.StatusCode);
+            Assert.Single (courses);
+        }
+
+        [Fact]
+        public async void TestGetCoursesFail () {
+
+            NotFoundResult response = await _studentController.GetCourses (3) as NotFoundResult;
+
+            Assert.Equal (404, response.StatusCode);
+        }
+
+        [Fact]
+        public async void TestGetCoursesEmpty () {
+
+            NoContentResult response = await _studentController.GetCourses (2) as NoContentResult;
+
+            Assert.Equal (204, response.StatusCode);
         }
     }
 }

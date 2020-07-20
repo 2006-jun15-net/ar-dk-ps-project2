@@ -12,6 +12,5 @@ namespace ClassRegistration.DataAccess.Repository {
         public Repository (Course_registration_dbContext context) {
             _context = context;
         }
-
     }
 }

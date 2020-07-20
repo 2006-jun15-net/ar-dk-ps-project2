@@ -5,12 +5,15 @@ using System.Threading.Tasks;
 using ClassRegistration.Domain;
 using ClassRegistration.Domain.Model;
 using System.Collections.Generic;
+using System;
 
 namespace ClassRegistration.DataAccess.Repository {
 
     public class CourseRepository : Repository, ICourseRepository {
 
         public CourseRepository (Course_registration_dbContext context) : base (context) { }
+
+        public CourseRepository () : this (null) {}
 
         public virtual async Task<IEnumerable<CourseModel>> FindByStudent (int studentId) {
 
