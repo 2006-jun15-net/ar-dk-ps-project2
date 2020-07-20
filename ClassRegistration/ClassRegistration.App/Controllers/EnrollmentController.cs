@@ -1,4 +1,6 @@
 ﻿
+using ClassRegistration.App.Interfaces;
+using ClassRegistration.App.Repositories;
 using ClassRegistration.DataAccess.Entity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,14 +17,20 @@ namespace ClassRegistration.App.Controllers
     [ApiController]
     public class EnrollmentController : ControllerBase
     {
-        private readonly Course_registration_dbContext _dbContext;
 
-        public EnrollmentController(Course_registration_dbContext dbContext)
+        /// <summary>
+        /// private IEnrollment field.
+        /// </summary>
+        private IEnrollmentRepo _enrollmentRepository;
+
+        
+        /// <summary>
+        /// Constructor initializes IEnrollment field.
+        /// </summary>
+        /// <param name="enrollmentRepo"></param>
+        public EnrollmentController(IEnrollmentRepo enrollmentRepo)
         {
-
-            _dbContext = dbContext;
-
-            
+            this._enrollmentRepository = enrollmentRepo;
 
         }
         
@@ -45,13 +53,9 @@ namespace ClassRegistration.App.Controllers
             int WinterMinimumCredits = 8;  //winter minimum credits
             int SummerMinCredits = 8;       //summer minimum credits
 
-            var totalCredits = (from c in _dbContext.Course
-                         join s in _dbContext.Section on c.CourseId
-                         equals s.CourseId
-                         join e in _dbContext.Enrollment on s.SectId equals e.SectId
-                         where e.StudentId == id && s.Term == term   //enrollments of a particular student with their respective semester.
+           
+            int totalCredits = _enrollmentRepository.GetCredits(id, term);
 
-                                select c.Credits).Sum();
             if(totalCredits >= FallMinimumCredits && term == "Fall")
             {
                 return Ok(totalCredits);
