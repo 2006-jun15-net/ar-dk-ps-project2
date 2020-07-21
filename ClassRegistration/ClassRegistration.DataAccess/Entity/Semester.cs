@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ClassRegistration.DataAccess.Entity
 {
-    public partial class Semester
+    public partial class Semester : DataModel
     {
         public Semester()
         {

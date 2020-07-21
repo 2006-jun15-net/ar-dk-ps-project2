@@ -1,6 +1,6 @@
 ﻿namespace ClassRegistration.Domain.Model
 {
-    public class EnrollmentModel
+    public class EnrollmentModel : BaseBusinessModel
     {
         public int Id { get; set; }
         public int StudentId { get; set; }

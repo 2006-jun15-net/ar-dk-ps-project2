@@ -1,5 +1,5 @@
 ﻿using ClassRegistration.DataAccess.Entity;
-using ClassRegistration.Domain;
+using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ClassRegistration.DataAccess.Repository
 {
-    public class CourseRepository : Repository, ICourseRepository
+    public class CourseRepository : Repository<Course, CourseModel>, ICourseRepository
     {
         public CourseRepository (Course_registration_dbContext context) : base (context) { }
 
@@ -28,6 +28,36 @@ namespace ClassRegistration.DataAccess.Repository
                                     CourseName = c.CourseName,
                                     StudentId = studentId
                                 }).ToListAsync ();
+        }
+
+        public virtual async Task<IEnumerable<CourseModel>> FindAll ()
+        {
+            var classes = await _context.Course.ToListAsync();
+            return _mapper.Map<IEnumerable<CourseModel>> (classes);
+        }
+
+        public virtual async Task<CourseModel> FindById (int id)
+        {
+            var searchedCourse = await _context.Course.FirstOrDefaultAsync(c => c.CourseId == id);
+            return _mapper.Map<CourseModel>(searchedCourse);
+        }
+
+        public virtual async Task<CourseModel> FindByName (string name)
+        {
+            var searchedCourse = await _context.Course.FirstOrDefaultAsync(c => c.CourseName == name);
+            return _mapper.Map<CourseModel>(searchedCourse);
+        }
+
+        public virtual async Task<IEnumerable<CourseModel>> FindByDeptID (int deptId)
+        {
+            var searchedCourses = await _context.Course.Where(c => c.DeptId == deptId).ToListAsync();
+            return _mapper.Map<IEnumerable<CourseModel>>(searchedCourses);
+        }
+
+        public virtual async Task<IEnumerable<CourseModel>> FindByDeptName (string deptName)
+        {
+            List<Course> searchedCourses = await _context.Course.Where(c => c.Dept.DeptName == deptName).ToListAsync();
+            return _mapper.Map<IEnumerable<CourseModel>>(searchedCourses);
         }
     }
 }

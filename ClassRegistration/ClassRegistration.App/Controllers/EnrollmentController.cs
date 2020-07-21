@@ -1,6 +1,6 @@
 using ClassRegistration.DataAccess.Interfaces;
-using ClassRegistration.Domain;
 using ClassRegistration.Domain.Model;
+using ClassRegistration.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;

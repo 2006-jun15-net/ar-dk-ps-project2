@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ClassRegistration.DataAccess.Entity
 {
-    public partial class Instructor
+    public partial class Instructor : DataModel
     {
         public Instructor()
         {

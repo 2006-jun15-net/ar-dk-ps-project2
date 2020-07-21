@@ -1,12 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-
-
-namespace ClassRegistration.Domain.Model
+﻿namespace ClassRegistration.Domain.Model
 {
-    public class BaseBusinessModel
-    {
-        
-    }
+    public class BaseBusinessModel { }
 }
