@@ -1,59 +1,33 @@
-﻿using System;
+﻿using ClassRegistration.DataAccess.Entity;
+using ClassRegistration.DataAccess.Interfaces;
+using ClassRegistration.Domain.Model;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ClassRegistration.DataAccess.Entity;
-using ClassRegistration.DataAccess.Interfaces;
-using ClassRegistration.DataAccess.Repositories;
-using Microsoft.EntityFrameworkCore;
 
-
-namespace ClassRegistration.DataAccess.Repositories
+namespace ClassRegistration.DataAccess.Repository
 {
-
-
-    public class SectionRepository : GenericRepository<DataAccess.Entity.Section, Domain.Model.Section>, ISectionRepository
+    public class SectionRepository : Repository<Section, SectionModel>, ISectionRepository
     {
+        public SectionRepository (Course_registration_dbContext context) : base (context) { }
 
-
-
-        public SectionRepository(Course_registration_dbContext _context) : base(_context)
+        // get access to course navigation properties given an instructor ID
+        public virtual async Task<IEnumerable<SectionModel>> FindById (int id)
         {
+            // TODO we want to make stuff like this use the LINQ query syntax
+            var sections = await _context.Section.Include (s => s.Course)
+                                    .Where (s => s.InstructorId == id).ToListAsync ();
 
-        }
-        
-
-        
-
-
-        //get access to course navigation properties given an instructor ID
-        public async Task<IEnumerable<Domain.Model.Section>> GetSectionByInstID(int id)
-        {
-           
-            List<Section> thesections = await _context.Section
-                .Include(s => s.Course)
-                    .Where(s => s.InstructorId == id)
-                .ToListAsync();
-
-            return mapper.Map<IEnumerable<Domain.Model.Section>>(thesections);
-            
+            return _mapper.Map<IEnumerable<SectionModel>> (sections);
         }
 
-
-       
-
-        //get all the sections : just to verify in postman
-        public IEnumerable<Domain.Model.Section> GetTheSections()
+        // get all the sections : just to verify in postman
+        public virtual async Task<IEnumerable<SectionModel>> FindAll ()
         {
             //    var class = _dbContext.Course.Where(c => c.CourseId == courseId);
-            List<Section> sections = _context.Section.ToList();
-
-            var businessSections = mapper.Map<IEnumerable<Domain.Model.Section>>(sections);
-            return businessSections;
+            var sections = await _context.Section.ToListAsync ();
+            return _mapper.Map<IEnumerable<SectionModel>> (sections);
         }
-
-
-
     }
-
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ClassRegistration.DataAccess.Repository
 {
-    public class EnrollmentRepository : Repository, IEnrollmentRepository
+    public class EnrollmentRepository : Repository<Enrollment, EnrollmentModel>, IEnrollmentRepository
     {
         /// <summary>
         /// A constructor that intializes the database entity.
@@ -48,35 +48,31 @@ namespace ClassRegistration.DataAccess.Repository
             }
 
             _context.Enrollment.Remove (enrollment);
+            await _context.SaveChangesAsync ();
+
             return true;
         }
 
         public async Task<bool> Add (EnrollmentModel enrollmentModel)
         {
-            var enrollments = await (from e in _context.Enrollment 
-                                          where e.EnrollmentId == enrollmentModel.Id
-                                          select e).ToListAsync ();
+            var enrollments = await (from e in _context.Enrollment
+                                     where e.EnrollmentId == enrollmentModel.Id
+                                     select e).ToListAsync ();
 
             if (enrollments.Count != 0)
             {
                 return false;
             }
 
-            await _context.Enrollment.AddAsync (new Enrollment
+            _context.Enrollment.Add (new Enrollment
             {
                 StudentId = enrollmentModel.StudentId,
                 SectId = enrollmentModel.SectionId
             });
 
-            return true;
-        }
-
-        /// <summary>
-        /// This method saves chnages to the database context.
-        /// </summary>
-        public virtual async Task Save ()
-        {
             await _context.SaveChangesAsync ();
+
+            return true;
         }
     }
 }

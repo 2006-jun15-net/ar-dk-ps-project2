@@ -4,7 +4,7 @@ using ClassRegistration.Domain.Model;
 
 namespace ClassRegistration.DataAccess.Repository
 {
-    public class Repository<T, U> where T : DataModel, new () where U : BaseBusinessModel, new ()
+    public class Repository<T, U> where T : DataModel, new() where U : BaseBusinessModel, new()
     {
         /// <summary>
         /// Database context instance
@@ -33,7 +33,7 @@ namespace ClassRegistration.DataAccess.Repository
                 cfg.CreateMap<Student, StudentModel> ();
                 cfg.CreateMap<StudentModel, Student> ();*/
             });
-            _mapper = config.CreateMapper();
+            _mapper = config.CreateMapper ();
         }
     }
 }

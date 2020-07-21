@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace ClassRegistration.Domain
 {
-    public interface IStudentRepository 
+    public interface IStudentRepository
     {
         Task<StudentModel> FindById (int id);
     }

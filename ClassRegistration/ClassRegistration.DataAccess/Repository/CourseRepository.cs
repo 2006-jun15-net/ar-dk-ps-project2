@@ -32,32 +32,32 @@ namespace ClassRegistration.DataAccess.Repository
 
         public virtual async Task<IEnumerable<CourseModel>> FindAll ()
         {
-            var classes = await _context.Course.ToListAsync();
+            var classes = await _context.Course.ToListAsync ();
             return _mapper.Map<IEnumerable<CourseModel>> (classes);
         }
 
         public virtual async Task<CourseModel> FindById (int id)
         {
-            var searchedCourse = await _context.Course.FirstOrDefaultAsync(c => c.CourseId == id);
-            return _mapper.Map<CourseModel>(searchedCourse);
+            var searchedCourse = await _context.Course.FirstOrDefaultAsync (c => c.CourseId == id);
+            return _mapper.Map<CourseModel> (searchedCourse);
         }
 
         public virtual async Task<CourseModel> FindByName (string name)
         {
-            var searchedCourse = await _context.Course.FirstOrDefaultAsync(c => c.CourseName == name);
-            return _mapper.Map<CourseModel>(searchedCourse);
+            var searchedCourse = await _context.Course.FirstOrDefaultAsync (c => c.CourseName == name);
+            return _mapper.Map<CourseModel> (searchedCourse);
         }
 
         public virtual async Task<IEnumerable<CourseModel>> FindByDeptID (int deptId)
         {
-            var searchedCourses = await _context.Course.Where(c => c.DeptId == deptId).ToListAsync();
-            return _mapper.Map<IEnumerable<CourseModel>>(searchedCourses);
+            var searchedCourses = await _context.Course.Where (c => c.DeptId == deptId).ToListAsync ();
+            return _mapper.Map<IEnumerable<CourseModel>> (searchedCourses);
         }
 
         public virtual async Task<IEnumerable<CourseModel>> FindByDeptName (string deptName)
         {
-            List<Course> searchedCourses = await _context.Course.Where(c => c.Dept.DeptName == deptName).ToListAsync();
-            return _mapper.Map<IEnumerable<CourseModel>>(searchedCourses);
+            List<Course> searchedCourses = await _context.Course.Where (c => c.Dept.DeptName == deptName).ToListAsync ();
+            return _mapper.Map<IEnumerable<CourseModel>> (searchedCourses);
         }
     }
 }

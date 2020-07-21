@@ -2,12 +2,11 @@ using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.Domain;
 using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ClassRegistration.DataAccess.Repository
 {
-    public class StudentRepository : Repository, IStudentRepository
+    public class StudentRepository : Repository<Student, StudentModel>, IStudentRepository
     {
         public StudentRepository (Course_registration_dbContext context) : base (context) { }
 
@@ -15,11 +14,8 @@ namespace ClassRegistration.DataAccess.Repository
 
         public virtual async Task<StudentModel> FindById (int id)
         {
-            var students = from s in _context.Student
-                           where s.StudentId == id
-                           select s;
-
-            return await students.Select (s => new StudentModel { Id = s.StudentId }).FirstOrDefaultAsync ();
+            var student = await _context.Student.FirstOrDefaultAsync (s => s.StudentId == id);
+            return _mapper.Map<StudentModel> (student);
         }
     }
 }
