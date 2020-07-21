@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.Domain.Repositories;
+using ClassRegistration.Domain.Interfaces;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -15,14 +16,16 @@ namespace ClassRegistration.App.Controllers
     public class CourseController : ControllerBase
     {
 
-        private readonly Course_registration_dbContext _dbContext;
-        private readonly CourseRepository _courseRepo;
+        
+        private readonly ICourseRepository _courseRepo;
+        
 
 
-        public CourseController(Course_registration_dbContext thecontext, CourseRepository _courserepo)
+        public CourseController(ICourseRepository courserepo)
         {
-            _dbContext = thecontext;
-            _courseRepo = _courserepo;
+            
+            _courseRepo = courserepo;
+            
         }
          
         //get all the courses available
@@ -30,44 +33,61 @@ namespace ClassRegistration.App.Controllers
         [HttpGet("classes")]
         public IActionResult GetAllCoursesAvailable()
         {
-            //return Ok(_dbContext.Course.ToList());
+            
             var theClasses = _courseRepo.GetTheCourses();
             return Ok(theClasses);
         }
 
 
-        //get a course by ID
-        // GET api/course/classes/100
-        [HttpGet("classes/{id}")]
-        public ActionResult<Course> GetCourseByID(int id)
+
+        //search a course by ID
+        // GET api/course/class/100
+        [HttpGet("class/{id}")]
+        public ActionResult<Course> GetCourseByCourseID(int id)
         {
             var theCourse = _courseRepo.GetCourseByID(id);
             //if (_dbContext.Course.FirstOrDefault(c => c.CourseId == id) is Course theClass)
-            if (theCourse is Course theClass)
+            if (theCourse is Domain.Model.Course theClass)
             { 
-                return theClass;
+                return Ok(theClass);
             }
             return NotFound();
         }
 
 
 
-        // POST api/values
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
+        //get a course by its name
+        // GET api/course/course/Robotics
+        [HttpGet("course/{search}")]
+        public ActionResult<Course> GetCourseByCourseName(string search)
+        {
+            var theCourse = _courseRepo.GetCourseByName(search);
+            if (theCourse is Domain.Model.Course theClass)
+            {
+                return Ok(theClass);
+            }
+            return NotFound();
+        }
+         
 
-        // PUT api/values/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
 
-        // DELETE api/values/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        //search for courses available by Department ID
+        // GET api/course/courses/1500
+        [HttpGet("courses/{id}")]
+        public ActionResult<Course> GetCourseByDepartmentID(int id)
+        {
+            var theCourses = _courseRepo.GetCourseByDepID(id);
+
+            if (!theCourses.Any())
+            {
+                return NotFound();
+            }
+            return Ok(theCourses); 
+
+        }
+
+
+        
+
     }
 }

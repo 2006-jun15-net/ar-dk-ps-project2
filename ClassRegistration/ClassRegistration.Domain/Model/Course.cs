@@ -2,10 +2,11 @@
 using System.Text;
 using System.Collections.Generic;
 using ClassRegistration.DataAccess.Entity;
+using ClassRegistration.Domain.Model;
 
-namespace ClassRegistration.Domain
+namespace ClassRegistration.Domain.Model
 {
-    public class Course
+    public class Course : BaseBusinessModel 
     {
 
 
@@ -31,7 +32,7 @@ namespace ClassRegistration.Domain
         }
 
         public int CourseId { get; set; }
-        //public string CourseName { get; set; }
+        
 
 
 
