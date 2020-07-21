@@ -1,7 +1,11 @@
-﻿using ClassRegistration.Domain;
-using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ClassRegistration.Domain;
+using ClassRegistration.Domain.Model;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace ClassRegistration.App.Controllers
 {
@@ -52,6 +56,17 @@ namespace ClassRegistration.App.Controllers
             }
 
             return Ok (courses);
+        }
+        
+        // POST api/<EnrollmentController>/5/enrollment
+        [HttpPost ("{id}/enrollment")]
+        public async Task<IActionResult> PostEnrollment (int id, [FromBody] EnrollmentModel enrollment) {
+
+            // TODO verify student and section by ids
+
+            await _studentRepository.AddEnrollment (id, enrollment);
+
+            return Ok ();
         }
     }
 }

@@ -24,11 +24,10 @@ namespace ClassRegistration.App
         public void ConfigureServices (IServiceCollection services)
         {
             services.AddControllers ();
-
+            
             services.AddDbContext<Course_registration_dbContext> (options =>
                  options.UseSqlServer (Configuration.GetConnectionString ("SqlServer")));
-
-            //included a service for accessing the enrollment repository.
+          
             services.AddScoped<IEnrollmentRepository, EnrollmentRepository> ();
             services.AddScoped<ICourseRepository, CourseRepository> ();
             services.AddScoped<IStudentRepository, StudentRepository> ();

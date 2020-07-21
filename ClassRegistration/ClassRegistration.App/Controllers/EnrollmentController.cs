@@ -1,29 +1,52 @@
-﻿using ClassRegistration.DataAccess.Interfaces;
+using ClassRegistration.Domain;
+using ClassRegistration.Domain.Model;
+using ClassRegistration.DataAccess.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-namespace ClassRegistration.App.Controllers
+namespace ClassRegistration.App.Controllers 
 {
     [Route ("api/[controller]")]
     [ApiController]
     public class EnrollmentController : ControllerBase
     {
-        /// <summary>
-        /// private IEnrollment field.
-        /// </summary>
         private readonly IEnrollmentRepository _enrollmentRepository;
+        private readonly IStudentRepository _studentRepository;
 
         /// <summary>
         /// Constructor initializes IEnrollment field.
         /// </summary>
-        /// <param name="enrollmentRepo"></param>
-        public EnrollmentController (IEnrollmentRepository enrollmentRepository)
+        /// <param name="enrollmentRepository"></param>
+        /// <param name="studentRepository"></param>
+        public EnrollmentController (IEnrollmentRepository enrollmentRepository,
+                                     IStudentRepository studentRepository) 
         {
             _enrollmentRepository = enrollmentRepository;
+            _studentRepository = studentRepository;
         }
 
+        // DELETE api/<EnrollmentController>/5
+        [HttpDelete ("{id}")]
+        public async Task<IActionResult> DeleteFromStudent (int id, [FromBody] int studentId) 
+        {
+            var student = _studentRepository.FindById (studentId);
+
+            if (student == default) 
+            {
+                return BadRequest ();
+            }
+
+            bool deleted = await _enrollmentRepository.Delete (student.Id, id);
+
+            if (!deleted) 
+            {
+                return NotFound ();
+            }
+
+            return Ok ();
+        }
+        
         /// <summary>
         /// This method returns the total credits of a student with a specified ID and the term
         /// </summary>

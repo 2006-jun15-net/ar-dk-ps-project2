@@ -1,4 +1,5 @@
-﻿using ClassRegistration.DataAccess.Entity;
+using ClassRegistration.DataAccess.Entity;
+using ClassRegistration.Domain;
 using ClassRegistration.DataAccess.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace ClassRegistration.DataAccess.Repository
         /// <param name="id"></param>
         /// <param name="term"></param>
         /// <returns></returns>
-        public async Task<int?> GetCredits (int id, string term)
+        public virtual async Task<int?> GetCredits (int id, string term)
         {
             var totalCredits = await (from c in _context.Course
                                       join s in _context.Section on c.CourseId
@@ -33,11 +34,27 @@ namespace ClassRegistration.DataAccess.Repository
 
             return totalCredits.Sum ();
         }
+      
+        
+        public virtual async Task<bool> Delete (int enrollmentId, int studentId) 
+        {
+            var enrollment = await (from e in _context.Enrollment
+                                    where e.EnrollmentId == enrollmentId && e.StudentId == studentId
+                                    select e).FirstOrDefaultAsync ();
+
+            if (enrollment == default) 
+            {
+                return false;
+            }
+
+            _context.Enrollment.Remove (enrollment);
+            return true;
+        }
 
         /// <summary>
         /// This method saves chnages to the database context.
         /// </summary>
-        public async Task Save ()
+        public virtual async Task Save ()
         {
             await _context.SaveChangesAsync ();
         }

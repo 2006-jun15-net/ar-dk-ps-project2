@@ -1,4 +1,8 @@
-﻿namespace ClassRegistration.Domain.Model 
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ClassRegistration.Domain.Model 
 {
     public class StudentModel 
     {
