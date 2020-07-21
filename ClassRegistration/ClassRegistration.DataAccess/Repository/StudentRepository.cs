@@ -21,17 +21,5 @@ namespace ClassRegistration.DataAccess.Repository
 
             return await students.Select (s => new StudentModel { Id = s.StudentId }).FirstOrDefaultAsync ();
         }
-
-        public virtual async Task AddEnrollment (int studentId, EnrollmentModel enrollmentModel)
-        {
-            _context.Enrollment.Add (new Enrollment
-            {
-
-                StudentId = enrollmentModel.StudentId,
-                SectId = enrollmentModel.SectionId
-            });
-
-            await _context.SaveChangesAsync ();
-        }
     }
 }
