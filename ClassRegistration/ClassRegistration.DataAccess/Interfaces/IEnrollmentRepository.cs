@@ -8,6 +8,7 @@ namespace ClassRegistration.DataAccess.Interfaces
     public interface IEnrollmentRepository 
     {
         Task<int?> GetCredits (int id, string term);
+        Task<bool> Delete (int studentId, int enrollmentId);
         Task Save ();
     }
 }

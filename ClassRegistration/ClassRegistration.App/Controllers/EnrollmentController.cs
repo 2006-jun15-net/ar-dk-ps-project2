@@ -1,11 +1,9 @@
-using ClassRegistration.Domain;
-using ClassRegistration.Domain.Model;
 using ClassRegistration.DataAccess.Interfaces;
+using ClassRegistration.Domain;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
 
-namespace ClassRegistration.App.Controllers 
+namespace ClassRegistration.App.Controllers
 {
     [Route ("api/[controller]")]
     [ApiController]
@@ -20,7 +18,7 @@ namespace ClassRegistration.App.Controllers
         /// <param name="enrollmentRepository"></param>
         /// <param name="studentRepository"></param>
         public EnrollmentController (IEnrollmentRepository enrollmentRepository,
-                                     IStudentRepository studentRepository) 
+                                     IStudentRepository studentRepository)
         {
             _enrollmentRepository = enrollmentRepository;
             _studentRepository = studentRepository;
@@ -28,25 +26,25 @@ namespace ClassRegistration.App.Controllers
 
         // DELETE api/<EnrollmentController>/5
         [HttpDelete ("{id}")]
-        public async Task<IActionResult> DeleteFromStudent (int id, [FromBody] int studentId) 
+        public async Task<IActionResult> DeleteFromStudent (int id, [FromBody] int studentId)
         {
             var student = _studentRepository.FindById (studentId);
 
-            if (student == default) 
+            if (student == default)
             {
                 return BadRequest ();
             }
 
             bool deleted = await _enrollmentRepository.Delete (student.Id, id);
 
-            if (!deleted) 
+            if (!deleted)
             {
                 return NotFound ();
             }
 
             return Ok ();
         }
-        
+
         /// <summary>
         /// This method returns the total credits of a student with a specified ID and the term
         /// </summary>

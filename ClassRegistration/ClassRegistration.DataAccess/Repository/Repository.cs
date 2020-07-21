@@ -1,3 +1,5 @@
+using ClassRegistration.DataAccess.Entity;
+
 namespace ClassRegistration.DataAccess.Repository
 {
     public class Repository

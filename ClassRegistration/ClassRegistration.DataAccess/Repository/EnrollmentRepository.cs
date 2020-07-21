@@ -1,5 +1,4 @@
 using ClassRegistration.DataAccess.Entity;
-using ClassRegistration.Domain;
 using ClassRegistration.DataAccess.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -34,15 +33,15 @@ namespace ClassRegistration.DataAccess.Repository
 
             return totalCredits.Sum ();
         }
-      
-        
-        public virtual async Task<bool> Delete (int enrollmentId, int studentId) 
+
+
+        public virtual async Task<bool> Delete (int enrollmentId, int studentId)
         {
             var enrollment = await (from e in _context.Enrollment
                                     where e.EnrollmentId == enrollmentId && e.StudentId == studentId
                                     select e).FirstOrDefaultAsync ();
 
-            if (enrollment == default) 
+            if (enrollment == default)
             {
                 return false;
             }
