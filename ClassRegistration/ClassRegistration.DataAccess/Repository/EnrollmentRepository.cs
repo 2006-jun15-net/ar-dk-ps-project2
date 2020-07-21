@@ -1,5 +1,6 @@
 using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Interfaces;
+using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,6 +48,26 @@ namespace ClassRegistration.DataAccess.Repository
             }
 
             _context.Enrollment.Remove (enrollment);
+            return true;
+        }
+
+        public async Task<bool> Add (EnrollmentModel enrollmentModel)
+        {
+            var enrollments = await (from e in _context.Enrollment 
+                                          where e.EnrollmentId == enrollmentModel.Id
+                                          select e).ToListAsync ();
+
+            if (enrollments.Count != 0)
+            {
+                return false;
+            }
+
+            await _context.Enrollment.AddAsync (new Enrollment
+            {
+                StudentId = enrollmentModel.StudentId,
+                SectId = enrollmentModel.SectionId
+            });
+
             return true;
         }
 

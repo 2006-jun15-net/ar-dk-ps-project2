@@ -6,6 +6,5 @@ namespace ClassRegistration.Domain
     public interface IStudentRepository 
     {
         Task<StudentModel> FindById (int id);
-        Task AddEnrollment (int studentId, EnrollmentModel enrollmentModel);
     }
 }

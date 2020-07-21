@@ -1,5 +1,6 @@
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain;
+using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -24,9 +25,9 @@ namespace ClassRegistration.App.Controllers
             _studentRepository = studentRepository;
         }
 
-        // DELETE api/<EnrollmentController>/5
+        // DELETE api/<EnrollmentController>/id
         [HttpDelete ("{id}")]
-        public async Task<IActionResult> DeleteFromStudent (int id, [FromBody] int studentId)
+        public async Task<IActionResult> Delete (int id, [FromBody] int studentId)
         {
             var student = _studentRepository.FindById (studentId);
 
@@ -52,7 +53,7 @@ namespace ClassRegistration.App.Controllers
         /// <param name="term"></param>
         /// <returns></returns>
 
-        // GET api/<EnrollmentController>/id
+        // GET api/<EnrollmentController>/id/term
         [HttpGet ("{id}/{term}")]
         public async Task<IActionResult> GetTotalCredits (int id, string term)
         {
@@ -98,6 +99,27 @@ namespace ClassRegistration.App.Controllers
             }
 
             return NotFound ();
+        }
+
+        // POST api/<EnrollmentController>
+        [HttpPost]
+        public async Task<IActionResult> Post ([FromBody] EnrollmentModel enrollmentModel)
+        {
+            // TODO check that section exists
+
+            if (_studentRepository.FindById (enrollmentModel.StudentId) == default)
+            {
+                return BadRequest ();
+            }
+
+            bool success = await _enrollmentRepository.Add (enrollmentModel);
+
+            if (!success)
+            {
+                return BadRequest ();
+            }
+
+            return Ok ();
         }
     }
 }
