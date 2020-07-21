@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace ClassRegistration.Test.Controllers {
+namespace ClassRegistration.Test.Controllers.App {
 
     public class StudentControllerTest {
 
