@@ -2,6 +2,7 @@ using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 
 namespace ClassRegistration.App.Controllers
@@ -57,48 +58,21 @@ namespace ClassRegistration.App.Controllers
         [HttpGet ("{id}/{term}")]
         public async Task<IActionResult> GetTotalCredits (int id, string term)
         {
-            //return Ok(_enrollmentRepo.GetTotalCredits(id));
-
-            int FallMinimumCredits = 20;  //fall minimum credits
-            int WinterMinimumCredits = 8;  //winter minimum credits
-            int SummerMinCredits = 8;       //summer minimum credits
-
-
             int? totalCredits = await _enrollmentRepository.GetCredits (id, term);  // gets total credits of a student with an id and term they are enrolled.
 
             if (totalCredits == null)
             {
-                // A bad thing happened
+                return BadRequest ();
             }
 
-            string[] semesters = { "Fall", "Winter", "Summer" };  // an array of semesters for validation
-            foreach (var semester in semesters)
+            var minimumCredits = EnrollmentModel.MinimumCredits (term);
+
+            if (minimumCredits == -1)
             {
-                if (semester == term)
-                {
-                    if (totalCredits >= FallMinimumCredits && term == "Fall")
-                    {
-                        return Ok (totalCredits);
-                    }
-
-                    else if (totalCredits >= WinterMinimumCredits && term == "Winter")
-                    {
-                        return Ok (totalCredits);
-                    }
-
-                    else if (totalCredits >= SummerMinCredits && term == "Summer")
-                    {
-                        return Ok (totalCredits);
-                    }
-
-                    else
-                    {
-                        // Something bad happened, return a response to reflect that
-                    }
-                }
+                return BadRequest ();
             }
 
-            return NotFound ();
+            return Ok (new { requirementsMet = totalCredits >= minimumCredits });
         }
 
         // POST api/<EnrollmentController>
