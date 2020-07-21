@@ -42,7 +42,12 @@ namespace ClassRegistration.App.Controllers
             int SummerMinCredits = 8;       //summer minimum credits
 
 
-            int totalCredits = await _enrollmentRepository.GetCredits (id, term);  // gets total credits of a student with an id and term they are enrolled.
+            int? totalCredits = await _enrollmentRepository.GetCredits (id, term);  // gets total credits of a student with an id and term they are enrolled.
+
+            if (totalCredits == null)
+            {
+                // A bad thing happened
+            }
 
             string[] semesters = { "Fall", "Winter", "Summer" };  // an array of semesters for validation
             foreach (var semester in semesters)

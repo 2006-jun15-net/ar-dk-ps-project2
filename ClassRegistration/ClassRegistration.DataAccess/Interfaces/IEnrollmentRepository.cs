@@ -7,7 +7,7 @@ namespace ClassRegistration.DataAccess.Interfaces
     /// </summary>
     public interface IEnrollmentRepository 
     {
-        Task<int> GetCredits (int id, string term);
+        Task<int?> GetCredits (int id, string term);
         Task Save ();
     }
 }
