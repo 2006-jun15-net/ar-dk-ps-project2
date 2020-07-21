@@ -16,22 +16,22 @@ namespace ClassRegistration.App.Controllers
     {
 
         private readonly ISectionRepository _secRepo;
-        
+
 
         public SectionController(ISectionRepository secRepo)
         {
             _secRepo = secRepo;
-           
+
         }
 
-         
 
-        // GET api/section/items/50
-        [HttpGet("items/{id}")]
-        public async Task<ActionResult<Section>> GetCourseByInstructorID(int id)
+
+        // GET api/section?instructorId=50
+        [HttpGet]
+        public async Task<ActionResult<Section>> GetCourseByInstructorID(int instructorId)
         {
             //get all the sections and associated courses for an instructor
-            var theSections = await _secRepo.GetSectionByInstID(id);
+            var theSections = await _secRepo.GetSectionByInstID(instructorId);
             
 
             if (!theSections.Any())
@@ -40,20 +40,20 @@ namespace ClassRegistration.App.Controllers
             }
             return Ok(theSections);
 
-
+             
         }
 
 
 
         //get all the sections available - just for self check in postman
-        // GET: api/section/items
-        [HttpGet("items")]
-        public IActionResult GetAllSectionsAvailable()
-        {
-            //return Ok(_dbContext.Course.ToList());
-            var theClasses = _secRepo.GetTheSections();
-            return Ok(theClasses);
-        }
+        // GET: api/section
+        //[HttpGet]
+        //public IActionResult GetAllSectionsAvailable()
+        //{
+        //    //return Ok(_dbContext.Course.ToList());
+        //    var theClasses = _secRepo.GetTheSections();
+        //    return Ok(theClasses);
+        //}
 
     }
 
