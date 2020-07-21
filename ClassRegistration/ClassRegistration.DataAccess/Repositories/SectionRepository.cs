@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ClassRegistration.DataAccess.Entity;
-using ClassRegistration.Domain.Interfaces;
-using ClassRegistration.Domain.Repositories;
+using ClassRegistration.DataAccess.Interfaces;
+using ClassRegistration.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace ClassRegistration.Domain.Repositories
+namespace ClassRegistration.DataAccess.Repositories
 {
 
 
@@ -26,16 +27,16 @@ namespace ClassRegistration.Domain.Repositories
 
 
         //get access to course navigation properties given an instructor ID
-        public IEnumerable<Domain.Model.Section> GetSectionByInstID(int id)
+        public async Task<IEnumerable<Domain.Model.Section>> GetSectionByInstID(int id)
         {
            
-            List<Section> thesections = _context.Section
+            List<Section> thesections = await _context.Section
                 .Include(s => s.Course)
                     .Where(s => s.InstructorId == id)
-                .ToList();
+                .ToListAsync();
 
-            var businessSections = mapper.Map<IEnumerable<Domain.Model.Section>>(thesections);
-            return businessSections; 
+            return mapper.Map<IEnumerable<Domain.Model.Section>>(thesections);
+            
         }
 
 

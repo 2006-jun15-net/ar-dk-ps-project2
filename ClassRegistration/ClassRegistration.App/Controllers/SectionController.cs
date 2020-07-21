@@ -4,9 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ClassRegistration.DataAccess.Entity;
-using ClassRegistration.Domain.Repositories;
-using ClassRegistration.Domain.Interfaces;
-
+using ClassRegistration.DataAccess.Repositories;
+using ClassRegistration.DataAccess.Interfaces;
 
 
 namespace ClassRegistration.App.Controllers
@@ -25,16 +24,15 @@ namespace ClassRegistration.App.Controllers
            
         }
 
-
+         
 
         // GET api/section/items/50
         [HttpGet("items/{id}")]
-        public ActionResult<Section> GetCourseByInstructorID(int id)
+        public async Task<ActionResult<Section>> GetCourseByInstructorID(int id)
         {
             //get all the sections and associated courses for an instructor
-            var theSections = _secRepo.GetSectionByInstID(id);
+            var theSections = await _secRepo.GetSectionByInstID(id);
             
-
 
             if (!theSections.Any())
             {
@@ -43,15 +41,11 @@ namespace ClassRegistration.App.Controllers
             return Ok(theSections);
 
 
-
         }
 
 
-        
 
-
-
-        //get all the sections available
+        //get all the sections available - just for self check in postman
         // GET: api/section/items
         [HttpGet("items")]
         public IActionResult GetAllSectionsAvailable()

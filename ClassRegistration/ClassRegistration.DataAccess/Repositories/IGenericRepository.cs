@@ -4,7 +4,7 @@ using System.Text;
 using ClassRegistration.Domain.Model;
 using ClassRegistration.DataAccess.Entity;
 
-namespace ClassRegistration.Domain.Repositories
+namespace ClassRegistration.DataAccess.Repositories
 {
     interface IGenericRepository<TDAL, TBLL>
         where TDAL : DataModel, new()

@@ -12,7 +12,4 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.0.0" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ClassRegistration.DataAccess\ClassRegistration.DataAccess.csproj" />
-  </ItemGroup>
 </Project>

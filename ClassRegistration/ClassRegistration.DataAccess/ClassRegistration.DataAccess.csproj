@@ -16,5 +16,9 @@
 
   <ItemGroup>
     <Folder Include="Repositories\" />
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClassRegistration.Domain\ClassRegistration.Domain.csproj" />
   </ItemGroup>
 </Project>

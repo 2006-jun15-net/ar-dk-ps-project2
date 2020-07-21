@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ClassRegistration.DataAccess.Entity;
-using ClassRegistration.Domain.Repositories;
-using ClassRegistration.Domain.Interfaces;
+using ClassRegistration.DataAccess.Repositories;
+using ClassRegistration.DataAccess.Interfaces;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -31,10 +31,10 @@ namespace ClassRegistration.App.Controllers
         //get all the courses available
         // GET: api/course/classes
         [HttpGet("classes")]
-        public IActionResult GetAllCoursesAvailable()
+        public async Task<IActionResult> GetAllCoursesAvailable()
         {
             
-            var theClasses = _courseRepo.GetTheCourses();
+            var theClasses = await _courseRepo.GetTheCourses();
             return Ok(theClasses);
         }
 
@@ -43,9 +43,9 @@ namespace ClassRegistration.App.Controllers
         //search a course by ID
         // GET api/course/class/100
         [HttpGet("class/{id}")]
-        public ActionResult<Course> GetCourseByCourseID(int id)
+        public async Task<ActionResult<Course>> GetCourseByCourseID(int id)
         {
-            var theCourse = _courseRepo.GetCourseByID(id);
+            var theCourse = await _courseRepo.GetCourseByID(id);
             //if (_dbContext.Course.FirstOrDefault(c => c.CourseId == id) is Course theClass)
             if (theCourse is Domain.Model.Course theClass)
             { 
@@ -59,9 +59,9 @@ namespace ClassRegistration.App.Controllers
         //get a course by its name
         // GET api/course/course/Robotics
         [HttpGet("course/{search}")]
-        public ActionResult<Course> GetCourseByCourseName(string search)
+        public async Task<ActionResult<Course>> GetCourseByCourseName(string search)
         {
-            var theCourse = _courseRepo.GetCourseByName(search);
+            var theCourse = await _courseRepo.GetCourseByName(search);
             if (theCourse is Domain.Model.Course theClass)
             {
                 return Ok(theClass);
@@ -74,9 +74,9 @@ namespace ClassRegistration.App.Controllers
         //search for courses available by Department ID
         // GET api/course/courses/1500
         [HttpGet("courses/{id}")]
-        public ActionResult<Course> GetCourseByDepartmentID(int id)
+        public async Task<ActionResult<Course>> GetCourseByDepartmentID(int id)
         {
-            var theCourses = _courseRepo.GetCourseByDepID(id);
+            var theCourses = await _courseRepo.GetCourseByDepID(id);
 
             if (!theCourses.Any())
             {

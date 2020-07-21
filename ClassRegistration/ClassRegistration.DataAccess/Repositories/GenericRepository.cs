@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using ClassRegistration.DataAccess.Entity;
 using AutoMapper;
 using ClassRegistration.Domain.Model;
+using System.Threading.Tasks;
 
-
-namespace ClassRegistration.Domain.Repositories
+namespace ClassRegistration.DataAccess.Repositories
 {
     //generic repo of type <DataAccessEntity, DomainModel>
     public class GenericRepository<TDAL, TBLL> : IGenericRepository<TDAL, TBLL>

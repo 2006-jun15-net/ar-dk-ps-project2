@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ClassRegistration.Domain.Repositories;
-using ClassRegistration.Domain.Interfaces;
+using ClassRegistration.DataAccess.Repositories;
+using ClassRegistration.DataAccess.Interfaces;
 using Newtonsoft.Json;
 
 namespace ClassRegistration.App {

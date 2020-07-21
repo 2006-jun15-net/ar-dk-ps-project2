@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
-using ClassRegistration.DataAccess.Entity;
+
 using ClassRegistration.Domain.Model;
 
 namespace ClassRegistration.Domain.Model
@@ -40,7 +40,7 @@ namespace ClassRegistration.Domain.Model
         public int? Credits { get; set; }
         public decimal Fees { get; set; }
 
-        public virtual Department Dept { get; set; }
+        //public virtual Department Dept { get; set; }
         public virtual ICollection<Section> Section { get; set; }
     }
 }
