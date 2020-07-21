@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 
 namespace ClassRegistration.App
 {
@@ -23,7 +24,8 @@ namespace ClassRegistration.App
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services)
         {
-            services.AddControllers ();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             
             services.AddDbContext<Course_registration_dbContext> (options =>
                  options.UseSqlServer (Configuration.GetConnectionString ("SqlServer")));
