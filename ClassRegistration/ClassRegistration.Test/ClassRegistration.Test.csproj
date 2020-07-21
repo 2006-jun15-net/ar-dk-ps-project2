@@ -20,4 +20,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ClassRegistration.App\ClassRegistration.App.csproj" />
+  </ItemGroup>
+
 </Project>
