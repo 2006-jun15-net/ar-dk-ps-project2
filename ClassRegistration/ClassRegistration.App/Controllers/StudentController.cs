@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
+using ClassRegistration.DataAccess.Interfaces;
+using ClassRegistration.Domain;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
-using ClassRegistration.Domain;
-using ClassRegistration.Domain.Model;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace ClassRegistration.App.Controllers
 {

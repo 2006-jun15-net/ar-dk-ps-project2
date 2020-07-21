@@ -1,93 +1,78 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ClassRegistration.DataAccess.Entity;
+using ClassRegistration.DataAccess.Interfaces;
+using ClassRegistration.Domain.Model;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using ClassRegistration.DataAccess.Entity;
-using ClassRegistration.DataAccess.Repositories;
-using ClassRegistration.DataAccess.Interfaces;
-
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ClassRegistration.App.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     public class CourseController : ControllerBase
     {
+        private readonly ICourseRepository _courseRepository;
 
-        
-        private readonly ICourseRepository _courseRepo;
-        
-
-
-        public CourseController(ICourseRepository courserepo)
+        public CourseController (ICourseRepository courseRepository)
         {
-            
-            _courseRepo = courserepo;
-            
-        }
-         
-        //get all the courses available
-        // GET: api/course/classes
-        [HttpGet("classes")]
-        public async Task<IActionResult> GetAllCoursesAvailable()
-        {
-            
-            var theClasses = await _courseRepo.GetTheCourses();
-            return Ok(theClasses);
+            _courseRepository = courseRepository;
         }
 
+        /// <summary>
+        /// get all the courses available
+        /// </summary>
+        /// <returns></returns>
+        // GET: api/course/all
+        [HttpGet ("all")]
+        public async Task<IActionResult> GetAll ()
+        {
+            var theClasses = await _courseRepository.FindAll ();
+            return Ok (theClasses);
+        }
 
-
-        //search a course by ID
+        /// <summary>
+        /// search a course by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET api/course/class/100
-        [HttpGet("class/{id}")]
-        public async Task<ActionResult<Course>> GetCourseByCourseID(int id)
+        [HttpGet ("{id}")]
+        public async Task<ActionResult<Course>> Get (int id)
         {
-            var theCourse = await _courseRepo.GetCourseByID(id);
-            //if (_dbContext.Course.FirstOrDefault(c => c.CourseId == id) is Course theClass)
-            if (theCourse is Domain.Model.Course theClass)
-            { 
-                return Ok(theClass);
+            var theCourse = await _courseRepository.FindById (id);
+
+            if (theCourse is CourseModel theClass)
+            {
+                return Ok (theClass);
             }
-            return NotFound();
+            return NotFound ();
         }
-
-
 
         //get a course by its name
-        // GET api/course/course/Robotics
-        [HttpGet("course/{search}")]
-        public async Task<ActionResult<Course>> GetCourseByCourseName(string search)
+        // GET api/course/Robotics
+        [HttpGet ("{search}")]
+        public async Task<ActionResult<Course>> GetByCourseName (string search)
         {
-            var theCourse = await _courseRepo.GetCourseByName(search);
-            if (theCourse is Domain.Model.Course theClass)
-            {
-                return Ok(theClass);
-            }
-            return NotFound();
-        }
-         
+            var theCourse = await _courseRepository.FindByName (search);
 
+            if (theCourse is CourseModel theClass)
+            {
+                return Ok (theClass);
+            }
+            return NotFound ();
+        }
 
         //search for courses available by Department ID
-        // GET api/course/courses/1500
-        [HttpGet("courses/{id}")]
-        public async Task<ActionResult<Course>> GetCourseByDepartmentID(int id)
+        // GET api/course/1500
+        [HttpGet]
+        public async Task<ActionResult<Course>> GetByDepartmentID ([FromBody] int deptId)
         {
-            var theCourses = await _courseRepo.GetCourseByDepID(id);
+            var theCourses = await _courseRepository.FindByDeptID (deptId);
 
-            if (!theCourses.Any())
+            if (!theCourses.Any ())
             {
-                return NotFound();
+                return NotFound ();
             }
-            return Ok(theCourses); 
-
+            return Ok (theCourses);
         }
-
-
-        
-
     }
 }

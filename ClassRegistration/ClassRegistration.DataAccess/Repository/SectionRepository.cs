@@ -13,11 +13,11 @@ namespace ClassRegistration.DataAccess.Repository
         public SectionRepository (Course_registration_dbContext context) : base (context) { }
 
         // get access to course navigation properties given an instructor ID
-        public virtual async Task<IEnumerable<SectionModel>> FindById (int id)
+        public virtual async Task<IEnumerable<SectionModel>> FindByInstrId (int instructorId)
         {
             // TODO we want to make stuff like this use the LINQ query syntax
             var sections = await _context.Section.Include (s => s.Course)
-                                    .Where (s => s.InstructorId == id).ToListAsync ();
+                                    .Where (s => s.InstructorId == instructorId).ToListAsync ();
 
             return _mapper.Map<IEnumerable<SectionModel>> (sections);
         }

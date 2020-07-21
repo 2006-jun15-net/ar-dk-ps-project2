@@ -1,51 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ClassRegistration.DataAccess.Entity;
+using ClassRegistration.DataAccess.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using ClassRegistration.DataAccess.Entity;
-using ClassRegistration.DataAccess.Repositories;
-using ClassRegistration.DataAccess.Interfaces;
-
 
 namespace ClassRegistration.App.Controllers
 {
-
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     public class SectionController : ControllerBase
     {
+        private readonly ISectionRepository _sectionRepository;
 
-        private readonly ISectionRepository _secRepo;
-
-
-        public SectionController(ISectionRepository secRepo)
+        public SectionController (ISectionRepository sectionRepository)
         {
-            _secRepo = secRepo;
-
+            _sectionRepository = sectionRepository;
         }
-
-
 
         // GET api/section?instructorId=50
         [HttpGet]
-        public async Task<ActionResult<Section>> GetCourseByInstructorID(int instructorId)
+        public async Task<ActionResult<Section>> GetCourseByInstructorID (int instructorId)
         {
-            //get all the sections and associated courses for an instructor
-            var theSections = await _secRepo.GetSectionByInstID(instructorId);
-            
+            // get all the sections and associated courses for an instructor
+            var theSections = await _sectionRepository.FindByInstrId (instructorId);
 
-            if (!theSections.Any())
+            if (!theSections.Any ())
             {
-                return NotFound();
+                return NotFound ();
             }
-            return Ok(theSections);
-
-             
+            return Ok (theSections);
         }
 
-
-
-        //get all the sections available - just for self check in postman
+        // get all the sections available - just for self check in postman
         // GET: api/section
         //[HttpGet]
         //public IActionResult GetAllSectionsAvailable()
@@ -54,9 +39,5 @@ namespace ClassRegistration.App.Controllers
         //    var theClasses = _secRepo.GetTheSections();
         //    return Ok(theClasses);
         //}
-
     }
-
-
-
 }

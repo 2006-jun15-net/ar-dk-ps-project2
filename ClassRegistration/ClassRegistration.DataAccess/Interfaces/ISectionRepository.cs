@@ -7,6 +7,6 @@ namespace ClassRegistration.DataAccess.Interfaces
     public interface ISectionRepository
     {
         Task<IEnumerable<SectionModel>> FindAll ();
-        Task<IEnumerable<SectionModel>> FindById (int id);
+        Task<IEnumerable<SectionModel>> FindByInstrId (int instructorId);
     }
 }
