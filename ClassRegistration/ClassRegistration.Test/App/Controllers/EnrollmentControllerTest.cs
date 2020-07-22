@@ -22,7 +22,7 @@ namespace ClassRegistration.Test.App.Controllers
             {
                 new EnrollmentModel
                 {
-                    Id = 1,
+                    EnrollmentId = 1,
                     StudentId = 1
                 }
             };
@@ -31,7 +31,7 @@ namespace ClassRegistration.Test.App.Controllers
             {
                 new StudentModel 
                 {
-                    Id = 1,
+                    StudentId = 1,
                     Name = "Test 1"
                 }
             };
@@ -50,7 +50,7 @@ namespace ClassRegistration.Test.App.Controllers
                 async (EnrollmentModel enrollment) =>
                     await Task.Run (() =>
                     {
-                        if (enrollments.Where (e => e.Id == enrollment.Id).Count () != 0)
+                        if (enrollments.Where (e => e.EnrollmentId == enrollment.EnrollmentId).Count () != 0)
                         {
                             return false;
                         }
@@ -65,7 +65,7 @@ namespace ClassRegistration.Test.App.Controllers
                 repo => repo.Delete (It.IsAny<int> (), It.IsAny<int> ())
             ).Returns (
                 async (int id, int studentId) =>
-                    await Task.Run (() => enrollments.RemoveAll (e => e.Id == id && e.StudentId == studentId) > 0)
+                    await Task.Run (() => enrollments.RemoveAll (e => e.EnrollmentId == id && e.StudentId == studentId) > 0)
             );
 
             // Student repo setup
@@ -73,7 +73,7 @@ namespace ClassRegistration.Test.App.Controllers
                 repo => repo.FindById (It.IsAny<int> ())
             ).Returns (
                 async (int id) =>
-                    await Task.Run (() => students.Where (s => s.Id == id).FirstOrDefault ())
+                    await Task.Run (() => students.Where (s => s.StudentId == id).FirstOrDefault ())
             );
 
             mockEnrollmentRepo.SetupAllProperties ();
