@@ -2,7 +2,7 @@
 {
     public class EnrollmentModel : BaseBusinessModel
     {
-        public int Id { get; set; }
+        public int EnrollmentId { get; set; }
         public int StudentId { get; set; }
         public int SectionId { get; set; }
 
