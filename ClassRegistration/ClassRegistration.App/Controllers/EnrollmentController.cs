@@ -91,8 +91,6 @@ namespace ClassRegistration.App.Controllers
                 return BadRequest ();
             }
 
-            // TODO check for student's credit requirments
-
             bool success = await _enrollmentRepository.Add (enrollmentModel);
 
             if (!success)

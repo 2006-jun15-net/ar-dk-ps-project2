@@ -21,9 +21,9 @@ namespace ClassRegistration.App.Controllers
         /// get all the courses available
         /// </summary>
         /// <returns></returns>
-        // GET: api/course/all
-        [HttpGet ("all")]
-        public async Task<IActionResult> GetAll ()
+        // GET: api/course
+        [HttpGet]
+        public async Task<IActionResult> Get ()
         {
             var theClasses = await _courseRepository.FindAll ();
             return Ok (theClasses);

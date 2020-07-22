@@ -11,6 +11,6 @@ namespace ClassRegistration.Domain.Model
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
 
-        public virtual CourseModel Course { get; set; }
+        public CourseModel Course { get; set; }
     }
 }
