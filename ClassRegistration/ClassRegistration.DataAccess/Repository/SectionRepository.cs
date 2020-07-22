@@ -12,6 +12,15 @@ namespace ClassRegistration.DataAccess.Repository
     {
         public SectionRepository (Course_registration_dbContext context) : base (context) { }
 
+        public virtual async Task<SectionModel> FindById (int id)
+        {
+            var section = await (from s in _context.Section
+                                 where s.SectId == id
+                                 select s).FirstOrDefaultAsync ();
+
+            return _mapper.Map<SectionModel> (section);
+        }
+
         // get access to course navigation properties given an instructor ID
         public virtual async Task<IEnumerable<SectionModel>> FindByInstrId (int instructorId)
         {

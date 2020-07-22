@@ -67,7 +67,7 @@ namespace ClassRegistration.DataAccess.Repository
             _context.Enrollment.Add (new Enrollment
             {
                 StudentId = enrollmentModel.StudentId,
-                SectId = enrollmentModel.SectionId
+                SectId = enrollmentModel.SectId
             });
 
             await _context.SaveChangesAsync ();
