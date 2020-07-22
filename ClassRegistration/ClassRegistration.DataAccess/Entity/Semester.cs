@@ -5,9 +5,9 @@ namespace ClassRegistration.DataAccess.Entity
 {
     public partial class Semester : DataModel
     {
-        public Semester()
+        public Semester ()
         {
-            Section = new HashSet<Section>();
+            Section = new HashSet<Section> ();
         }
 
         public string Term { get; set; }

@@ -5,9 +5,9 @@ namespace ClassRegistration.DataAccess.Entity
 {
     public partial class Student : DataModel
     {
-        public Student()
+        public Student ()
         {
-            Enrollment = new HashSet<Enrollment>();
+            Enrollment = new HashSet<Enrollment> ();
         }
 
         public int StudentId { get; set; }

@@ -12,6 +12,8 @@ namespace ClassRegistration.DataAccess.Repository
     {
         public SectionRepository (Course_registration_dbContext context) : base (context) { }
 
+        public SectionRepository () : this (null) { }
+
         public virtual async Task<SectionModel> FindById (int id)
         {
             var section = await (from s in _context.Section
