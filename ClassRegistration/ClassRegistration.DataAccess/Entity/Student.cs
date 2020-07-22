@@ -16,7 +16,9 @@ namespace ClassRegistration.DataAccess.Entity
         public DateTime? DateOfBirth { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+        public int DeptId { get; set; }
 
         public virtual ICollection<Enrollment> Enrollment { get; set; }
+        public virtual Department Department { get; set; }
     }
 }

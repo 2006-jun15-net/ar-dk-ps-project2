@@ -9,6 +9,7 @@ namespace ClassRegistration.DataAccess.Entity
         {
             Course = new HashSet<Course>();
             Instructor = new HashSet<Instructor>();
+            Student = new HashSet<Student> ();
         }
 
         public int DeptId { get; set; }
@@ -18,5 +19,6 @@ namespace ClassRegistration.DataAccess.Entity
         public virtual College College { get; set; }
         public virtual ICollection<Course> Course { get; set; }
         public virtual ICollection<Instructor> Instructor { get; set; }
+        public virtual ICollection<Student> Student { get; set; }
     }
 }

@@ -200,6 +200,15 @@ namespace ClassRegistration.DataAccess.Entity
                     .HasMaxLength(20);
 
                 entity.Property(e => e.Phone).HasMaxLength(12);
+
+                entity.Property(e => e.DeptId)
+                    .IsRequired()
+                    .HasColumnName("DeptID");
+
+                entity.HasOne(s => s.Department)
+                    .WithMany(p => p.Student)
+                    .HasForeignKey(s => s.DeptId)
+                    .HasConstraintName("Fk_Student_Department");
             });
 
             OnModelCreatingPartial(modelBuilder);
