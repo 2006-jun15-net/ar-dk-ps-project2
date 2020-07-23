@@ -1,4 +1,5 @@
-﻿using ClassRegistration.DataAccess.Entity;
+﻿//using ClassRegistration.DataAccess.Entities;
+using ClassRegistration.DataAccess.Entities;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -21,12 +22,13 @@ namespace ClassRegistration.App.Controllers
         /// get all the courses available
         /// </summary>
         /// <returns></returns>
-        // GET: api/course/all
-        [HttpGet ("all")]
-        public async Task<IActionResult> GetAll ()
+        // GET: api/course
+        [HttpGet]
+        public async Task<IActionResult> Get ()
         {
             var theClasses = await _courseRepository.FindAll ();
-            return Ok (theClasses);
+            //var theClasses = await _courseRepository.FindAllWithReviews();
+            return Ok (theClasses); 
         }
 
         /// <summary>
@@ -35,8 +37,8 @@ namespace ClassRegistration.App.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         // GET api/course/class/100
-        [HttpGet ("{id}")]
-        public async Task<ActionResult<Course>> Get (int id)
+        [HttpGet ("class/{id}")]
+        public async Task<ActionResult<CourseModel>> Get (int id)
         {
             var theCourse = await _courseRepository.FindById (id);
 
@@ -49,8 +51,8 @@ namespace ClassRegistration.App.Controllers
 
         //get a course by its name
         // GET api/course/Robotics
-        [HttpGet ("{search}")]
-        public async Task<ActionResult<Course>> GetByCourseName (string search)
+        [HttpGet ("course/{search}")]
+        public async Task<ActionResult<CourseModel>> GetByCourseName (string search)
         {
             var theCourse = await _courseRepository.FindByName (search);
 
@@ -61,10 +63,11 @@ namespace ClassRegistration.App.Controllers
             return NotFound ();
         }
 
+
         //search for courses available by Department ID
-        // GET api/course/1500
-        [HttpGet]
-        public async Task<ActionResult<Course>> GetByDepartmentID ([FromBody] int deptId)
+        // GET api/courses/1500
+        [HttpGet("courses/{deptId}")]
+        public async Task<ActionResult<CourseModel>> GetByDepartmentID (int deptId)
         {
             var theCourses = await _courseRepository.FindByDeptID (deptId);
 

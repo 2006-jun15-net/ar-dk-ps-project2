@@ -1,14 +1,14 @@
-﻿using System;
 using System.Collections.Generic;
 
 namespace ClassRegistration.DataAccess.Entity
 {
     public partial class Department : DataModel
     {
-        public Department()
+        public Department ()
         {
-            Course = new HashSet<Course>();
-            Instructor = new HashSet<Instructor>();
+            Course = new HashSet<Course> ();
+            Instructor = new HashSet<Instructor> ();
+            Student = new HashSet<Student> ();
         }
 
         public int DeptId { get; set; }
@@ -18,5 +18,6 @@ namespace ClassRegistration.DataAccess.Entity
         public virtual College College { get; set; }
         public virtual ICollection<Course> Course { get; set; }
         public virtual ICollection<Instructor> Instructor { get; set; }
+        public virtual ICollection<Student> Student { get; set; }
     }
 }

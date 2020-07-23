@@ -28,8 +28,6 @@ namespace ClassRegistration.App.Controllers
         {
             var student = await _studentRepository.FindById (id);
 
-            System.Diagnostics.Debug.WriteLine ($"Name: {student.Name}");
-
             if (student == default)
             {
                 return NotFound ();
@@ -59,8 +57,6 @@ namespace ClassRegistration.App.Controllers
             return Ok (courses);
         }
 
-
-
         /// <summary>
         /// This method gets the total amount of registred courses.
         /// </summary>
@@ -80,6 +76,19 @@ namespace ClassRegistration.App.Controllers
             }
 
             return Ok(totalAmount);
+        }
+        
+        [HttpGet ("{id}/credits_met")]
+        public async Task<IActionResult> GetCreditsRequirementsMet (int id)
+        {
+            var student = await _studentRepository.FindById (id);
+
+            if (student == default)
+            {
+                return BadRequest ();
+            }
+
+            return Ok (new { requirmentsMet = student.CreditRequirementsMet });
         }
     }
 }
