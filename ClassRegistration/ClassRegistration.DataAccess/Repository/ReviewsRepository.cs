@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ClassRegistration.DataAccess.Repository
 {
-    public class ReviewsRepository : Repository<Reviews, ReviewsModel>
+    public class ReviewsRepository : Repository<Reviews, ReviewsModel>, IReviewsRepository
     {
         public ReviewsRepository(Course_registration_dbContext context) : base(context) { }
 

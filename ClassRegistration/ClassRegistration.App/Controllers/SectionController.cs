@@ -31,7 +31,7 @@ namespace ClassRegistration.App.Controllers
             return Ok(theSections);
         }
 
-
+         
 
         // get all the sections available - just for self check in postman
         // GET: api/section/all

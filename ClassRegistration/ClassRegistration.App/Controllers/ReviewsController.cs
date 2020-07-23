@@ -13,10 +13,10 @@ namespace ClassRegistration.App.Controllers
     [Route("api/[controller]")]
     public class ReviewsController : ControllerBase
     {
-        private readonly ReviewsRepository _reviewsRepository;
+        private readonly IReviewsRepository _reviewsRepository;
         
 
-        public ReviewsController(ReviewsRepository reviewsRepository)
+        public ReviewsController(IReviewsRepository reviewsRepository)
         {
            
             _reviewsRepository = reviewsRepository;
