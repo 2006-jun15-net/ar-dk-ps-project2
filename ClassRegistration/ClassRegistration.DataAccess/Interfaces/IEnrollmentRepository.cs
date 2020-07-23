@@ -10,6 +10,9 @@ namespace ClassRegistration.DataAccess.Interfaces
         Task<int?> GetCredits (int id, string term);
 
         Task<decimal?> GetTotalAmount (int id, string term);
+
+        Task<decimal?> FinalAmountDiscounted(int id, string term, string resident_id);
+
         Task<bool> Delete (int id, int studentId);
         Task Add (int studentId, int sectionId);
     }
