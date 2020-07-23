@@ -77,5 +77,27 @@ namespace ClassRegistration.App.Controllers
 
             return Ok (totalAmount);
         }
+
+        /// <summary>
+        /// Gets the total amount of fees a student needs to pay in a semester after a discount is applied
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="term"></param>
+        /// <param name="resident_id"></param>
+        /// <returns></returns>
+
+        //GET api/<StudentController>/1//Fall/In-state
+        [HttpGet("{id}/{term}/{resident_id}")]
+        public async Task<IActionResult> GetFinalAmount(int id, string term, string resident_id)
+        {
+            decimal? finalAmount = await _enrollmentRepository.FinalAmountDiscounted(id, term, resident_id);
+
+            if(finalAmount == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(finalAmount);
+        }
     }
 }
