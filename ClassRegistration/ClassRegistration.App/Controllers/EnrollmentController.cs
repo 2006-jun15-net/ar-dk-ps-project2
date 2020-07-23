@@ -12,6 +12,7 @@ namespace ClassRegistration.App.Controllers
     {
         private readonly IEnrollmentRepository _enrollmentRepository;
         private readonly IStudentRepository _studentRepository;
+        private readonly ISectionRepository _sectionRepository;
 
         /// <summary>
         /// Constructor initializes IEnrollment field.
@@ -19,10 +20,12 @@ namespace ClassRegistration.App.Controllers
         /// <param name="enrollmentRepository"></param>
         /// <param name="studentRepository"></param>
         public EnrollmentController (IEnrollmentRepository enrollmentRepository,
-                                     IStudentRepository studentRepository)
+                                     IStudentRepository studentRepository,
+                                     ISectionRepository sectionRepository)
         {
             _enrollmentRepository = enrollmentRepository;
             _studentRepository = studentRepository;
+            _sectionRepository = sectionRepository;
         }
 
         // DELETE api/<EnrollmentController>/id
@@ -75,24 +78,27 @@ namespace ClassRegistration.App.Controllers
         }
 
         // POST api/<EnrollmentController>
-        //[HttpPost]
-        //public async Task<IActionResult> Post ([FromBody] EnrollmentModel enrollmentModel)
-        //{
-        //    // TODO check that section exists
+        [HttpPost]
+        public async Task<IActionResult> Post ([FromBody] EnrollmentModel enrollmentModel)
+        {
+            if (_sectionRepository.FindById (enrollmentModel.SectId) == default)
+            {
+                return BadRequest ();
+            }
+            
+            if (_studentRepository.FindById (enrollmentModel.StudentId) == default)
+            {
+                return BadRequest ();
+            }
 
-        //    if (_studentRepository.FindById (enrollmentModel.StudentId) == default)
-        //    {
-        //        return BadRequest ();
-        //    }
+            bool success = await _enrollmentRepository.Add (enrollmentModel);
 
-        //    bool success = await _enrollmentRepository.Add (enrollmentModel);
+            if (!success)
+            {
+                return BadRequest ();
+            }
 
-        //    if (!success)
-        //    {
-        //        return BadRequest ();
-        //    }
-
-        //    return Ok ();
-        //}
+            return Ok ();
+        }
     }
 }

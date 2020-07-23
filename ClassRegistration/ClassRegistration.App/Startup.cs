@@ -24,15 +24,12 @@ namespace ClassRegistration.App
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services)
         {
-            services.AddControllers().AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            
+            services.AddControllers ().AddNewtonsoftJson (options =>
+                  options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
             services.AddDbContext<Course_registration_dbContext> (options =>
                  options.UseSqlServer (Configuration.GetConnectionString ("SqlServer")));
-
-            
-             
-
+          
             services.AddScoped<IEnrollmentRepository, EnrollmentRepository> ();
             services.AddScoped<ICourseRepository, CourseRepository> ();
             services.AddScoped<IStudentRepository, StudentRepository> ();
