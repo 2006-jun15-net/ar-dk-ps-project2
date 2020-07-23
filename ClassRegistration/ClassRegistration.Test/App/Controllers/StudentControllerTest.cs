@@ -17,7 +17,6 @@ namespace ClassRegistration.Test.Controllers.App
 
         public StudentControllerTest ()
         {
-
             var mockCoursesRepo = new Mock<CourseRepository> ();
             var mockStudentRepo = new Mock<StudentRepository> ();
             var mockEnrollRepo = new Mock<EnrollmentRepository> ();

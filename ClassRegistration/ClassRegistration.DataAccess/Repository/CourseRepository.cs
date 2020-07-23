@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ClassRegistration.DataAccess.Repository
 {
-    public class CourseRepository : Repository<Course, CourseModel>, ICourseRepository
+    public class CourseRepository : Repository, ICourseRepository
     {
         public CourseRepository (Course_registration_dbContext context) : base (context) { }
 

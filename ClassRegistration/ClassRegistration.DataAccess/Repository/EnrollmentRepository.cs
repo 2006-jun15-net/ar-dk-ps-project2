@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ClassRegistration.DataAccess.Repository
 {
-    public class EnrollmentRepository : Repository<Enrollment, EnrollmentModel>, IEnrollmentRepository
+    public class EnrollmentRepository : Repository, IEnrollmentRepository
     {
         /// <summary>
         /// A constructor that intializes the database entity.
@@ -25,14 +25,18 @@ namespace ClassRegistration.DataAccess.Repository
         /// <returns></returns>
         public virtual async Task<int?> GetCredits (int id, string term)
         {
-            var totalCredits = await (from c in _context.Course
-                                      join s in _context.Section on c.CourseId
-                                      equals s.CourseId
+            var courses = await (from c in _context.Course
+                                      join s in _context.Section on c.CourseId equals s.CourseId
                                       join e in _context.Enrollment on s.SectId equals e.SectId
                                       where e.StudentId == id && s.Term == term   // enrollments of a particular student with their respective semester.
-                                      select c.Credits).ToListAsync ();
+                                      select c).ToListAsync ();
 
-            return totalCredits.Sum ();
+            if (!courses.Any ())
+            {
+                return null;
+            }
+
+            return courses.Select (c => c.Credits).Sum ();
         }
 
         /// <summary>
@@ -43,14 +47,18 @@ namespace ClassRegistration.DataAccess.Repository
         /// <returns></returns>
         public virtual async Task<decimal?> GetTotalAmount(int id, string term)
         {
-            var totalAmount = await (from c in _context.Course
-                                     join s in _context.Section on c.CourseId
-                                     equals s.CourseId
+            var courses = await (from c in _context.Course
+                                     join s in _context.Section on c.CourseId equals s.CourseId
                                      join e in _context.Enrollment on s.SectId equals e.SectId
                                      where e.StudentId == id && s.Term == term   // enrollments of a particular student with their respective semester.
-                                     select c.Fees).ToListAsync();
+                                     select c).ToListAsync();
 
-            return totalAmount.Sum();
+            if (!courses.Any ())
+            {
+                return null;
+            }
+
+            return courses.Select (c => c.Fees).Sum();
         }
 
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassRegistration.DataAccess.Repository
 {
-    public class StudentRepository : Repository<Student, StudentModel>, IStudentRepository
+    public class StudentRepository : Repository, IStudentRepository
     {
         public StudentRepository (Course_registration_dbContext context) : base (context) { }
 

@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ClassRegistration.App.Controllers;
 
 namespace ClassRegistration.Test.App.Controllers
 {
-    class ReviewsControllerTest
+    public class ReviewsControllerTest
     {
+        private readonly ReviewsController _reviewsController;
+
+        public ReviewsControllerTest ()
+        {
+
+        }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ClassRegistration.DataAccess.Repository
 {
-    public class SectionRepository : Repository<Section, SectionModel>, ISectionRepository
+    public class SectionRepository : Repository, ISectionRepository
     {
         public SectionRepository(Course_registration_dbContext context) : base(context) { }
 
@@ -42,7 +42,6 @@ namespace ClassRegistration.DataAccess.Repository
         // get access to course navigation properties given an instructor ID
         public virtual async Task<IEnumerable<SectionModel>> FindByInstrId (int instructorId)
         {
-            // TODO we want to make stuff like this use the LINQ query syntax
             var sections = await _context.Section.Include (s => s.Course).ThenInclude (c => c.Reviews)
                                     .Where (s => s.InstructorId == instructorId).ToListAsync ();
 

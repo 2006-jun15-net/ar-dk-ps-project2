@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ClassRegistration.App.Controllers;
 
 namespace ClassRegistration.Test.App.Controllers
 {
-    class CourseControllerTest
+    public class CourseControllerTest
     {
+        private readonly CourseController _courseController;
+
+        public CourseControllerTest ()
+        {
+
+        }
     }
 }
