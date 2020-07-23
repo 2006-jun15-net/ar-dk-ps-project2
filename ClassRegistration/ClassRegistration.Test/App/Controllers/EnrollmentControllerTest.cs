@@ -56,20 +56,14 @@ namespace ClassRegistration.Test.App.Controllers
             );
 
             mockEnrollmentRepo.Setup (
-                repo => repo.Add (It.IsAny<EnrollmentModel> ())
+                repo => repo.Add (It.IsAny<int> (), It.IsAny<int> ())
             ).Returns (
-                async (EnrollmentModel enrollment) =>
-                    await Task.Run (() =>
+                async (int studentId, int sectionId) =>
+                    await Task.Run (() => enrollments.Add (new EnrollmentModel
                     {
-                        if (enrollments.Where (e => e.EnrollmentId == enrollment.EnrollmentId).Count () != 0)
-                        {
-                            return false;
-                        }
-
-                        enrollments.Add (enrollment);
-
-                        return true;
-                    })
+                        StudentId = studentId,
+                        SectId = sectionId
+                    }))
             );
 
             mockEnrollmentRepo.Setup (

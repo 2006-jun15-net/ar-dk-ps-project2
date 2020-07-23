@@ -91,12 +91,7 @@ namespace ClassRegistration.App.Controllers
                 return BadRequest ();
             }
 
-            bool success = await _enrollmentRepository.Add (enrollmentModel);
-
-            if (!success)
-            {
-                return BadRequest ();
-            }
+            await _enrollmentRepository.Add (enrollmentModel.StudentId, enrollmentModel.SectId);
 
             return Ok ();
         }

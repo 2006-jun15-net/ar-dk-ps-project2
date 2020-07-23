@@ -12,6 +12,6 @@ namespace ClassRegistration.DataAccess.Interfaces
 
         Task<decimal?> GetTotalAmount(int id, string term);
         Task<bool> Delete (int id, int studentId);
-        Task<bool> Add (EnrollmentModel enrollmentModel);
+        Task Add (int studentId, int sectionId);
     }
 }

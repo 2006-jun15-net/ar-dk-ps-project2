@@ -71,26 +71,15 @@ namespace ClassRegistration.DataAccess.Repository
             return true;
         }
 
-        public virtual async Task<bool> Add (EnrollmentModel enrollmentModel)
+        public virtual async Task Add (int studentId, int sectionId)
         {
-            var enrollments = await (from e in _context.Enrollment
-                                     where e.EnrollmentId == enrollmentModel.EnrollmentId
-                                     select e).ToListAsync ();
-
-            if (enrollments.Any ())
-            {
-                return false;
-            }
-
             _context.Enrollment.Add (new Enrollment
             {
-                StudentId = enrollmentModel.StudentId,
-                SectId = enrollmentModel.SectId
+                StudentId = studentId,
+                SectId = sectionId
             });
             
             await _context.SaveChangesAsync ();
-
-            return true;
         }
     }
 }

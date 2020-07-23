@@ -36,7 +36,7 @@ namespace ClassRegistration.Test.DataAccess.Repository
 
                 Section = new List<Section>
                 {
-                    new Section 
+                    new Section
                     {
                         SectId = 1,
                         CourseId = 1,
