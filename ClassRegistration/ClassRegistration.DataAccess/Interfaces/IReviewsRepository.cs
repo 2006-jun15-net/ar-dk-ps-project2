@@ -6,7 +6,7 @@ namespace ClassRegistration.DataAccess.Interfaces
 {
     public interface IReviewsRepository
     {
-        Task<bool> AddReview (int studentid, int courseid, int score, string text);
+        Task<bool> Add (int studentid, int courseid, int score, string text);
         Task<IEnumerable<ReviewsModel>> FindAll ();
     }
 }

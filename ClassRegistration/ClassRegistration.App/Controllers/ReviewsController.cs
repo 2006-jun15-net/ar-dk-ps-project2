@@ -29,7 +29,7 @@ namespace ClassRegistration.App.Controllers
         [HttpPost ("{item}")]
         public async Task<ActionResult<ReviewsModel>> AddCourseReview ([FromBody] ReviewsModel review)
         {
-            await _reviewsRepository.AddReview (review.StudentId, review.CourseId, review.Score, review.Text);
+            await _reviewsRepository.Add (review.StudentId, review.CourseId, review.Score, review.Text);
 
             return Ok ();
         }
