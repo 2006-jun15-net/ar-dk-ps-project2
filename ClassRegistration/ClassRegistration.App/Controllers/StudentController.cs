@@ -49,7 +49,7 @@ namespace ClassRegistration.App.Controllers
 
             var courses = await _courseRepository.FindByStudent (id);
 
-            if (courses.Count () == 0)
+            if (!courses.Any ())
             {
                 return NoContent ();
             }

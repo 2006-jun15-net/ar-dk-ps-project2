@@ -24,10 +24,6 @@ namespace ClassRegistration.DataAccess.Entity
         public virtual DbSet<Student> Student { get; set; }
         public virtual DbSet<StudentType> StudentType { get; set; }
 
-        protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
-        {
-        }
-
         protected override void OnModelCreating (ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<College> (entity =>

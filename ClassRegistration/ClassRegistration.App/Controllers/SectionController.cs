@@ -35,7 +35,6 @@ namespace ClassRegistration.App.Controllers
         [HttpGet ("all")]
         public async Task<IActionResult> GetAllSectionsAvailable ()
         {
-            //return Ok(_dbContext.Course.ToList());
             var theClasses = await _sectionRepository.FindAll ();
             return Ok (theClasses);
         }

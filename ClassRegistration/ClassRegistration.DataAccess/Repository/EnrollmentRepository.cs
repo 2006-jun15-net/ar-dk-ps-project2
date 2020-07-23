@@ -54,10 +54,10 @@ namespace ClassRegistration.DataAccess.Repository
         }
 
 
-        public virtual async Task<bool> Delete (int enrollmentId, int studentId)
+        public virtual async Task<bool> Delete (int id, int studentId)
         {
             var enrollment = await (from e in _context.Enrollment
-                                    where e.EnrollmentId == enrollmentId && e.StudentId == studentId
+                                    where e.EnrollmentId == id && e.StudentId == studentId
                                     select e).FirstOrDefaultAsync ();
 
             if (enrollment == default)
@@ -77,7 +77,7 @@ namespace ClassRegistration.DataAccess.Repository
                                      where e.EnrollmentId == enrollmentModel.EnrollmentId
                                      select e).ToListAsync ();
 
-            if (enrollments.Count () != 0)
+            if (enrollments.Any ())
             {
                 return false;
             }

@@ -25,7 +25,6 @@ namespace ClassRegistration.App.Controllers
         public async Task<IActionResult> Get ()
         {
             var theClasses = await _courseRepository.FindAll ();
-            //var theClasses = await _courseRepository.FindAllWithReviews();
             return Ok (theClasses);
         }
 
