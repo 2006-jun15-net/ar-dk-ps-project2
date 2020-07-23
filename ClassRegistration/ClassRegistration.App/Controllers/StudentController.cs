@@ -77,18 +77,5 @@ namespace ClassRegistration.App.Controllers
 
             return Ok (totalAmount);
         }
-
-        [HttpGet ("{id}/credits_met")]
-        public async Task<IActionResult> GetCreditsRequirementsMet (int id)
-        {
-            var student = await _studentRepository.FindById (id);
-
-            if (student == default)
-            {
-                return BadRequest ();
-            }
-
-            return Ok (new { requirmentsMet = student.CreditRequirementsMet });
-        }
     }
 }
