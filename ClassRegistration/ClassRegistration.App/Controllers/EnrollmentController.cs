@@ -85,7 +85,7 @@ namespace ClassRegistration.App.Controllers
             {
                 return BadRequest ();
             }
-
+            
             if (_studentRepository.FindById (enrollmentModel.StudentId) == default)
             {
                 return BadRequest ();

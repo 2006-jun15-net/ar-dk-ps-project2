@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ClassRegistration.Domain.Model
+namespace ClassRegistration.DataAccess.Entities
 {
-    public class SectionModel : BaseBusinessModel
+    public partial class Section : DataModel
     {
-        public SectionModel()
+        public Section()
         {
             Enrollment = new HashSet<Enrollment>();
         }
@@ -17,10 +17,9 @@ namespace ClassRegistration.Domain.Model
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
 
-        public CourseModel Course { get; set; } 
-        public virtual InstructorModel Instructor { get; set; }
-        public virtual SemesterModel Semester { get; set; }
+        public virtual Course Course { get; set; }
+        public virtual Instructor Instructor { get; set; }
+        public virtual Semester TermNavigation { get; set; }
         public virtual ICollection<Enrollment> Enrollment { get; set; }
     }
 }
- 

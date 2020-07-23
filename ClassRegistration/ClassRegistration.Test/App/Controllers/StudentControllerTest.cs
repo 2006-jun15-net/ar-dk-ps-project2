@@ -60,6 +60,14 @@ namespace ClassRegistration.Test.Controllers.App
                 repo => repo.FindById (It.IsAny<int> ())
             ).Returns (
                 async (int id) =>
+                    await Task.Run (() => students.Where (s => s.Id == id).FirstOrDefault ())
+            );
+          
+            // Student repo setup
+            mockStudentRepo.Setup (
+                repo => repo.FindById (It.IsAny<int> ())
+            ).Returns (
+                async (int id) =>
                     await Task.Run (() => students.Where (s => s.StudentId == id).FirstOrDefault ())
             );
 
@@ -72,11 +80,12 @@ namespace ClassRegistration.Test.Controllers.App
         [Fact]
         public async void TestGet ()
         {
+
             OkObjectResult response = await _studentController.Get (1) as OkObjectResult;
             var student = response.Value as StudentModel;
 
             Assert.Equal (200, response.StatusCode);
-            Assert.Equal (1, student.StudentId);
+            Assert.Equal (1, student.Id);
             Assert.Equal ("Test 1", student.Name);
         }
 
@@ -98,7 +107,7 @@ namespace ClassRegistration.Test.Controllers.App
             Assert.Equal (200, response.StatusCode);
             Assert.Single (courses);
         }
-
+      
         [Fact]
         public async void TestGetCoursesFail ()
         {
@@ -106,6 +115,7 @@ namespace ClassRegistration.Test.Controllers.App
 
             Assert.Equal (404, response.StatusCode);
         }
+
 
         [Fact]
         public async void TestGetCoursesEmpty ()

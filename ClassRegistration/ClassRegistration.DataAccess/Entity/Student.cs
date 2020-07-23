@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace ClassRegistration.DataAccess.Entity
@@ -18,7 +18,7 @@ namespace ClassRegistration.DataAccess.Entity
         public string Phone { get; set; }
         public int DeptId { get; set; }
 
-        public virtual ICollection<Enrollment> Enrollment { get; set; }
-        public virtual Department Department { get; set; }
+        public Department Department { get; set; }
+        public ICollection<Enrollment> Enrollment { get; set; }
     }
 }

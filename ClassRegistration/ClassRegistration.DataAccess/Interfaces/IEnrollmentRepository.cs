@@ -10,6 +10,6 @@ namespace ClassRegistration.DataAccess.Interfaces
     {
         Task<int?> GetCredits (int id, string term);
         Task<bool> Delete (int studentId, int enrollmentId);
-        Task<bool> Add (EnrollmentModel enrollmentModel);
+        //Task<bool> Add (EnrollmentModel enrollmentModel);
     }
 }

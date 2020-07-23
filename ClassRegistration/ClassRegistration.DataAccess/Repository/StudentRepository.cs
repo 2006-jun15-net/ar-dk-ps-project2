@@ -1,4 +1,4 @@
-using ClassRegistration.DataAccess.Entity;
+using ClassRegistration.DataAccess.Entities;
 using ClassRegistration.Domain;
 using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +12,13 @@ namespace ClassRegistration.DataAccess.Repository
 
         public StudentRepository () : this (null) { }
 
+
+
+        /// <summary>
+        /// Search for a student by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public virtual async Task<StudentModel> FindById (int id)
         {
             var student = await _context.Student.FirstOrDefaultAsync (s => s.StudentId == id);

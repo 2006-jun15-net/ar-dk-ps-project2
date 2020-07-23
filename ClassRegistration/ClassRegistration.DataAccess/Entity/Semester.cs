@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace ClassRegistration.DataAccess.Entity
@@ -14,6 +14,6 @@ namespace ClassRegistration.DataAccess.Entity
         public DateTime BeginDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public virtual ICollection<Section> Section { get; set; }
+        public ICollection<Section> Section { get; set; }
     }
 }

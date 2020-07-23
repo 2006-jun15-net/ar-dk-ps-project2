@@ -1,4 +1,4 @@
-using ClassRegistration.DataAccess.Entity;
+using ClassRegistration.DataAccess.Entities;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
@@ -69,7 +69,7 @@ namespace ClassRegistration.DataAccess.Repository
                 StudentId = enrollmentModel.StudentId,
                 SectId = enrollmentModel.SectId
             });
-
+            
             await _context.SaveChangesAsync ();
 
             return true;

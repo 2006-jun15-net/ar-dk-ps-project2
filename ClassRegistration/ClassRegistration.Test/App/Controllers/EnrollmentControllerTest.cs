@@ -1,4 +1,4 @@
-﻿using ClassRegistration.App.Controllers;
+using ClassRegistration.App.Controllers;
 using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Repository;
 using ClassRegistration.Domain.Model;

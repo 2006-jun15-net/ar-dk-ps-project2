@@ -1,4 +1,4 @@
-using ClassRegistration.DataAccess.Entity;
+using ClassRegistration.DataAccess.Entities;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.DataAccess.Repository;
 using ClassRegistration.Domain;
@@ -29,11 +29,12 @@ namespace ClassRegistration.App
 
             services.AddDbContext<Course_registration_dbContext> (options =>
                  options.UseSqlServer (Configuration.GetConnectionString ("SqlServer")));
-
+          
             services.AddScoped<IEnrollmentRepository, EnrollmentRepository> ();
             services.AddScoped<ICourseRepository, CourseRepository> ();
             services.AddScoped<IStudentRepository, StudentRepository> ();
             services.AddScoped<ISectionRepository, SectionRepository> ();
+            services.AddScoped<IReviewsRepository, ReviewsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
