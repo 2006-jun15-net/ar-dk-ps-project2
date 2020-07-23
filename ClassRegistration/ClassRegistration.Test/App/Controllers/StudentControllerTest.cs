@@ -4,6 +4,7 @@ using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -35,13 +36,13 @@ namespace ClassRegistration.Test.Controllers.App
 
                 new StudentModel {
 
-                    Id = 1,
+                    StudentId = 1,
                     Name = "Test 1"
                 },
 
                 new StudentModel {
 
-                    Id = 2,
+                    StudentId = 2,
                     Name = "Test 2"
                 }
             };
@@ -59,7 +60,7 @@ namespace ClassRegistration.Test.Controllers.App
                 repo => repo.FindById (It.IsAny<int> ())
             ).Returns (
                 async (int id) =>
-                    await Task.Run (() => students.Where (s => s.Id == id).FirstOrDefault ())
+                    await Task.Run (() => students.Where (s => s.StudentId == id).FirstOrDefault ())
             );
 
             mockCoursesRepo.SetupAllProperties ();
@@ -71,19 +72,18 @@ namespace ClassRegistration.Test.Controllers.App
         [Fact]
         public async void TestGet ()
         {
-
             OkObjectResult response = await _studentController.Get (1) as OkObjectResult;
             var student = response.Value as StudentModel;
 
             Assert.Equal (200, response.StatusCode);
-            Assert.Equal (1, student.Id);
+            Assert.Equal (1, student.StudentId);
             Assert.Equal ("Test 1", student.Name);
         }
 
         [Fact]
         public async void TestGetFail ()
         {
-
+            Debug.WriteLine (await _studentController.Get (3));
             NotFoundResult response = await _studentController.Get (3) as NotFoundResult;
 
             Assert.Equal (404, response.StatusCode);
@@ -92,7 +92,6 @@ namespace ClassRegistration.Test.Controllers.App
         [Fact]
         public async void TestGetCourses ()
         {
-
             OkObjectResult response = await _studentController.GetCourses (1) as OkObjectResult;
             var courses = response.Value as IEnumerable<CourseModel>;
 
@@ -103,7 +102,6 @@ namespace ClassRegistration.Test.Controllers.App
         [Fact]
         public async void TestGetCoursesFail ()
         {
-
             NotFoundResult response = await _studentController.GetCourses (3) as NotFoundResult;
 
             Assert.Equal (404, response.StatusCode);
@@ -112,7 +110,6 @@ namespace ClassRegistration.Test.Controllers.App
         [Fact]
         public async void TestGetCoursesEmpty ()
         {
-
             NoContentResult response = await _studentController.GetCourses (2) as NoContentResult;
 
             Assert.Equal (204, response.StatusCode);

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ClassRegistration.DataAccess.Entity
+﻿namespace ClassRegistration.DataAccess.Entity
 {
     public partial class Enrollment : DataModel
     {

@@ -5,9 +5,9 @@ namespace ClassRegistration.DataAccess.Entity
 {
     public partial class Student : DataModel
     {
-        public Student()
+        public Student ()
         {
-            Enrollment = new HashSet<Enrollment>();
+            Enrollment = new HashSet<Enrollment> ();
         }
 
         public int StudentId { get; set; }
@@ -16,7 +16,9 @@ namespace ClassRegistration.DataAccess.Entity
         public DateTime? DateOfBirth { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+        public int DeptId { get; set; }
 
         public virtual ICollection<Enrollment> Enrollment { get; set; }
+        public virtual Department Department { get; set; }
     }
 }

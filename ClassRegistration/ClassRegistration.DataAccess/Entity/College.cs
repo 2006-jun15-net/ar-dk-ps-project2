@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ClassRegistration.DataAccess.Entity
 {
     public partial class College : DataModel
     {
-        public College()
+        public College ()
         {
-            Department = new HashSet<Department>();
+            Department = new HashSet<Department> ();
         }
 
         public int CollegeId { get; set; }

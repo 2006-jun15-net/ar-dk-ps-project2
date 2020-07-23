@@ -12,6 +12,7 @@ namespace ClassRegistration.App.Controllers
     {
         private readonly IEnrollmentRepository _enrollmentRepository;
         private readonly IStudentRepository _studentRepository;
+        private readonly ISectionRepository _sectionRepository;
 
         /// <summary>
         /// Constructor initializes IEnrollment field.
@@ -19,10 +20,12 @@ namespace ClassRegistration.App.Controllers
         /// <param name="enrollmentRepository"></param>
         /// <param name="studentRepository"></param>
         public EnrollmentController (IEnrollmentRepository enrollmentRepository,
-                                     IStudentRepository studentRepository)
+                                     IStudentRepository studentRepository,
+                                     ISectionRepository sectionRepository)
         {
             _enrollmentRepository = enrollmentRepository;
             _studentRepository = studentRepository;
+            _sectionRepository = sectionRepository;
         }
 
         // DELETE api/<EnrollmentController>/id
@@ -78,7 +81,10 @@ namespace ClassRegistration.App.Controllers
         [HttpPost]
         public async Task<IActionResult> Post ([FromBody] EnrollmentModel enrollmentModel)
         {
-            // TODO check that section exists
+            if (_sectionRepository.FindById (enrollmentModel.SectId) == default)
+            {
+                return BadRequest ();
+            }
 
             if (_studentRepository.FindById (enrollmentModel.StudentId) == default)
             {
