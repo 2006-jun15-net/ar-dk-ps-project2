@@ -7,7 +7,6 @@ namespace ClassRegistration.Domain.Model
     {
         public CourseModel ()
         {
-            Section = new HashSet<SectionModel> ();
             Reviews = new HashSet<ReviewsModel>();
         }
 
@@ -31,8 +30,6 @@ namespace ClassRegistration.Domain.Model
         public int DeptId { get; set; }
         public int? Credits { get; set; }
         public decimal Fees { get; set; }
-
-        public ICollection<SectionModel> Section { get; set; }
 
         public ICollection<ReviewsModel> Reviews { get; set; }
     }

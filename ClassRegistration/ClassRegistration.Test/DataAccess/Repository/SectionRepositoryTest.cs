@@ -29,6 +29,7 @@ namespace ClassRegistration.Test.DataAccess.Repository
 
                 Course = new Course
                 {
+                    CourseName = "Test Course",
                     Reviews = new List<Reviews> ()
                 }
             });
@@ -78,7 +79,7 @@ namespace ClassRegistration.Test.DataAccess.Repository
         public async void TestFindByInstrIdFail ()
         {
             var sectionsByInstrId = await _sectionRepository.FindByInstrId (2);
-            Assert.Null (sectionsByInstrId);
+            Assert.Empty (sectionsByInstrId);
         }
     }
 }

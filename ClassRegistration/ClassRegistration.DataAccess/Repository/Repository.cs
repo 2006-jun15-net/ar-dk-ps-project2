@@ -18,8 +18,26 @@ namespace ClassRegistration.DataAccess.Repository
 
             var config = new MapperConfiguration (cfg =>
             {
-                cfg.CreateMap<T, U> ();
-                cfg.CreateMap<U, T> ();
+                /*cfg.CreateMap<T, U> ();
+                cfg.CreateMap<U, T> ();*/
+
+                cfg.CreateMap<Course, CourseModel> ();
+                cfg.CreateMap<CourseModel, Course> ();
+
+                cfg.CreateMap<Enrollment, EnrollmentModel> ();
+                cfg.CreateMap<EnrollmentModel, Enrollment> ();
+
+                cfg.CreateMap<Instructor, InstructorModel> ();
+                cfg.CreateMap<InstructorModel, Instructor> ();
+
+                cfg.CreateMap<Reviews, ReviewsModel> ();
+                cfg.CreateMap<ReviewsModel, Reviews> ();
+
+                cfg.CreateMap<Section, SectionModel> ();
+                cfg.CreateMap<SectionModel, Section> ();
+
+                cfg.CreateMap<Student, StudentModel> ();
+                cfg.CreateMap<StudentModel, Student> ();
             });
             _mapper = config.CreateMapper ();
         }
