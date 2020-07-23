@@ -1,20 +1,19 @@
 using ClassRegistration.Domain.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ClassRegistration.DataAccess.Entities;
 
 namespace ClassRegistration.DataAccess.Interfaces
 {
     public interface ISectionRepository
     {
         Task<SectionModel> FindById (int id);
-      
+
         /// <summary>
         /// Search for all sections
         /// </summary>
         /// <returns></returns>
         Task<IEnumerable<SectionModel>> FindAll ();
-      
+
         /// <summary>
         /// To get access to a course and its reviews by instructor ID
         /// </summary>

@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
-using AutoMapper.Configuration.Annotations;
 
 namespace ClassRegistration.Domain.Model
 {
     public class StudentModel : BaseBusinessModel
     {
-        public StudentModel()
+        public StudentModel ()
         {
             Enrollment = new HashSet<EnrollmentModel> ();
-            Reviews = new HashSet<ReviewsModel>();
+            Reviews = new HashSet<ReviewsModel> ();
         }
 
         public int StudentId { get; set; }
@@ -31,7 +30,7 @@ namespace ClassRegistration.Domain.Model
                 LastName = names[1];
             }
         }
-        
+
         public bool CreditRequirementsMet
         {
             get

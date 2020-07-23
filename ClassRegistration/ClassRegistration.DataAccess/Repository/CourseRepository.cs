@@ -1,4 +1,4 @@
-﻿using ClassRegistration.DataAccess.Entities;
+﻿using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +14,6 @@ namespace ClassRegistration.DataAccess.Repository
 
         public CourseRepository () : this (null) { }
 
-
-
-
         /// <summary>
         /// Search courses by student
         /// </summary>
@@ -30,15 +27,12 @@ namespace ClassRegistration.DataAccess.Repository
                           where e.StudentId == studentId
                           select c;
 
-            return await courses.Select (
-                                c => new CourseModel
-                                {
-                                    CourseName = c.CourseName,
-                                    StudentId = studentId
-                                }).ToListAsync ();
+            return await courses.Select (c => new CourseModel
+            {
+                CourseName = c.CourseName,
+                StudentId = studentId
+            }).ToListAsync ();
         }
-
-
 
         /// <summary>
         /// Get all courses available
@@ -49,8 +43,6 @@ namespace ClassRegistration.DataAccess.Repository
             var classes = await _context.Course.ToListAsync ();
             return _mapper.Map<IEnumerable<CourseModel>> (classes);
         }
-
-
 
         /// <summary>
         /// Search a course by its ID
@@ -63,8 +55,6 @@ namespace ClassRegistration.DataAccess.Repository
             return _mapper.Map<CourseModel> (searchedCourse);
         }
 
-
-
         /// <summary>
         /// Search a course by its name
         /// </summary>
@@ -76,8 +66,6 @@ namespace ClassRegistration.DataAccess.Repository
             return _mapper.Map<CourseModel> (searchedCourse);
         }
 
-
-
         /// <summary>
         /// Search for courses by department ID
         /// </summary>
@@ -88,8 +76,6 @@ namespace ClassRegistration.DataAccess.Repository
             var searchedCourses = await _context.Course.Where (c => c.DeptId == deptId).ToListAsync ();
             return _mapper.Map<IEnumerable<CourseModel>> (searchedCourses);
         }
-
-
 
         /// <summary>
         /// search for courses by department name

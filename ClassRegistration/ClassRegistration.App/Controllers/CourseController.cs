@@ -1,6 +1,4 @@
-﻿//using ClassRegistration.DataAccess.Entities;
-using ClassRegistration.DataAccess.Entities;
-using ClassRegistration.DataAccess.Interfaces;
+﻿using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -28,7 +26,7 @@ namespace ClassRegistration.App.Controllers
         {
             var theClasses = await _courseRepository.FindAll ();
             //var theClasses = await _courseRepository.FindAllWithReviews();
-            return Ok (theClasses); 
+            return Ok (theClasses);
         }
 
         /// <summary>
@@ -66,7 +64,7 @@ namespace ClassRegistration.App.Controllers
 
         //search for courses available by Department ID
         // GET api/courses/1500
-        [HttpGet("courses/{deptId}")]
+        [HttpGet ("courses/{deptId}")]
         public async Task<ActionResult<CourseModel>> GetByDepartmentID (int deptId)
         {
             var theCourses = await _courseRepository.FindByDeptID (deptId);

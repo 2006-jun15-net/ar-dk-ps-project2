@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ClassRegistration.DataAccess.Entity
 {
@@ -9,7 +8,7 @@ namespace ClassRegistration.DataAccess.Entity
         {
             Department = new HashSet<Department> ();
         }
-        
+
         public int CollegeId { get; set; }
         public string CollegeName { get; set; }
         public string Address { get; set; }

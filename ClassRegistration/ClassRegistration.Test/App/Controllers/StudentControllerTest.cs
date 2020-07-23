@@ -11,10 +11,8 @@ using Xunit;
 
 namespace ClassRegistration.Test.Controllers.App
 {
-
     public class StudentControllerTest
     {
-
         private readonly StudentController _studentController;
 
         public StudentControllerTest ()
@@ -22,6 +20,7 @@ namespace ClassRegistration.Test.Controllers.App
 
             var mockCoursesRepo = new Mock<CourseRepository> ();
             var mockStudentRepo = new Mock<StudentRepository> ();
+            var mockEnrollRepo = new Mock<EnrollmentRepository> ();
 
             List<CourseModel> courseModels = new List<CourseModel> {
 
@@ -54,14 +53,6 @@ namespace ClassRegistration.Test.Controllers.App
                 async (int studentId) =>
                     await Task.Run (() => courseModels.Where (c => c.StudentId == studentId))
             );
-
-            // Student repo setup
-            mockStudentRepo.Setup (
-                repo => repo.FindById (It.IsAny<int> ())
-            ).Returns (
-                async (int id) =>
-                    await Task.Run (() => students.Where (s => s.Id == id).FirstOrDefault ())
-            );
           
             // Student repo setup
             mockStudentRepo.Setup (
@@ -71,10 +62,14 @@ namespace ClassRegistration.Test.Controllers.App
                     await Task.Run (() => students.Where (s => s.StudentId == id).FirstOrDefault ())
             );
 
+            // Enrollment repo setup
+            // TODO 
+
             mockCoursesRepo.SetupAllProperties ();
             mockStudentRepo.SetupAllProperties ();
+            mockEnrollRepo.SetupAllProperties ();
 
-            _studentController = new StudentController (mockCoursesRepo.Object, mockStudentRepo.Object);
+            _studentController = new StudentController (mockCoursesRepo.Object, mockStudentRepo.Object, mockEnrollRepo.Object);
         }
 
         [Fact]
@@ -85,7 +80,7 @@ namespace ClassRegistration.Test.Controllers.App
             var student = response.Value as StudentModel;
 
             Assert.Equal (200, response.StatusCode);
-            Assert.Equal (1, student.Id);
+            Assert.Equal (1, student.StudentId);
             Assert.Equal ("Test 1", student.Name);
         }
 

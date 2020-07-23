@@ -1,6 +1,4 @@
-using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ClassRegistration.DataAccess.Entity
 {
@@ -20,9 +18,11 @@ namespace ClassRegistration.DataAccess.Entity
         public virtual DbSet<Department> Department { get; set; }
         public virtual DbSet<Enrollment> Enrollment { get; set; }
         public virtual DbSet<Instructor> Instructor { get; set; }
+        public virtual DbSet<Reviews> Reviews { get; set; }
         public virtual DbSet<Section> Section { get; set; }
         public virtual DbSet<Semester> Semester { get; set; }
         public virtual DbSet<Student> Student { get; set; }
+        public virtual DbSet<StudentType> StudentType { get; set; }
 
         protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
         {
@@ -126,6 +126,29 @@ namespace ClassRegistration.DataAccess.Entity
                      .HasConstraintName ("FK__Instructo__DeptI__5070F446");
              });
 
+            modelBuilder.Entity<Reviews> (entity =>
+             {
+                 entity.HasKey (e => e.ReviewId);
+
+                 entity.Property (e => e.CourseId).HasColumnName ("CourseID");
+
+                 entity.Property (e => e.Date).HasColumnType ("date");
+
+                 entity.Property (e => e.StudentId).HasColumnName ("StudentID");
+
+                 entity.Property (e => e.Text)
+                     .IsRequired ()
+                     .HasMaxLength (2000);
+
+                 entity.HasOne (d => d.Course)
+                     .WithMany (p => p.Reviews)
+                     .HasForeignKey (d => d.CourseId);
+
+                 entity.HasOne (d => d.Student)
+                     .WithMany (p => p.Reviews)
+                     .HasForeignKey (d => d.StudentId);
+             });
+
             modelBuilder.Entity<Section> (entity =>
              {
                  entity.HasKey (e => e.SectId)
@@ -186,6 +209,8 @@ namespace ClassRegistration.DataAccess.Entity
                      .HasColumnName ("Date_of_birth")
                      .HasColumnType ("date");
 
+                 entity.Property (e => e.DeptId).HasColumnName ("DeptID");
+
                  entity.Property (e => e.Email)
                      .IsRequired ()
                      .HasColumnName ("email")
@@ -201,14 +226,34 @@ namespace ClassRegistration.DataAccess.Entity
 
                  entity.Property (e => e.Phone).HasMaxLength (12);
 
-                 entity.Property (e => e.DeptId)
-                     .IsRequired ()
-                     .HasColumnName ("DeptID");
+                 entity.Property (e => e.ResidentId)
+                     .HasColumnName ("Resident_id")
+                     .HasMaxLength (50);
 
-                 entity.HasOne (s => s.Department)
+                 entity.HasOne (d => d.Dept)
                      .WithMany (p => p.Student)
-                     .HasForeignKey (s => s.DeptId)
+                     .HasForeignKey (d => d.DeptId)
+                     .OnDelete (DeleteBehavior.ClientSetNull)
                      .HasConstraintName ("Fk_Student_Department");
+
+                 entity.HasOne (d => d.Resident)
+                     .WithMany (p => p.Student)
+                     .HasForeignKey (d => d.ResidentId)
+                     .HasConstraintName ("FK__Student__Residen__7D439ABD");
+             });
+
+            modelBuilder.Entity<StudentType> (entity =>
+             {
+                 entity.HasKey (e => e.ResidentId)
+                     .HasName ("PK__Student___F3015361E0F4B8D2");
+
+                 entity.ToTable ("Student_type");
+
+                 entity.Property (e => e.ResidentId)
+                     .HasColumnName ("Resident_id")
+                     .HasMaxLength (50);
+
+                 entity.Property (e => e.Discount).HasColumnType ("decimal(6, 2)");
              });
 
             OnModelCreatingPartial (modelBuilder);

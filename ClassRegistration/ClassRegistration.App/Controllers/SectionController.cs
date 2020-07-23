@@ -1,9 +1,8 @@
-﻿//using ClassRegistration.DataAccess.Entities;
-using ClassRegistration.DataAccess.Interfaces;
+﻿using ClassRegistration.DataAccess.Interfaces;
+using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
-using ClassRegistration.Domain.Model;
 
 namespace ClassRegistration.App.Controllers
 {
@@ -19,31 +18,26 @@ namespace ClassRegistration.App.Controllers
 
         // GET api/section?instructorId=50
         [HttpGet]
-        public async Task<ActionResult<SectionModel>> GetCourseByInstructorID(int instructorId)
+        public async Task<ActionResult<SectionModel>> GetCourseByInstructorID (int instructorId)
         {
             // get all the sections and associated courses for an instructor
-            var theSections = await _sectionRepository.FindByInstrId(instructorId);
+            var theSections = await _sectionRepository.FindByInstrId (instructorId);
 
-            if (!theSections.Any())
+            if (!theSections.Any ())
             {
-                return NotFound();
+                return NotFound ();
             }
-            return Ok(theSections);
+            return Ok (theSections);
         }
-
-         
 
         // get all the sections available - just for self check in postman
         // GET: api/section/all
-        [HttpGet("all")]
-        public async Task<IActionResult> GetAllSectionsAvailable()
+        [HttpGet ("all")]
+        public async Task<IActionResult> GetAllSectionsAvailable ()
         {
             //return Ok(_dbContext.Course.ToList());
-            var theClasses = await _sectionRepository.FindAll();
-            return Ok(theClasses);
+            var theClasses = await _sectionRepository.FindAll ();
+            return Ok (theClasses);
         }
-        
-
-
     }
 }

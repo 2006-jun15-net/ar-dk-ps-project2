@@ -1,4 +1,4 @@
-using ClassRegistration.DataAccess.Entities;
+using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
@@ -43,7 +43,7 @@ namespace ClassRegistration.DataAccess.Repository
         public virtual async Task<IEnumerable<SectionModel>> FindByInstrId (int instructorId)
         {
             // TODO we want to make stuff like this use the LINQ query syntax
-            var sections = await _context.Section.Include (s => s.Course).ThenInlude (c => c.Reviews)
+            var sections = await _context.Section.Include (s => s.Course)//.ThenInclude (c => c.Reviews)
                                     .Where (s => s.InstructorId == instructorId).ToListAsync ();
 
             return _mapper.Map<IEnumerable<SectionModel>> (sections);

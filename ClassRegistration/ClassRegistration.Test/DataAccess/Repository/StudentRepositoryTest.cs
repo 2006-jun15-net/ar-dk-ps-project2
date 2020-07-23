@@ -21,11 +21,13 @@ namespace ClassRegistration.Test.DataAccess.Repository
 
             context.Database.EnsureDeleted ();
 
-            context.Add (new Student {
+            context.Add (new Student
+            {
 
                 StudentId = 1,
-                Enrollment = new List<Enrollment> { 
-                    
+                Enrollment = new List<Enrollment>
+                {
+
                 }
             });
 

@@ -1,4 +1,4 @@
-using ClassRegistration.DataAccess.Entities;
+using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.Domain;
 using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
@@ -11,8 +11,6 @@ namespace ClassRegistration.DataAccess.Repository
         public StudentRepository (Course_registration_dbContext context) : base (context) { }
 
         public StudentRepository () : this (null) { }
-
-
 
         /// <summary>
         /// Search for a student by ID

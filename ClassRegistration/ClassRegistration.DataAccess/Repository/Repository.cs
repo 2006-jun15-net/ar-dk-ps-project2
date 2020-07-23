@@ -1,5 +1,5 @@
 using AutoMapper;
-using ClassRegistration.DataAccess.Entities;
+using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.Domain.Model;
 
 namespace ClassRegistration.DataAccess.Repository
@@ -20,18 +20,6 @@ namespace ClassRegistration.DataAccess.Repository
             {
                 cfg.CreateMap<T, U> ();
                 cfg.CreateMap<U, T> ();
-                /*
-                cfg.CreateMap<Course, CourseModel> ();
-                cfg.CreateMap<CourseModel, Course> ();
-
-                cfg.CreateMap<Section, SectionModel> ();
-                cfg.CreateMap<SectionModel, Section> ();
-
-                cfg.CreateMap<Enrollment, EnrollmentModel> ();
-                cfg.CreateMap<EnrollmentModel, Enrollment> ();
-
-                cfg.CreateMap<Student, StudentModel> ();
-                cfg.CreateMap<StudentModel, Student> ();*/
             });
             _mapper = config.CreateMapper ();
         }

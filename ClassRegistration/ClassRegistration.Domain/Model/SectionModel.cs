@@ -7,7 +7,7 @@ namespace ClassRegistration.Domain.Model
     {
         public SectionModel()
         {
-            Enrollment = new HashSet<Enrollment>();
+            Enrollment = new HashSet<EnrollmentModel>();
         }
 
         public int SectId { get; set; }
@@ -18,9 +18,8 @@ namespace ClassRegistration.Domain.Model
         public TimeSpan EndTime { get; set; }
 
         public CourseModel Course { get; set; } 
-        public virtual InstructorModel Instructor { get; set; }
-        public virtual SemesterModel Semester { get; set; }
-        public virtual ICollection<Enrollment> Enrollment { get; set; }
+        public InstructorModel Instructor { get; set; }
+        public ICollection<EnrollmentModel> Enrollment { get; set; }
     }
 }
  

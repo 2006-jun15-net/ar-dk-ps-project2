@@ -1,4 +1,4 @@
-using ClassRegistration.DataAccess.Entities;
+using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.DataAccess.Repository;
 using ClassRegistration.Domain;

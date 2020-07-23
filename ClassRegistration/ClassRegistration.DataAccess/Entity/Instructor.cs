@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ClassRegistration.DataAccess.Entity
 {
@@ -14,7 +14,7 @@ namespace ClassRegistration.DataAccess.Entity
         public string LastName { get; set; }
         public int DeptId { get; set; }
 
-        public Department Dept { get; set; }
-        public ICollection<Section> Section { get; set; }
+        public virtual Department Dept { get; set; }
+        public virtual ICollection<Section> Section { get; set; }
     }
 }

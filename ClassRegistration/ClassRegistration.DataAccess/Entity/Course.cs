@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ClassRegistration.DataAccess.Entity
 {
@@ -7,6 +6,7 @@ namespace ClassRegistration.DataAccess.Entity
     {
         public Course ()
         {
+            Reviews = new HashSet<Reviews> ();
             Section = new HashSet<Section> ();
         }
 
@@ -17,6 +17,7 @@ namespace ClassRegistration.DataAccess.Entity
         public decimal Fees { get; set; }
 
         public virtual Department Dept { get; set; }
+        public virtual ICollection<Reviews> Reviews { get; set; }
         public virtual ICollection<Section> Section { get; set; }
     }
 }

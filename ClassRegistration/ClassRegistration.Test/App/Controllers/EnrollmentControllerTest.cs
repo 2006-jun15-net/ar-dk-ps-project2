@@ -1,11 +1,9 @@
 using ClassRegistration.App.Controllers;
-using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Repository;
 using ClassRegistration.Domain.Model;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.AccessControl;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -98,16 +96,16 @@ namespace ClassRegistration.Test.App.Controllers
             );
 
             mockSectionRepo.Setup (
-                repo => repo.FindById (It.IsAny<int> ())  
+                repo => repo.FindById (It.IsAny<int> ())
             ).Returns (
                 async (int id) =>
                     await Task.Run (() => sections.Where (s => s.SectId == id).FirstOrDefault ())
             );
 
             mockSectionRepo.Setup (
-                repo => repo.FindByInstrId (It.IsAny<int> ())    
+                repo => repo.FindByInstrId (It.IsAny<int> ())
             ).Returns (
-                async (int instrId) => 
+                async (int instrId) =>
                     await Task.Run (() => sections.Where (s => s.InstructorId == instrId))
             );
 

@@ -63,21 +63,21 @@ namespace ClassRegistration.App.Controllers
         /// <param name="id"></param>
         /// <param name="term"></param>
         /// <returns></returns>
-        
+
         // GET api/<StudentController>/1/Fall
-        [HttpGet("{id}/{term}")]
-        public async Task<IActionResult> GetTotalAmount(int id, string term)
+        [HttpGet ("{id}/{term}")]
+        public async Task<IActionResult> GetTotalAmount (int id, string term)
         {
-            decimal? totalAmount = await _enrollmentRepository.GetTotalAmount(id, term); //getting the amount owed by a student in a particular semester.
+            decimal? totalAmount = await _enrollmentRepository.GetTotalAmount (id, term); //getting the amount owed by a student in a particular semester.
 
             if (totalAmount == null)
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            return Ok(totalAmount);
+            return Ok (totalAmount);
         }
-        
+
         [HttpGet ("{id}/credits_met")]
         public async Task<IActionResult> GetCreditsRequirementsMet (int id)
         {

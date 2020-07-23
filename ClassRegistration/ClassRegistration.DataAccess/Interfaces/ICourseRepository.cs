@@ -19,17 +19,12 @@ namespace ClassRegistration.DataAccess.Interfaces
         /// <returns></returns>
         Task<IEnumerable<CourseModel>> FindAll ();
 
-
-        
-
         /// <summary>
         /// Search a course by course ID
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         Task<CourseModel> FindById (int id);
-
-
 
         /// <summary>
         /// Search a course by its name
@@ -38,16 +33,12 @@ namespace ClassRegistration.DataAccess.Interfaces
         /// <returns></returns>
         Task<CourseModel> FindByName (string name);
 
-
-
         /// <summary>
         /// Search courses by Department ID
         /// </summary>
         /// <param name="deptId"></param>
         /// <returns></returns>
         Task<IEnumerable<CourseModel>> FindByDeptID (int deptId);
-
-
 
         /// <summary>
         /// Search courses by Department Name

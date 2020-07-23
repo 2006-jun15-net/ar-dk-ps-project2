@@ -5,11 +5,11 @@ namespace ClassRegistration.Domain.Model
 {
     public class CourseModel : BaseBusinessModel
     {
-        //public Course ()
-        //{
-        //    Section = new HashSet<Section> ();
-        //    Reviews = new HashSet<ReviewsModel>();
-        //}
+        public CourseModel ()
+        {
+            Section = new HashSet<SectionModel> ();
+            Reviews = new HashSet<ReviewsModel>();
+        }
 
         private string _courseName;
 
@@ -32,8 +32,8 @@ namespace ClassRegistration.Domain.Model
         public int? Credits { get; set; }
         public decimal Fees { get; set; }
 
-        public List<SectionModel> Section { get; set; } = new List<SectionModel>();
+        public ICollection<SectionModel> Section { get; set; }
 
-        public virtual ICollection<ReviewsModel> Reviews { get; set; }
+        public ICollection<ReviewsModel> Reviews { get; set; }
     }
 }
