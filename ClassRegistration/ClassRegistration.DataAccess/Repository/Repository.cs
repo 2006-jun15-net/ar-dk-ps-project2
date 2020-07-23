@@ -1,5 +1,5 @@
 using AutoMapper;
-using ClassRegistration.DataAccess.Entity;
+using ClassRegistration.DataAccess.Entities;
 using ClassRegistration.Domain.Model;
 
 namespace ClassRegistration.DataAccess.Repository

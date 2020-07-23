@@ -1,9 +1,17 @@
+using System.Collections.Generic;
 using AutoMapper.Configuration.Annotations;
 
 namespace ClassRegistration.Domain.Model
 {
     public class StudentModel : BaseBusinessModel
     {
+
+        public StudentModel()
+        {
+           
+            Reviews = new HashSet<ReviewsModel>();
+        }
+
         public int StudentId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -17,5 +25,7 @@ namespace ClassRegistration.Domain.Model
                 LastName = names[1];
             }
         }
+
+        public virtual ICollection<ReviewsModel> Reviews { get; set; }
     }
 }

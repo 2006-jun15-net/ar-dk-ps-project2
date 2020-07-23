@@ -1,4 +1,4 @@
-using ClassRegistration.DataAccess.Entity;
+using ClassRegistration.DataAccess.Entities;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
@@ -53,26 +53,26 @@ namespace ClassRegistration.DataAccess.Repository
             return true;
         }
 
-        public async Task<bool> Add (EnrollmentModel enrollmentModel)
-        {
-            var enrollments = await (from e in _context.Enrollment
-                                     where e.EnrollmentId == enrollmentModel.Id
-                                     select e).ToListAsync ();
+        //public async Task<bool> Add (EnrollmentModel enrollmentModel)
+        //{
+        //    var enrollments = await (from e in _context.Enrollment
+        //                             where e.EnrollmentId == enrollmentModel.Id
+        //                             select e).ToListAsync ();
 
-            if (enrollments.Count != 0)
-            {
-                return false;
-            }
+        //    if (enrollments.Count != 0)
+        //    {
+        //        return false;
+        //    }
 
-            _context.Enrollment.Add (new Enrollment
-            {
-                StudentId = enrollmentModel.StudentId,
-                SectId = enrollmentModel.SectionId
-            });
+        //    _context.Enrollment.Add (new Enrollment
+        //    {
+        //        StudentId = enrollmentModel.StudentId,
+        //        SectId = enrollmentModel.SectionId
+        //    });
 
-            await _context.SaveChangesAsync ();
+        //    await _context.SaveChangesAsync ();
 
-            return true;
-        }
+        //    return true;
+        //}
     }
 }

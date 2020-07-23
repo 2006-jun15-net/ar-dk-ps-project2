@@ -75,24 +75,24 @@ namespace ClassRegistration.App.Controllers
         }
 
         // POST api/<EnrollmentController>
-        [HttpPost]
-        public async Task<IActionResult> Post ([FromBody] EnrollmentModel enrollmentModel)
-        {
-            // TODO check that section exists
+        //[HttpPost]
+        //public async Task<IActionResult> Post ([FromBody] EnrollmentModel enrollmentModel)
+        //{
+        //    // TODO check that section exists
 
-            if (_studentRepository.FindById (enrollmentModel.StudentId) == default)
-            {
-                return BadRequest ();
-            }
+        //    if (_studentRepository.FindById (enrollmentModel.StudentId) == default)
+        //    {
+        //        return BadRequest ();
+        //    }
 
-            bool success = await _enrollmentRepository.Add (enrollmentModel);
+        //    bool success = await _enrollmentRepository.Add (enrollmentModel);
 
-            if (!success)
-            {
-                return BadRequest ();
-            }
+        //    if (!success)
+        //    {
+        //        return BadRequest ();
+        //    }
 
-            return Ok ();
-        }
+        //    return Ok ();
+        //}
     }
 }
