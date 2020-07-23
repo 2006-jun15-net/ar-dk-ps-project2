@@ -35,6 +35,24 @@ namespace ClassRegistration.DataAccess.Repository
             return totalCredits.Sum ();
         }
 
+        /// <summary>
+        /// This methods gets the total amount of registered courses of a student in a specified term.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="term"></param>
+        /// <returns></returns>
+        public virtual async Task<decimal?> GetTotalAmount(int id, string term)
+        {
+            var totalAmount = await (from c in _context.Course
+                                     join s in _context.Section on c.CourseId
+                                     equals s.CourseId
+                                     join e in _context.Enrollment on s.SectId equals e.SectId
+                                     where e.StudentId == id && s.Term == term   // enrollments of a particular student with their respective semester.
+                                     select c.Fees).ToListAsync();
+
+            return totalAmount.Sum();
+        }
+
 
         public virtual async Task<bool> Delete (int enrollmentId, int studentId)
         {
