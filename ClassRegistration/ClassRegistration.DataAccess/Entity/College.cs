@@ -2,6 +2,9 @@
 
 namespace ClassRegistration.DataAccess.Entity
 {
+    /// <summary>
+    /// Data Access College
+    /// </summary>
     public partial class College : DataModel
     {
         public College ()

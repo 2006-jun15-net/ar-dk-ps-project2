@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace ClassRegistration.Domain.Model
 {
+    /// <summary>
+    /// Business Logic Student
+    /// </summary>
     public class StudentModel : BaseBusinessModel
     {
         public StudentModel ()
@@ -11,9 +14,59 @@ namespace ClassRegistration.Domain.Model
             Reviews = new HashSet<ReviewsModel> ();
         }
 
+        /// <summary>
+        /// A student's ID number
+        /// </summary>
         public int StudentId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+
+        //public string FirstName { get; set; }
+
+
+        /// <summary>
+        /// A student's first name
+        /// </summary>
+        private string _firstname;
+        public string FirstName
+        {
+            get => _firstname;
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException("Student's first name name cannot be empty or null.", nameof(value));
+                }
+                _firstname = value;
+            }
+
+        }
+
+
+
+        //public string LastName { get; set; }
+
+
+        /// <summary>
+        /// A student's last name
+        /// </summary>
+        private string _lastname;
+        public string LastName
+        {
+            get => _lastname;
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException("Student's last name name cannot be empty or null.", nameof(value));
+                }
+                _lastname = value;
+            }
+
+        }
+
+
+        /// <summary>
+        /// Department the student has courses in
+        /// </summary>
         public int DeptId { get; set; }
 
         public ICollection<EnrollmentModel> Enrollment { get; set; }

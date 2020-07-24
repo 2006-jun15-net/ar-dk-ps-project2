@@ -2,6 +2,9 @@
 
 namespace ClassRegistration.DataAccess.Entity
 {
+    /// <summary>
+    /// Data Access Instructor
+    /// </summary>
     public partial class Instructor : DataModel
     {
         public Instructor ()

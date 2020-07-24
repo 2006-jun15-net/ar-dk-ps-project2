@@ -22,6 +22,12 @@ namespace ClassRegistration.App.Controllers
             _enrollmentRepository = enrollmentRepository;
         }
 
+
+        /// <summary>
+        /// Search for a student by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET api/<StudentController>/5
         [HttpGet ("{id}")]
         public async Task<IActionResult> Get (int id)
@@ -36,6 +42,12 @@ namespace ClassRegistration.App.Controllers
             return Ok (student);
         }
 
+
+        /// <summary>
+        /// Returns a student's courses
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET api/<StudentController>/5/courses
         [HttpGet ("{id}/courses")]
         public async Task<IActionResult> GetCourses (int id)

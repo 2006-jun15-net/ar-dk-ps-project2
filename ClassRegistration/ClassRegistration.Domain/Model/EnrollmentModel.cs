@@ -1,7 +1,11 @@
 ﻿namespace ClassRegistration.Domain.Model
 {
+    /// <summary>
+    /// Business Logic Enrollment
+    /// </summary>
     public class EnrollmentModel : BaseBusinessModel
     {
+
         public int EnrollmentId { get; set; }
         public int StudentId { get; set; }
         public int SectId { get; set; }

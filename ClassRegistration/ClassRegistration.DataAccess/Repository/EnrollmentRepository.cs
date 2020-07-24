@@ -61,6 +61,12 @@ namespace ClassRegistration.DataAccess.Repository
         }
 
 
+        /// <summary>
+        /// Remove a course from list of registered courses
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="studentId"></param>
+        /// <returns></returns>
         public virtual async Task<bool> Delete (int id, int studentId)
         {
             var enrollment = await (from e in _context.Enrollment
@@ -78,6 +84,13 @@ namespace ClassRegistration.DataAccess.Repository
             return true;
         }
 
+
+        /// <summary>
+        /// Register for a course
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <param name="sectionId"></param>
+        /// <returns></returns>
         public virtual async Task Add (int studentId, int sectionId)
         {
             _context.Enrollment.Add (new Enrollment

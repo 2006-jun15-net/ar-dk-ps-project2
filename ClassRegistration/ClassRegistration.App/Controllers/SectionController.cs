@@ -15,15 +15,25 @@ namespace ClassRegistration.App.Controllers
             _sectionRepository = sectionRepository;
         }
 
-        // get all the sections available - just for self check in postman
-        // GET: api/section
-        [HttpGet]
+
+
+        /// <summary>
+        /// get all the sections available 
+        /// <returns></returns>
+        // GET: api/section/all
+        [HttpGet("{all}")]
         public async Task<IActionResult> Get ()
         {
             var theClasses = await _sectionRepository.FindAll ();
             return Ok (theClasses);
         }
 
+
+        /// <summary>
+        /// Returns an instructor's sections, courses, and the courses' associated reviews 
+        /// </summary>
+        /// <param name="instructorId"></param>
+        /// <returns></returns>
         // GET api/section?instructorId=50
         [HttpGet]
         public async Task<IActionResult> GetCoursesByInstructorID (int instructorId)

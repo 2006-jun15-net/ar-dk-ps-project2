@@ -15,7 +15,11 @@ namespace ClassRegistration.App.Controllers
             _reviewsRepository = reviewsRepository;
         }
 
-        // to test in postman for adding a review: this returns all the reviews
+
+        /// <summary>
+        /// Returns all available reviews
+        /// </summary>
+        /// <returns></returns>
         // GET: api/reviews
         [HttpGet]
         public async Task<IActionResult> GetItems ()
@@ -24,7 +28,12 @@ namespace ClassRegistration.App.Controllers
             return Ok (theReviews);
         }
 
-        // add a review for a course
+
+        /// <summary>
+        /// Add a review for a course
+        /// </summary>
+        /// <param name="review"></param>
+        /// <returns></returns>
         // POST: api/reviews/item
         [HttpPost ("{item}")]
         public async Task<ActionResult<ReviewsModel>> AddCourseReview ([FromBody] ReviewsModel review)

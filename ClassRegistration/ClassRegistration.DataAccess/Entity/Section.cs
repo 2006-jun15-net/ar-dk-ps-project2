@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace ClassRegistration.DataAccess.Entity
 {
+    /// <summary>
+    /// Data Access Section
+    /// </summary>
     public partial class Section : DataModel
     {
         public Section ()
