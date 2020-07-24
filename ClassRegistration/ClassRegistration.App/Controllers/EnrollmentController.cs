@@ -63,7 +63,6 @@ namespace ClassRegistration.App.Controllers
         /// <param name="id"></param>
         /// <param name="term"></param>
         /// <returns></returns>
-
         // GET api/<EnrollmentController>/id/term
         [HttpGet ("{id}/{term}")]
         public async Task<IActionResult> GetTotalCredits (int id, string term)
@@ -84,7 +83,6 @@ namespace ClassRegistration.App.Controllers
 
             return Ok (new { requirementsMet = totalCredits >= minimumCredits });
         }
-
 
         /// <summary>
         /// Register for a course

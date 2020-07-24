@@ -35,7 +35,7 @@ namespace ClassRegistration.App.Controllers
         /// <returns></returns>
         // GET api/course/class/100
         [HttpGet ("class/{id}")]
-        public async Task<ActionResult<CourseModel>> Get (int id)
+        public async Task<IActionResult> Get (int id)
         {
             var theCourse = await _courseRepository.FindById (id);
 
@@ -54,7 +54,7 @@ namespace ClassRegistration.App.Controllers
         /// <returns></returns>
         // GET api/course/Robotics
         [HttpGet ("course/{search}")]
-        public async Task<ActionResult<CourseModel>> GetByCourseName (string search)
+        public async Task<IActionResult> GetByName (string search)
         {
             var theCourse = await _courseRepository.FindByName (search);
 
@@ -74,9 +74,9 @@ namespace ClassRegistration.App.Controllers
         /// <returns></returns>
         // GET api/courses/1500
         [HttpGet ("courses/{deptId}")]
-        public async Task<ActionResult<CourseModel>> GetByDepartmentID (int deptId)
+        public async Task<IActionResult> GetByDepartmentId (int deptId)
         {
-            var theCourses = await _courseRepository.FindByDeptID (deptId);
+            var theCourses = await _courseRepository.FindByDeptId (deptId);
 
             if (!theCourses.Any ())
             {

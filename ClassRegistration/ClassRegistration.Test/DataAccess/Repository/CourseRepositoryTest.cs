@@ -116,7 +116,7 @@ namespace ClassRegistration.Test.DataAccess.Repository
         [Fact]
         public async void TestFindByDeptId ()
         {
-            var courses = await _courseRepository.FindByDeptID (1);
+            var courses = await _courseRepository.FindByDeptId (1);
 
             Assert.Single (courses);
             Assert.Equal (1, courses.First ().DeptId);
@@ -125,7 +125,7 @@ namespace ClassRegistration.Test.DataAccess.Repository
         [Fact]
         public async void TestFindByDeptIdFail ()
         {
-            var courses = await _courseRepository.FindByDeptID (2);
+            var courses = await _courseRepository.FindByDeptId (2);
             Assert.Empty (courses);
         }
 

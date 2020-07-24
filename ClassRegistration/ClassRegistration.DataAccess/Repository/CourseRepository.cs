@@ -71,7 +71,7 @@ namespace ClassRegistration.DataAccess.Repository
         /// </summary>
         /// <param name="deptId"></param>
         /// <returns></returns>
-        public virtual async Task<IEnumerable<CourseModel>> FindByDeptID (int deptId)
+        public virtual async Task<IEnumerable<CourseModel>> FindByDeptId (int deptId)
         {
             var searchedCourses = await _context.Course.Where (c => c.DeptId == deptId).ToListAsync ();
             return _mapper.Map<IEnumerable<CourseModel>> (searchedCourses);

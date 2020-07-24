@@ -22,7 +22,7 @@ namespace ClassRegistration.DataAccess.Repository
         /// <param name="score"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public virtual async Task<bool> Add (int studentid, int courseid, int score, string text)
+        public virtual async Task Add (int studentid, int courseid, int score, string text)
         {
             var reviewDate = DateTime.Today;
 
@@ -36,8 +36,6 @@ namespace ClassRegistration.DataAccess.Repository
             });
 
             await _context.SaveChangesAsync ();
-
-            return true;
         }
 
 

@@ -50,9 +50,11 @@ namespace ClassRegistration.Test.App.Controllers
         {
             OkObjectResult response = await _sectionController.Get () as OkObjectResult;
 
+            Assert.NotNull (response);
+            Assert.Equal (200, response.StatusCode);
+
             var sections = response.Value as IEnumerable<SectionModel>;
 
-            Assert.Equal (200, response.StatusCode);
             Assert.Single (sections);
             Assert.Equal (1, sections.First ().SectId);
         }
@@ -62,9 +64,11 @@ namespace ClassRegistration.Test.App.Controllers
         {
             OkObjectResult response = await _sectionController.GetCoursesByInstructorID (1) as OkObjectResult;
 
+            Assert.NotNull (response);
+            Assert.Equal (200, response.StatusCode);
+
             var sections = response.Value as IEnumerable<SectionModel>;
 
-            Assert.Equal (200, response.StatusCode);
             Assert.Single (sections);
             Assert.Equal (1, sections.First ().InstructorId);
         }
@@ -73,6 +77,8 @@ namespace ClassRegistration.Test.App.Controllers
         public async void TestGetCourseByInstructorFail ()
         {
             NotFoundResult response = await _sectionController.GetCoursesByInstructorID (2) as NotFoundResult;
+
+            Assert.NotNull (response);
             Assert.Equal (404, response.StatusCode);
         }
     }

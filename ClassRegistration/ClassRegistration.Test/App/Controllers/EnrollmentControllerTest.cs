@@ -1,6 +1,7 @@
 using ClassRegistration.App.Controllers;
 using ClassRegistration.DataAccess.Repository;
 using ClassRegistration.Domain.Model;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,38 @@ namespace ClassRegistration.Test.App.Controllers
                 {
                     EnrollmentId = 1,
                     SectId = 1,
-                    StudentId = 1
+                    StudentId = 1,
+
+                    Section = new SectionModel
+                    {
+                        SectId = 1,
+                        Term = "Test Term 1",
+
+                        Course = new CourseModel
+                        {
+                            CourseId = 1,
+                            Credits = 20
+                        }
+                    }
+                },
+
+                new EnrollmentModel
+                { 
+                    EnrollmentId = 2,
+                    SectId = 2,
+                    StudentId = 2,
+
+                    Section = new SectionModel
+                    {
+                        SectId = 2,
+                        Term = "Test Term 2",
+
+                        Course = new CourseModel
+                        {
+                            CourseId = 2,
+                            Credits = 1
+                        }
+                    }   
                 }
             };
 
@@ -34,7 +66,13 @@ namespace ClassRegistration.Test.App.Controllers
                 new StudentModel
                 {
                     StudentId = 1,
-                    Name = "Test 1"
+                    Name = "Test Student 1"
+                },
+
+                new StudentModel
+                {
+                    StudentId = 2,
+                    Name = "Test Student 2"
                 }
             };
 
@@ -44,6 +82,12 @@ namespace ClassRegistration.Test.App.Controllers
                 {
                     SectId = 1,
                     InstructorId = 1
+                },
+
+                new SectionModel
+                {
+                    SectId = 2,
+                    InstructorId = 1
                 }
             };
 
@@ -52,7 +96,8 @@ namespace ClassRegistration.Test.App.Controllers
                 repo => repo.GetCredits (It.IsAny<int> (), It.IsAny<string> ())
             ).Returns (
                 async (int id, string term) =>
-                    await Task.Run (() => 1) // TODO fix
+                    await Task.Run (() => enrollments.Where (e => e.EnrollmentId == id).Select (e => e.Section)
+                                        .Where (s => s.Term == term).Select (s => s.Course.Credits).FirstOrDefault ()) 
             );
 
             mockEnrollmentRepo.Setup (
@@ -111,39 +156,113 @@ namespace ClassRegistration.Test.App.Controllers
         }
 
         [Fact]
-        public void TestGetTotalCredits ()
+        public async void TestGetTotalCredits ()
         {
+            OkObjectResult response = await _enrollmentController.GetTotalCredits (1, "Test Term 1") as OkObjectResult;
 
+            Assert.NotNull (response);
+            Assert.Equal (200, response.StatusCode);
+
+            dynamic result = response.Value;
+
+            Assert.True (result.requirmentsMet);
         }
 
         [Fact]
-        public void TestGetTotalCreditsFail ()
+        public async void TestGetTotalCreditsTermReqNotMet ()
         {
+            OkObjectResult response = await _enrollmentController.GetTotalCredits (1, "Test Term 2") as OkObjectResult;
 
+            Assert.NotNull (response);
+            Assert.Equal (200, response.StatusCode);
+
+            dynamic result = response.Value;
+
+            Assert.False (result.requirmentsMet);
         }
 
         [Fact]
-        public void TestPost ()
+        public async void TestGetTotalCreditsFailById ()
         {
+            BadRequestResult response = await _enrollmentController.GetTotalCredits (2, "Test Term 2") as BadRequestResult;
 
+            Assert.NotNull (response);
+            Assert.Equal (400, response.StatusCode);
         }
 
         [Fact]
-        public void TestPostFail ()
+        public async void TestGetTotalCreditsFailByTerm ()
         {
+            BadRequestResult response = await _enrollmentController.GetTotalCredits (1, "Not a term") as BadRequestResult;
 
+            Assert.NotNull (response);
+            Assert.Equal (400, response.StatusCode);
         }
 
         [Fact]
-        public void TestDelete ()
+        public async void TestPost ()
         {
+            OkResult response = await _enrollmentController.Post (new EnrollmentModel
+            {
+                StudentId = 2,
+                SectId = 2
+            }) as OkResult;
 
+            Assert.NotNull (response);
+            Assert.Equal (200, response.StatusCode);
         }
 
         [Fact]
-        public void TestDeleteFail ()
+        public async void TestPostFailByStudentId ()
         {
+            BadRequestResult response = await _enrollmentController.Post (new EnrollmentModel
+            {
+                StudentId = 3,
+                SectId = 2
+            }) as BadRequestResult;
 
+            Assert.NotNull (response);
+            Assert.Equal (400, response.StatusCode);
+        }
+
+        [Fact]
+        public async void TestPostFailBySectionId ()
+        {
+            BadRequestResult response = await _enrollmentController.Post (new EnrollmentModel
+            {
+                StudentId = 2,
+                SectId = 3
+            }) as BadRequestResult;
+
+            Assert.NotNull (response);
+            Assert.Equal (400, response.StatusCode);
+        }
+
+        [Fact]
+        public async void TestDelete ()
+        {
+            OkResult response = await _enrollmentController.Delete (1, 1) as OkResult;
+
+            Assert.NotNull (response);
+            Assert.Equal (200, response.StatusCode);
+        }
+
+        [Fact]
+        public async void TestDeleteFailById ()
+        {
+            BadRequestResult response = await _enrollmentController.Delete (2, 1) as BadRequestResult;
+
+            Assert.NotNull (response);
+            Assert.Equal (400, response.StatusCode);
+        }
+
+        [Fact]
+        public async void TestDeleteFailByStudentId ()
+        {
+            BadRequestResult response = await _enrollmentController.Delete (1, 2) as BadRequestResult;
+
+            Assert.NotNull (response);
+            Assert.Equal (400, response.StatusCode);
         }
     }
 }

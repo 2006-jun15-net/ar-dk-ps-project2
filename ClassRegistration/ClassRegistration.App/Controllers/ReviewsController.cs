@@ -1,6 +1,7 @@
 ﻿using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Threading.Tasks;
 
 namespace ClassRegistration.App.Controllers
@@ -22,7 +23,7 @@ namespace ClassRegistration.App.Controllers
         /// <returns></returns>
         // GET: api/reviews
         [HttpGet]
-        public async Task<IActionResult> GetItems ()
+        public async Task<IActionResult> Get ()
         {
             var theReviews = await _reviewsRepository.FindAll ();
             return Ok (theReviews);
@@ -36,10 +37,14 @@ namespace ClassRegistration.App.Controllers
         /// <returns></returns>
         // POST: api/reviews/item
         [HttpPost ("{item}")]
-        public async Task<ActionResult<ReviewsModel>> AddCourseReview ([FromBody] ReviewsModel review)
+        public async Task<IActionResult> Add ([FromBody] ReviewsModel review)
         {
-            await _reviewsRepository.Add (review.StudentId, review.CourseId, review.Score, review.Text);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest ();
+            }
 
+            await _reviewsRepository.Add (review.StudentId, review.CourseId, review.Score, review.Text);
             return Ok ();
         }
     }

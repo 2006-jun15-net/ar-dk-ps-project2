@@ -74,11 +74,13 @@ namespace ClassRegistration.Test.Controllers.App
         [Fact]
         public async void TestGet ()
         {
-
             OkObjectResult response = await _studentController.Get (1) as OkObjectResult;
+
+            Assert.NotNull (response);
+            Assert.Equal (200, response.StatusCode);
+
             var student = response.Value as StudentModel;
 
-            Assert.Equal (200, response.StatusCode);
             Assert.Equal (1, student.StudentId);
             Assert.Equal ("Test 1", student.Name);
         }
@@ -86,9 +88,9 @@ namespace ClassRegistration.Test.Controllers.App
         [Fact]
         public async void TestGetFail ()
         {
-            Debug.WriteLine (await _studentController.Get (3));
             NotFoundResult response = await _studentController.Get (3) as NotFoundResult;
 
+            Assert.NotNull (response);
             Assert.Equal (404, response.StatusCode);
         }
 
@@ -96,9 +98,12 @@ namespace ClassRegistration.Test.Controllers.App
         public async void TestGetCourses ()
         {
             OkObjectResult response = await _studentController.GetCourses (1) as OkObjectResult;
+
+            Assert.NotNull (response);
+            Assert.Equal (200, response.StatusCode);
+
             var courses = response.Value as IEnumerable<CourseModel>;
 
-            Assert.Equal (200, response.StatusCode);
             Assert.Single (courses);
         }
 
@@ -107,6 +112,7 @@ namespace ClassRegistration.Test.Controllers.App
         {
             NotFoundResult response = await _studentController.GetCourses (3) as NotFoundResult;
 
+            Assert.NotNull (response);
             Assert.Equal (404, response.StatusCode);
         }
 
@@ -116,6 +122,7 @@ namespace ClassRegistration.Test.Controllers.App
         {
             NoContentResult response = await _studentController.GetCourses (2) as NoContentResult;
 
+            Assert.NotNull (response);
             Assert.Equal (204, response.StatusCode);
         }
     }
