@@ -68,7 +68,7 @@ namespace ClassRegistration.App.Controllers
 
 
         /// <summary>
-        /// search for courses available ina department
+        /// search for courses available in a department
         /// </summary>
         /// <param name="deptId"></param>
         /// <returns></returns>

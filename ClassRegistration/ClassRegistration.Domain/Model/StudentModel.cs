@@ -33,7 +33,7 @@ namespace ClassRegistration.Domain.Model
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    throw new ArgumentException("Student's first name name cannot be empty or null.", nameof(value));
+                    throw new ArgumentException("Student's first name cannot be empty or null.", nameof(value));
                 }
                 _firstname = value;
             }
@@ -56,7 +56,7 @@ namespace ClassRegistration.Domain.Model
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    throw new ArgumentException("Student's last name name cannot be empty or null.", nameof(value));
+                    throw new ArgumentException("Student's last name cannot be empty or null.", nameof(value));
                 }
                 _lastname = value;
             }
