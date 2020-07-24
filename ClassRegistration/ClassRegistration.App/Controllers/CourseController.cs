@@ -31,7 +31,7 @@ namespace ClassRegistration.App.Controllers
 
             return Ok (theClasses);
         }
-
+         
         /// <summary>
         /// search a course by ID
         /// </summary>
