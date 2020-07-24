@@ -8,13 +8,14 @@ namespace ClassRegistration.Domain.Model
     /// </summary>
     public class CourseModel : BaseBusinessModel
     {
+        private string _courseName;
+        private decimal _fees;
+        private int? _credits;
+
         public CourseModel ()
         {
             Reviews = new HashSet<ReviewsModel>();
         }
-
-        
-        private string _courseName;
 
         /// <summary>
         /// A course has a name
@@ -48,9 +49,6 @@ namespace ClassRegistration.Domain.Model
         /// <summary>
         /// Points the course is worth
         /// </summary>
-        //public int? Credits { get; set; }
-
-        private int? _credits;
         public int? Credits
         {
             get => _credits;
@@ -68,9 +66,6 @@ namespace ClassRegistration.Domain.Model
         /// <summary>
         /// How much the course costs
         /// </summary>
-        //public decimal Fees { get; set; }
-
-        private decimal _fees;
         public decimal Fees
         {
             get => _fees;

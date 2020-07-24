@@ -7,17 +7,17 @@ namespace ClassRegistration.Domain.Model
     /// </summary>
     public class ReviewsModel : BaseBusinessModel
     {
+        private int _score;
+        private string _text;
+
         /// <summary>
         /// A review has an ID number
         /// </summary>
         public int ReviewId { get; set; }
-        //public int Score { get; set; }
-
 
         /// <summary>
         /// A student can leave a review with a score
         /// </summary>
-        private int _score;
         public int Score
         {
             get => _score;
@@ -34,7 +34,6 @@ namespace ClassRegistration.Domain.Model
         /// <summary>
         /// A student can leave some comments along with the review
         /// </summary>
-        private string _text;
         public string Text 
         {
             get => _text;
