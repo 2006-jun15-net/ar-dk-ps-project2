@@ -1,5 +1,9 @@
-﻿using ClassRegistration.DataAccess.Interfaces;
+﻿using ClassRegistration.App.ResponseObjects;
+using ClassRegistration.DataAccess.Interfaces;
+using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -35,13 +39,23 @@ namespace ClassRegistration.App.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCoursesByInstructorID (int instructorId)
         {
+            IEnumerable<SectionModel> theSections;
+
             // get all the sections and associated courses for an instructor
-            var theSections = await _sectionRepository.FindByInstrId (instructorId);
+            try
+            {
+                theSections = await _sectionRepository.FindByInstrId (instructorId);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest (new ValidationError (e));
+            }
 
             if (!theSections.Any ())
             {
                 return NotFound ();
             }
+
             return Ok (theSections);
         }
     }
