@@ -142,7 +142,7 @@ namespace ClassRegistration.Test.Controllers.App
         [Fact]
         public async void TestGetFail ()
         {
-            NotFoundResult response = await _studentController.Get (3) as NotFoundResult;
+            NotFoundObjectResult response = await _studentController.Get (3) as NotFoundObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (404, response.StatusCode);
@@ -164,7 +164,7 @@ namespace ClassRegistration.Test.Controllers.App
         [Fact]
         public async void TestGetCoursesFail ()
         {
-            NotFoundResult response = await _studentController.GetCourses (3) as NotFoundResult;
+            NotFoundObjectResult response = await _studentController.GetCourses (3) as NotFoundObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (404, response.StatusCode);
@@ -196,16 +196,16 @@ namespace ClassRegistration.Test.Controllers.App
         [Fact]
         public async void TestGetTotalAmountFailById ()
         { 
-            BadRequestResult response = await _studentController.GetTotalAmount (5, "fall") as BadRequestResult;
+            NotFoundObjectResult response = await _studentController.GetTotalAmount (5, "fall") as NotFoundObjectResult;
 
             Assert.NotNull (response);
-            Assert.Equal (400, response.StatusCode);
+            Assert.Equal (404, response.StatusCode);
         }
 
         [Fact]
         public async void TestGetTotalAmountFailByTerm ()
         {
-            BadRequestResult response = await _studentController.GetTotalAmount (1, "Not a term") as BadRequestResult;
+            BadRequestObjectResult response = await _studentController.GetTotalAmount (1, "Not a term") as BadRequestObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (400, response.StatusCode);
@@ -227,10 +227,10 @@ namespace ClassRegistration.Test.Controllers.App
         [Fact]
         public async void TestGetDiscountFail ()
         {
-            BadRequestResult response = await _studentController.GetDiscount (5) as BadRequestResult;
+            NotFoundObjectResult response = await _studentController.GetDiscount (5) as NotFoundObjectResult;
 
             Assert.NotNull (response);
-            Assert.Equal (400, response.StatusCode);
+            Assert.Equal (404, response.StatusCode);
         }
     }
 }

@@ -1,7 +1,10 @@
+using ClassRegistration.App.ResponseObjects;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain;
+using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -36,11 +39,20 @@ namespace ClassRegistration.App.Controllers
         [HttpGet ("{id}")]
         public async Task<IActionResult> Get (int id)
         {
-            var student = await _studentRepository.FindById (id);
+            StudentModel student;
+
+            try
+            {
+                student = await _studentRepository.FindById (id);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest (new ValidationError (e));
+            }
 
             if (student == default)
             {
-                return NotFound ();
+                return NotFound (new ErrorObject ($"Student id {id} does not exist"));
             }
 
             return Ok (student);
@@ -55,14 +67,32 @@ namespace ClassRegistration.App.Controllers
         [HttpGet ("{id}/courses")]
         public async Task<IActionResult> GetCourses (int id)
         {
-            var student = await _studentRepository.FindById (id);
+            StudentModel student;
+
+            try 
+            {
+                student = await _studentRepository.FindById (id);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest (new ValidationError (e));
+            }
 
             if (student == default)
             {
-                return NotFound ();
+                return NotFound (new ErrorObject ($"Student id {id} does not exist"));
             }
 
-            var courses = await _courseRepository.FindByStudent (id);
+            IEnumerable<CourseModel> courses;
+
+            try 
+            {
+                courses = await _courseRepository.FindByStudent (id);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(new ValidationError (e));
+            }
 
             if (!courses.Any ())
             {
@@ -82,11 +112,27 @@ namespace ClassRegistration.App.Controllers
         [HttpGet ("{id}/{term}")]
         public async Task<IActionResult> GetTotalAmount (int id, string term)
         {
+            StudentModel student;
+
+            try 
+            {
+                student = await _studentRepository.FindById (id);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest (new ValidationError (e));
+            }
+
+            if (student == default)
+            {
+                return NotFound (new ErrorObject ($"Student id {id} does not exist"));
+            }
+
             decimal? totalAmount = await _enrollmentRepository.GetTotalAmount (id, term); //getting the amount owed by a student in a particular semester.
 
             if (totalAmount == null)
             {
-                return BadRequest ();
+                return BadRequest (new ErrorObject ($"Unable to find total amount for student id {id} and term {term}"));
             }
 
             return Ok (Convert.ToDecimal (totalAmount));
@@ -103,11 +149,20 @@ namespace ClassRegistration.App.Controllers
         [HttpGet ("{id}/discount")]
         public async Task<IActionResult> GetDiscount (int id)
         {
-            var student = await _studentRepository.FindById (id);
+            StudentModel student;
+
+            try
+            {
+                student = await _studentRepository.FindById (id);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest (new ValidationError (e));
+            }
 
             if (student == default)
             {
-                return BadRequest ();
+                return NotFound (new ErrorObject ("Student id {id} does not exist"));
             }
 
             var discount = await _studentTypeRepository.FindDiscount (student.ResidentId);

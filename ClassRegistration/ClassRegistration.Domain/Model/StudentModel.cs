@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace ClassRegistration.Domain.Model
@@ -9,7 +10,7 @@ namespace ClassRegistration.Domain.Model
     /// </summary>
     public class StudentModel : BaseBusinessModel
     {
-        private readonly string[] AllowedResIds = new string[]{"in-state", "out-of-state"};
+        private readonly string[] AllowedResIds = new string[] { "in-state", "out-of-state" };
 
         private string _lastname;
         private string _firstname;
@@ -36,7 +37,7 @@ namespace ClassRegistration.Domain.Model
             {
                 if (!AllowedResIds.Contains (value.ToLower ()))
                 {
-                    throw new ArgumentException("Invalid resident Id.", nameof(value));
+                    throw new ArgumentException ("Invalid resident Id.", nameof (value));
                 }
 
                 _residentId = value;
@@ -46,14 +47,15 @@ namespace ClassRegistration.Domain.Model
         /// <summary>
         /// A student's first name
         /// </summary>
+        [RegularExpression (@"^[A-Z][a-z]+")]
         public string FirstName
         {
             get => _firstname;
             set
             {
-                if (string.IsNullOrEmpty(value))
+                if (string.IsNullOrEmpty (value))
                 {
-                    throw new ArgumentException("Student's first name cannot be empty or null.", nameof(value));
+                    throw new ArgumentException ("Student's first name cannot be empty or null.", nameof (value));
                 }
                 _firstname = value;
             }
@@ -62,14 +64,15 @@ namespace ClassRegistration.Domain.Model
         /// <summary>
         /// A student's last name
         /// </summary>
+        [RegularExpression (@"^[A-Z][a-z]+")]
         public string LastName
         {
             get => _lastname;
             set
             {
-                if (string.IsNullOrEmpty(value))
+                if (string.IsNullOrEmpty (value))
                 {
-                    throw new ArgumentException("Student's last name cannot be empty or null.", nameof(value));
+                    throw new ArgumentException ("Student's last name cannot be empty or null.", nameof (value));
                 }
                 _lastname = value;
             }
