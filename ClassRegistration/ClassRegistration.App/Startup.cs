@@ -9,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
-using Okta.AspNetCore;
 
 namespace ClassRegistration.App
 {
@@ -30,13 +29,15 @@ namespace ClassRegistration.App
 
             services.AddDbContext<Course_registration_dbContext> (options =>
                  options.UseSqlServer (Configuration.GetConnectionString ("SqlServer")));
-          
+
             services.AddScoped<IEnrollmentRepository, EnrollmentRepository> ();
             services.AddScoped<ICourseRepository, CourseRepository> ();
             services.AddScoped<IStudentRepository, StudentRepository> ();
             services.AddScoped<ISectionRepository, SectionRepository> ();
-            services.AddScoped<IReviewsRepository, ReviewsRepository>();
+            services.AddScoped<IReviewsRepository, ReviewsRepository> ();
+            services.AddScoped<IStudentTypeRepository, StudentTypeRepository> ();
 
+            services.AddSwaggerGen ();
             /*
             services.AddAuthentication(options =>
             {
@@ -58,6 +59,17 @@ namespace ClassRegistration.App
             {
                 app.UseDeveloperExceptionPage ();
             }
+            
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger ();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI (c =>
+             {
+                 c.SwaggerEndpoint ("/swagger/v1/swagger.json", "My API V1");
+                 c.RoutePrefix = string.Empty;
+             });
 
             app.UseRouting ();
 
