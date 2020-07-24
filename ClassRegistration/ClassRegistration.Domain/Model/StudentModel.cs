@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ClassRegistration.Domain.Model
 {
@@ -8,6 +9,12 @@ namespace ClassRegistration.Domain.Model
     /// </summary>
     public class StudentModel : BaseBusinessModel
     {
+        private readonly string[] AllowedResIds = new string[]{"in-state", "out-of-state"};
+
+        private string _lastname;
+        private string _firstname;
+        private string _residentId;
+
         public StudentModel ()
         {
             Enrollment = new HashSet<EnrollmentModel> ();
@@ -19,13 +26,26 @@ namespace ClassRegistration.Domain.Model
         /// </summary>
         public int StudentId { get; set; }
 
-        //public string FirstName { get; set; }
+        /// <summary>
+        /// A student's residency type
+        /// </summary>
+        public string ResidentId
+        {
+            get => _residentId;
+            set
+            {
+                if (!AllowedResIds.Contains (value.ToLower ()))
+                {
+                    throw new ArgumentException("Invalid resident Id.", nameof(value));
+                }
 
+                _residentId = value;
+            }
+        }
 
         /// <summary>
         /// A student's first name
         /// </summary>
-        private string _firstname;
         public string FirstName
         {
             get => _firstname;
@@ -37,18 +57,11 @@ namespace ClassRegistration.Domain.Model
                 }
                 _firstname = value;
             }
-
         }
-
-
-
-        //public string LastName { get; set; }
-
 
         /// <summary>
         /// A student's last name
         /// </summary>
-        private string _lastname;
         public string LastName
         {
             get => _lastname;
@@ -60,9 +73,7 @@ namespace ClassRegistration.Domain.Model
                 }
                 _lastname = value;
             }
-
         }
-
 
         /// <summary>
         /// Department the student has courses in

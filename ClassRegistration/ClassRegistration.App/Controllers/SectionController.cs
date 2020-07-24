@@ -15,19 +15,16 @@ namespace ClassRegistration.App.Controllers
             _sectionRepository = sectionRepository;
         }
 
-
-
         /// <summary>
         /// get all the sections available 
         /// <returns></returns>
         // GET: api/section/all
-        [HttpGet("{all}")]
+        [HttpGet ("{all}")]
         public async Task<IActionResult> Get ()
         {
             var theClasses = await _sectionRepository.FindAll ();
             return Ok (theClasses);
         }
-
 
         /// <summary>
         /// Returns an instructor's sections, courses, and the courses' associated reviews 

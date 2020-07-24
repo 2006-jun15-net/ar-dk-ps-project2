@@ -23,8 +23,6 @@ namespace ClassRegistration.DataAccess.Interfaces
         /// <returns></returns>
         Task<decimal?> GetTotalAmount (int id, string term);
 
-        Task<decimal?> FinalAmountDiscounted (int id, string term, string resident_id);
-
         /// <summary>
         /// Remove a course from list of registered courses
         /// </summary>

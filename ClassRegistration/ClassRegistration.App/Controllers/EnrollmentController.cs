@@ -2,7 +2,6 @@ using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace ClassRegistration.App.Controllers

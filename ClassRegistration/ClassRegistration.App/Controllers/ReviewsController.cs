@@ -1,7 +1,6 @@
 ﻿using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Threading.Tasks;
 
 namespace ClassRegistration.App.Controllers
@@ -16,7 +15,6 @@ namespace ClassRegistration.App.Controllers
             _reviewsRepository = reviewsRepository;
         }
 
-
         /// <summary>
         /// Returns all available reviews
         /// </summary>
@@ -28,7 +26,6 @@ namespace ClassRegistration.App.Controllers
             var theReviews = await _reviewsRepository.FindAll ();
             return Ok (theReviews);
         }
-
 
         /// <summary>
         /// Add a review for a course
