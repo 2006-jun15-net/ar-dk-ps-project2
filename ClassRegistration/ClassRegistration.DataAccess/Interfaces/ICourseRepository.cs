@@ -39,7 +39,7 @@ namespace ClassRegistration.DataAccess.Interfaces
         /// </summary>
         /// <param name="deptId"></param>
         /// <returns></returns>
-        Task<IEnumerable<CourseModel>> FindByDeptID (int deptId);
+        Task<IEnumerable<CourseModel>> FindByDeptId (int deptId);
 
         /// <summary>
         /// Search courses by Department Name

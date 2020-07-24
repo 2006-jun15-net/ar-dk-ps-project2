@@ -1,7 +1,6 @@
 ﻿using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using Xunit;
 
 namespace ClassRegistration.Test.DataAccess.Repository
@@ -24,7 +23,10 @@ namespace ClassRegistration.Test.DataAccess.Repository
             context.Add (new Student
             {
                 StudentId = 1,
-                Enrollment = new List<Enrollment> ()
+                ResidentId = "in-state",
+
+                FirstName = "Test",
+                LastName = "Student"
             });
 
             context.SaveChanges ();

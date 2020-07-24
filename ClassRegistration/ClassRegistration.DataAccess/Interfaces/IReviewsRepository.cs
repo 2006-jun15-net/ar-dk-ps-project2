@@ -6,7 +6,20 @@ namespace ClassRegistration.DataAccess.Interfaces
 {
     public interface IReviewsRepository
     {
-        Task<bool> Add (int studentid, int courseid, int score, string text);
+        /// <summary>
+        /// A student can add a review for a course
+        /// </summary>
+        /// <param name="studentid"></param>
+        /// <param name="courseid"></param>
+        /// <param name="score"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        Task Add (int studentid, int courseid, int score, string text);
+
+        /// <summary>
+        /// Get all the reviews available
+        /// </summary>
+        /// <returns></returns>
         Task<IEnumerable<ReviewsModel>> FindAll ();
     }
 }

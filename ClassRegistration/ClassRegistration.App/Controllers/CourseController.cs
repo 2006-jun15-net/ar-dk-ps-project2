@@ -1,8 +1,10 @@
-﻿
+using ClassRegistration.App.ResponseObjects;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.DataAccess.Pagination;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,6 +30,8 @@ namespace ClassRegistration.App.Controllers
         public async Task<IActionResult> Get ([FromQuery] CoursePagination coursePagination)
         {
             var theClasses = await _courseRepository.FindAll (coursePagination);
+            var theClasses = await _courseRepository.FindAll ();
+
             return Ok (theClasses);
         }
 
@@ -38,43 +42,80 @@ namespace ClassRegistration.App.Controllers
         /// <returns></returns>
         // GET api/course/class/100
         [HttpGet ("class/{id}")]
-        public async Task<ActionResult<CourseModel>> Get (int id)
+        public async Task<IActionResult> Get (int id)
         {
-            var theCourse = await _courseRepository.FindById (id);
+            CourseModel theCourse;
+
+            try
+            {
+                theCourse = await _courseRepository.FindById (id);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest (new ValidationError (e));
+            }
 
             if (theCourse is CourseModel theClass)
             {
                 return Ok (theClass);
             }
-            return NotFound ();
+
+            return NotFound (new ErrorObject ($"Course id {id} does not exist"));
         }
 
-        //get a course by its name
+        /// <summary>
+        /// search a course by its name
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
         // GET api/course/Robotics
         [HttpGet ("course/{search}")]
-        public async Task<ActionResult<CourseModel>> GetByCourseName (string search)
+        public async Task<IActionResult> GetByName (string search)
         {
-            var theCourse = await _courseRepository.FindByName (search);
+            CourseModel theCourse;
+
+            try
+            {
+                theCourse = await _courseRepository.FindByName (search);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest (new ValidationError (e));
+            }
 
             if (theCourse is CourseModel theClass)
             {
                 return Ok (theClass);
             }
-            return NotFound ();
+
+            return NotFound (new ErrorObject ($"Course '{search}' does not exist"));
         }
 
-
-        //search for courses available by Department ID
+        /// <summary>
+        /// search for courses available in a department
+        /// </summary>
+        /// <param name="deptId"></param>
+        /// <returns></returns>
         // GET api/courses/1500
         [HttpGet ("courses/{deptId}")]
-        public async Task<ActionResult<CourseModel>> GetByDepartmentID (int deptId)
+        public async Task<IActionResult> GetByDepartmentId (int deptId)
         {
-            var theCourses = await _courseRepository.FindByDeptID (deptId);
+            IEnumerable<CourseModel> theCourses;
+
+            try
+            {
+                theCourses = await _courseRepository.FindByDeptId (deptId);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest (new ValidationError (e));
+            }
 
             if (!theCourses.Any ())
             {
-                return NotFound ();
+                return NotFound (new ErrorObject ($"Department id {deptId} does not exist"));
             }
+
             return Ok (theCourses);
         }
     }

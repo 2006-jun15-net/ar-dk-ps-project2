@@ -21,7 +21,7 @@ namespace ClassRegistration.DataAccess.Repository
         // get all the sections : just to verify in postman
         public virtual async Task<IEnumerable<SectionModel>> FindAll()
         {
-            var sections = await _context.Section.ToListAsync();
+            List<Section> sections = await _context.Section.ToListAsync();
             return _mapper.Map<IEnumerable<SectionModel>>(sections);
         }
 

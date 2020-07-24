@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace ClassRegistration.DataAccess.Entity
 {
+    /// <summary>
+    /// Data Access Semester
+    /// </summary>
     public partial class Semester : DataModel
     {
         public Semester ()

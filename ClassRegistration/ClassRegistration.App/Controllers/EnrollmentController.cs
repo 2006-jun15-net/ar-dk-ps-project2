@@ -1,7 +1,9 @@
+using ClassRegistration.App.ResponseObjects;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace ClassRegistration.App.Controllers
@@ -28,22 +30,37 @@ namespace ClassRegistration.App.Controllers
             _sectionRepository = sectionRepository;
         }
 
+        /// <summary>
+        /// Remove course from registered courses
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="studentId"></param>
+        /// <returns></returns>
         // DELETE api/<EnrollmentController>/id
         [HttpDelete ("{id}")]
         public async Task<IActionResult> Delete (int id, [FromBody] int studentId)
         {
-            var student = _studentRepository.FindById (studentId);
+            StudentModel student;
+
+            try
+            {
+                student = await _studentRepository.FindById (studentId);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest (new ValidationError (e));
+            }
 
             if (student == default)
             {
-                return BadRequest ();
+                return BadRequest (new ErrorObject ($"Student id {studentId} does not exist"));
             }
 
-            bool deleted = await _enrollmentRepository.Delete (student.Id, id);
+            bool deleted = await _enrollmentRepository.Delete (student.StudentId, id);
 
             if (!deleted)
             {
-                return NotFound ();
+                return NotFound (new ErrorObject ($"Student enrollment id {id} does not exist"));
             }
 
             return Ok ();
@@ -55,7 +72,6 @@ namespace ClassRegistration.App.Controllers
         /// <param name="id"></param>
         /// <param name="term"></param>
         /// <returns></returns>
-
         // GET api/<EnrollmentController>/id/term
         [HttpGet ("{id}/{term}")]
         public async Task<IActionResult> GetTotalCredits (int id, string term)
@@ -64,36 +80,54 @@ namespace ClassRegistration.App.Controllers
 
             if (totalCredits == null)
             {
-                return BadRequest ();
+                return BadRequest (new ErrorObject ($"Couldn't find total credits for student id {id} and term {term}"));
             }
 
             var minimumCredits = EnrollmentModel.MinimumCredits (term);
 
             if (minimumCredits == -1)
             {
-                return BadRequest ();
+                return BadRequest (new ErrorObject ($"Invalid term {term}"));
             }
 
-            return Ok (new { requirementsMet = totalCredits >= minimumCredits });
+            return Ok (totalCredits >= minimumCredits);
         }
 
+        /// <summary>
+        /// Register for a course
+        /// </summary>
+        /// <param name="enrollmentModel"></param>
+        /// <returns></returns>
         // POST api/<EnrollmentController>
         [HttpPost]
         public async Task<IActionResult> Post ([FromBody] EnrollmentModel enrollmentModel)
         {
-            if (_sectionRepository.FindById (enrollmentModel.SectId) == default)
+            SectionModel section;
+            StudentModel student;
+
+            try
             {
-                return BadRequest ();
+                section = await _sectionRepository.FindById (enrollmentModel.SectId);
+                student = await _studentRepository.FindById (enrollmentModel.StudentId);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest (new ValidationError (e));
             }
 
-            if (_studentRepository.FindById (enrollmentModel.StudentId) == default)
+            if (student == default)
             {
-                return BadRequest ();
+                return BadRequest (new ErrorObject ($"Student id {enrollmentModel.StudentId} does not exist"));
+            }
+
+            if (section == default)
+            {
+                return BadRequest (new ErrorObject ($"Section id {enrollmentModel.SectId} does not exist"));
             }
 
             await _enrollmentRepository.Add (enrollmentModel.StudentId, enrollmentModel.SectId);
 
-            return Ok ();
+            return Ok (MessageObject.Success);
         }
     }
 }

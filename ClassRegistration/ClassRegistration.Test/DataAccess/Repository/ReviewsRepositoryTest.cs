@@ -23,7 +23,8 @@ namespace ClassRegistration.Test.DataAccess.Repository
 
             context.Add (new Reviews
             {
-                ReviewId = 1
+                ReviewId = 1,
+                Text = "Test Review"
             });
 
             context.SaveChanges ();
@@ -44,8 +45,7 @@ namespace ClassRegistration.Test.DataAccess.Repository
         [Fact]
         public async void TestAdd ()
         {
-            var reviewAdded = await _reviewsRepository.Add (1, 1, 100, "Test");
-            Assert.True (reviewAdded);
+            await _reviewsRepository.Add (1, 1, 100, "Test");
         }
     }
 }

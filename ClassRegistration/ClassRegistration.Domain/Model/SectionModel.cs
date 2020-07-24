@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace ClassRegistration.Domain.Model
 {
+    /// <summary>
+    /// Business Logic Section
+    /// </summary>
     public class SectionModel : BaseBusinessModel
     {
         public SectionModel()
