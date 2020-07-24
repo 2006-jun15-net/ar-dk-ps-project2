@@ -1,5 +1,6 @@
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace ClassRegistration.App.Controllers
 {
     [Route ("api/[controller]")]
     [ApiController]
+    
     public class StudentController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;

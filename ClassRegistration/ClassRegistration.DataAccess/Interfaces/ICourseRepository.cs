@@ -1,3 +1,4 @@
+using ClassRegistration.DataAccess.Pagination;
 using ClassRegistration.Domain.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,10 +15,10 @@ namespace ClassRegistration.DataAccess.Interfaces
         Task<IEnumerable<CourseModel>> FindByStudent (int studentId);
 
         /// <summary>
-        /// get all the courses available
+        /// gets some courses using pagination.
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<CourseModel>> FindAll ();
+        Task<IEnumerable<CourseModel>> FindAll (CoursePagination coursePagination);
 
         /// <summary>
         /// Search a course by course ID

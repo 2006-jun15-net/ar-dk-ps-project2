@@ -1,6 +1,6 @@
 ﻿
 using ClassRegistration.DataAccess.Interfaces;
-using ClassRegistration.DataAccess.ModelFilters;
+using ClassRegistration.DataAccess.Pagination;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
