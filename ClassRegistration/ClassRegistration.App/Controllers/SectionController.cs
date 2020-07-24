@@ -1,9 +1,5 @@
-﻿using ClassRegistration.App.ResponseObjects;
-using ClassRegistration.DataAccess.Interfaces;
-using ClassRegistration.Domain.Model;
+﻿using ClassRegistration.DataAccess.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
