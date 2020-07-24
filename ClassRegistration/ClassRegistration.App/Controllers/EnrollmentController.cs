@@ -1,7 +1,9 @@
+using ClassRegistration.App.ResponseObjects;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace ClassRegistration.App.Controllers
@@ -28,8 +30,6 @@ namespace ClassRegistration.App.Controllers
             _sectionRepository = sectionRepository;
         }
 
-
-
         /// <summary>
         /// Remove course from registered courses
         /// </summary>
@@ -40,18 +40,27 @@ namespace ClassRegistration.App.Controllers
         [HttpDelete ("{id}")]
         public async Task<IActionResult> Delete (int id, [FromBody] int studentId)
         {
-            var student = await _studentRepository.FindById (studentId);
+            StudentModel student;
+
+            try
+            {
+                student = await _studentRepository.FindById (studentId);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest (new ValidationError (e));
+            }
 
             if (student == default)
             {
-                return BadRequest ();
+                return BadRequest (new ErrorObject ($"Student id {studentId} does not exist"));
             }
 
             bool deleted = await _enrollmentRepository.Delete (student.StudentId, id);
 
             if (!deleted)
             {
-                return NotFound ();
+                return NotFound (new ErrorObject ($"Student enrollment id {id} does not exist"));
             }
 
             return Ok ();
@@ -71,14 +80,14 @@ namespace ClassRegistration.App.Controllers
 
             if (totalCredits == null)
             {
-                return BadRequest ();
+                return BadRequest (new ErrorObject ($"Couldn't find total credits for student id {id} and term {term}"));
             }
 
             var minimumCredits = EnrollmentModel.MinimumCredits (term);
 
             if (minimumCredits == -1)
             {
-                return BadRequest ();
+                return BadRequest (new ErrorObject ($"Invalid term {term}"));
             }
 
             return Ok (totalCredits >= minimumCredits);
@@ -93,19 +102,32 @@ namespace ClassRegistration.App.Controllers
         [HttpPost]
         public async Task<IActionResult> Post ([FromBody] EnrollmentModel enrollmentModel)
         {
-            if (await _sectionRepository.FindById (enrollmentModel.SectId) == default)
+            SectionModel section;
+            StudentModel student;
+
+            try
             {
-                return BadRequest ();
+                section = await _sectionRepository.FindById (enrollmentModel.SectId);
+                student = await _studentRepository.FindById (enrollmentModel.StudentId);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest (new ValidationError (e));
             }
 
-            if (await _studentRepository.FindById (enrollmentModel.StudentId) == default)
+            if (student == default)
             {
-                return BadRequest ();
+                return BadRequest (new ErrorObject ($"Student id {enrollmentModel.StudentId} does not exist"));
+            }
+
+            if (section == default)
+            {
+                return BadRequest (new ErrorObject ($"Section id {enrollmentModel.SectId} does not exist"));
             }
 
             await _enrollmentRepository.Add (enrollmentModel.StudentId, enrollmentModel.SectId);
 
-            return Ok ();
+            return Ok (MessageObject.Success);
         }
     }
 }

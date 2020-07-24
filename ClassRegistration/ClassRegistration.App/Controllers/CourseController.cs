@@ -1,4 +1,5 @@
-﻿using ClassRegistration.DataAccess.Interfaces;
+﻿using ClassRegistration.App.ResponseObjects;
+using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -65,7 +66,7 @@ namespace ClassRegistration.App.Controllers
                 return Ok (theClass);
             }
 
-            return NotFound (new { errorMsg = $"Course id {id} does not exist" });
+            return NotFound (new ErrorObject ($"Course id {id} does not exist"));
         }
 
         /// <summary>
@@ -93,7 +94,7 @@ namespace ClassRegistration.App.Controllers
                 return Ok (theClass);
             }
 
-            return NotFound (new { errorMsg = $"Course '{search}' does not exist" });
+            return NotFound (new ErrorObject ($"Course '{search}' does not exist"));
         }
 
         /// <summary>
@@ -118,7 +119,7 @@ namespace ClassRegistration.App.Controllers
 
             if (!theCourses.Any ())
             {
-                return NotFound ();
+                return NotFound (new ErrorObject ($"Department id {deptId} does not exist"));
             }
 
             return Ok (theCourses);
