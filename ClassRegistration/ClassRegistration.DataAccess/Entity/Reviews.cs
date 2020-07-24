@@ -2,6 +2,9 @@
 
 namespace ClassRegistration.DataAccess.Entity
 {
+    /// <summary>
+    /// Data Access Reviews
+    /// </summary>
     public partial class Reviews : DataModel
     {
         public int ReviewId { get; set; }

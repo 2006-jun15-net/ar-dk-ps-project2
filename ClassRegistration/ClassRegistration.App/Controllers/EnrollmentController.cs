@@ -28,6 +28,14 @@ namespace ClassRegistration.App.Controllers
             _sectionRepository = sectionRepository;
         }
 
+
+
+        /// <summary>
+        /// Remove course from registered courses
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="studentId"></param>
+        /// <returns></returns>
         // DELETE api/<EnrollmentController>/id
         [HttpDelete ("{id}")]
         public async Task<IActionResult> Delete (int id, [FromBody] int studentId)
@@ -77,6 +85,12 @@ namespace ClassRegistration.App.Controllers
             return Ok (new { requirementsMet = totalCredits >= minimumCredits });
         }
 
+
+        /// <summary>
+        /// Register for a course
+        /// </summary>
+        /// <param name="enrollmentModel"></param>
+        /// <returns></returns>
         // POST api/<EnrollmentController>
         [HttpPost]
         public async Task<IActionResult> Post ([FromBody] EnrollmentModel enrollmentModel)

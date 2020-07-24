@@ -2,6 +2,9 @@
 
 namespace ClassRegistration.DataAccess.Entity
 {
+    /// <summary>
+    /// Data Access Department
+    /// </summary>
     public partial class Department : DataModel
     {
         public Department ()

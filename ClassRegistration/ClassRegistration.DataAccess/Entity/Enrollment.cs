@@ -1,5 +1,8 @@
 ﻿namespace ClassRegistration.DataAccess.Entity
 {
+    /// <summary>
+    /// Data Access Enrollment
+    /// </summary>
     public partial class Enrollment : DataModel
     {
         public int EnrollmentId { get; set; }

@@ -46,7 +46,12 @@ namespace ClassRegistration.App.Controllers
             return NotFound ();
         }
 
-        //get a course by its name
+
+        /// <summary>
+        /// search a course by its name
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
         // GET api/course/Robotics
         [HttpGet ("course/{search}")]
         public async Task<ActionResult<CourseModel>> GetByCourseName (string search)
@@ -61,7 +66,12 @@ namespace ClassRegistration.App.Controllers
         }
 
 
-        //search for courses available by Department ID
+
+        /// <summary>
+        /// search for courses available in a department
+        /// </summary>
+        /// <param name="deptId"></param>
+        /// <returns></returns>
         // GET api/courses/1500
         [HttpGet ("courses/{deptId}")]
         public async Task<ActionResult<CourseModel>> GetByDepartmentID (int deptId)

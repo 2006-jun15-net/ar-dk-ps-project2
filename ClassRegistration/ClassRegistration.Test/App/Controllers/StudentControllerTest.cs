@@ -52,7 +52,7 @@ namespace ClassRegistration.Test.Controllers.App
                 async (int studentId) =>
                     await Task.Run (() => courseModels.Where (c => c.StudentId == studentId))
             );
-          
+
             // Student repo setup
             mockStudentRepo.Setup (
                 repo => repo.FindById (It.IsAny<int> ())
@@ -101,7 +101,7 @@ namespace ClassRegistration.Test.Controllers.App
             Assert.Equal (200, response.StatusCode);
             Assert.Single (courses);
         }
-      
+
         [Fact]
         public async void TestGetCoursesFail ()
         {
