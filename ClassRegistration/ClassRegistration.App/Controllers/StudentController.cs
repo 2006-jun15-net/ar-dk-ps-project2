@@ -1,6 +1,10 @@
+using ClassRegistration.App.ResponseObjects;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain;
+using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,15 +17,18 @@ namespace ClassRegistration.App.Controllers
         private readonly ICourseRepository _courseRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly IEnrollmentRepository _enrollmentRepository;
+        private readonly IStudentTypeRepository _studentTypeRepository;
 
         public StudentController (ICourseRepository courseRepository,
-                                    IStudentRepository studentRepository, IEnrollmentRepository enrollmentRepository)
+                                    IStudentRepository studentRepository, 
+                                    IEnrollmentRepository enrollmentRepository,
+                                    IStudentTypeRepository studentTypeRepository)
         {
             _courseRepository = courseRepository;
             _studentRepository = studentRepository;
             _enrollmentRepository = enrollmentRepository;
+            _studentTypeRepository = studentTypeRepository;
         }
-
 
         /// <summary>
         /// Search for a student by ID
@@ -32,16 +39,24 @@ namespace ClassRegistration.App.Controllers
         [HttpGet ("{id}")]
         public async Task<IActionResult> Get (int id)
         {
-            var student = await _studentRepository.FindById (id);
+            StudentModel student;
+
+            try
+            {
+                student = await _studentRepository.FindById (id);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest (new ValidationError (e));
+            }
 
             if (student == default)
             {
-                return NotFound ();
+                return NotFound (new ErrorObject ($"Student id {id} does not exist"));
             }
 
             return Ok (student);
         }
-
 
         /// <summary>
         /// Returns a student's courses
@@ -52,14 +67,32 @@ namespace ClassRegistration.App.Controllers
         [HttpGet ("{id}/courses")]
         public async Task<IActionResult> GetCourses (int id)
         {
-            var student = await _studentRepository.FindById (id);
+            StudentModel student;
+
+            try 
+            {
+                student = await _studentRepository.FindById (id);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest (new ValidationError (e));
+            }
 
             if (student == default)
             {
-                return NotFound ();
+                return NotFound (new ErrorObject ($"Student id {id} does not exist"));
             }
 
-            var courses = await _courseRepository.FindByStudent (id);
+            IEnumerable<CourseModel> courses;
+
+            try 
+            {
+                courses = await _courseRepository.FindByStudent (id);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(new ValidationError (e));
+            }
 
             if (!courses.Any ())
             {
@@ -70,46 +103,71 @@ namespace ClassRegistration.App.Controllers
         }
 
         /// <summary>
-        /// This method gets the total amount of registred courses.
+        /// This method gets the total amount a student owes for their registered courses
         /// </summary>
         /// <param name="id"></param>
         /// <param name="term"></param>
         /// <returns></returns>
-
         // GET api/<StudentController>/1/Fall
         [HttpGet ("{id}/{term}")]
         public async Task<IActionResult> GetTotalAmount (int id, string term)
         {
+            StudentModel student;
+
+            try 
+            {
+                student = await _studentRepository.FindById (id);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest (new ValidationError (e));
+            }
+
+            if (student == default)
+            {
+                return NotFound (new ErrorObject ($"Student id {id} does not exist"));
+            }
+
             decimal? totalAmount = await _enrollmentRepository.GetTotalAmount (id, term); //getting the amount owed by a student in a particular semester.
 
             if (totalAmount == null)
             {
-                return BadRequest ();
+                return BadRequest (new ErrorObject ($"Unable to find total amount for student id {id} and term {term}"));
             }
 
-            return Ok (totalAmount);
+            return Ok (Convert.ToDecimal (totalAmount));
         }
 
         /// <summary>
-        /// Gets the total amount of fees a student needs to pay in a semester after a discount is applied
+        /// Gets the student's discount based on whether or not they are a resident
         /// </summary>
         /// <param name="id"></param>
         /// <param name="term"></param>
-        /// <param name="resident_id"></param>
+        /// <param name="residentId"></param>
         /// <returns></returns>
-
-        //GET api/<StudentController>/1//Fall/In-state
-        [HttpGet("{id}/{term}/{resident_id}")]
-        public async Task<IActionResult> GetFinalAmount(int id, string term, string resident_id)
+        //GET api/<StudentController>/1/discount
+        [HttpGet ("{id}/discount")]
+        public async Task<IActionResult> GetDiscount (int id)
         {
-            decimal? finalAmount = await _enrollmentRepository.FinalAmountDiscounted(id, term, resident_id);
+            StudentModel student;
 
-            if(finalAmount == null)
+            try
             {
-                return BadRequest();
+                student = await _studentRepository.FindById (id);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest (new ValidationError (e));
             }
 
-            return Ok(finalAmount);
+            if (student == default)
+            {
+                return NotFound (new ErrorObject ("Student id {id} does not exist"));
+            }
+
+            var discount = await _studentTypeRepository.FindDiscount (student.ResidentId);
+
+            return Ok (discount);
         }
     }
 }

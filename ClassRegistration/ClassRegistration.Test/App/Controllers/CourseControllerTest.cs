@@ -90,7 +90,7 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestGetByIdFail ()
         {
-            NotFoundResult response = await _courseController.Get (2) as NotFoundResult;
+            NotFoundObjectResult response = await _courseController.Get (2) as NotFoundObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (404, response.StatusCode);
@@ -112,7 +112,7 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestGetByNameFail ()
         {
-            NotFoundResult response = await _courseController.GetByName ("Not a course") as NotFoundResult;
+            NotFoundObjectResult response = await _courseController.GetByName ("Not a course") as NotFoundObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (404, response.StatusCode);
@@ -135,7 +135,7 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestGetByDepartmentIdFail ()
         {
-            NotFoundResult response = await _courseController.GetByDepartmentId (2) as NotFoundResult;
+            NotFoundObjectResult response = await _courseController.GetByDepartmentId (2) as NotFoundObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (404, response.StatusCode);

@@ -1,7 +1,9 @@
-﻿using ClassRegistration.DataAccess.Interfaces;
+﻿using ClassRegistration.App.ResponseObjects;
+using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ClassRegistration.App.Controllers
@@ -16,7 +18,6 @@ namespace ClassRegistration.App.Controllers
             _reviewsRepository = reviewsRepository;
         }
 
-
         /// <summary>
         /// Returns all available reviews
         /// </summary>
@@ -25,10 +26,18 @@ namespace ClassRegistration.App.Controllers
         [HttpGet]
         public async Task<IActionResult> Get ()
         {
-            var theReviews = await _reviewsRepository.FindAll ();
+            IEnumerable<ReviewsModel> theReviews;
+
+            try
+            {
+                theReviews = await _reviewsRepository.FindAll ();
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest (new ValidationError (e));
+            }
             return Ok (theReviews);
         }
-
 
         /// <summary>
         /// Add a review for a course
@@ -41,11 +50,11 @@ namespace ClassRegistration.App.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest ();
+                return BadRequest (new ErrorObject ("Invalid review data sent"));
             }
 
             await _reviewsRepository.Add (review.StudentId, review.CourseId, review.Score, review.Text);
-            return Ok ();
+            return Ok (MessageObject.Success);
         }
     }
 }

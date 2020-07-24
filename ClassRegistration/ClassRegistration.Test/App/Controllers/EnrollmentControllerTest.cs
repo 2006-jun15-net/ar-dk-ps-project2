@@ -184,7 +184,7 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestGetTotalCreditsFailById ()
         {
-            BadRequestResult response = await _enrollmentController.GetTotalCredits (3, "fall") as BadRequestResult;
+            BadRequestObjectResult response = await _enrollmentController.GetTotalCredits (3, "fall") as BadRequestObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (400, response.StatusCode);
@@ -193,7 +193,7 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestGetTotalCreditsFailByTerm ()
         {
-            BadRequestResult response = await _enrollmentController.GetTotalCredits (1, "Not a term") as BadRequestResult;
+            BadRequestObjectResult response = await _enrollmentController.GetTotalCredits (1, "Not a term") as BadRequestObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (400, response.StatusCode);
@@ -202,11 +202,11 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestPost ()
         {
-            OkResult response = await _enrollmentController.Post (new EnrollmentModel
+            OkObjectResult response = await _enrollmentController.Post (new EnrollmentModel
             {
                 StudentId = 2,
                 SectId = 2
-            }) as OkResult;
+            }) as OkObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (200, response.StatusCode);
@@ -215,11 +215,11 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestPostFailByStudentId ()
         {
-            BadRequestResult response = await _enrollmentController.Post (new EnrollmentModel
+            BadRequestObjectResult response = await _enrollmentController.Post (new EnrollmentModel
             {
                 StudentId = 3,
                 SectId = 2
-            }) as BadRequestResult;
+            }) as BadRequestObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (400, response.StatusCode);
@@ -228,11 +228,11 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestPostFailBySectionId ()
         {
-            BadRequestResult response = await _enrollmentController.Post (new EnrollmentModel
+            BadRequestObjectResult response = await _enrollmentController.Post (new EnrollmentModel
             {
                 StudentId = 2,
                 SectId = 3
-            }) as BadRequestResult;
+            }) as BadRequestObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (400, response.StatusCode);
@@ -250,7 +250,7 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestDeleteFailById ()
         {
-            NotFoundResult response = await _enrollmentController.Delete (3, 1) as NotFoundResult;
+            NotFoundObjectResult response = await _enrollmentController.Delete (3, 1) as NotFoundObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (404, response.StatusCode);
@@ -259,7 +259,7 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestDeleteFailByStudentId ()
         {
-            BadRequestResult response = await _enrollmentController.Delete (1, 3) as BadRequestResult;
+            BadRequestObjectResult response = await _enrollmentController.Delete (1, 3) as BadRequestObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (400, response.StatusCode);

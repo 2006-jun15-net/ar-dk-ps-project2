@@ -59,32 +59,6 @@ namespace ClassRegistration.DataAccess.Repository
 
             return courses.Select (c => c.Fees).Sum ();
         }
-        
-        /// <summary>
-        /// computes the total amount a student will pay after discounts.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="term"></param>
-        /// <param name="resident_id"></param>
-        /// <returns></returns>
-        public virtual async Task<decimal?> FinalAmountDiscounted(int id, string term, string resident_id)
-        {
-            //getting the base amount before discount
-            decimal baseAmount = (decimal)await GetTotalAmount(id, term);
-
-    
-            //get the discount from the dbcontext based on the resident type of a student.
-            var discount = (from s in _context.StudentType
-                            where s.ResidentId == resident_id
-                            select s.Discount).FirstOrDefault();
-            //final amount after discount
-            decimal finalAmount = baseAmount - discount;
-
-            return finalAmount;
-                                    
-            
-        }
-
 
         /// <summary>
         /// Remove a course from list of registered courses
@@ -108,7 +82,6 @@ namespace ClassRegistration.DataAccess.Repository
 
             return true;
         }
-
 
         /// <summary>
         /// Register for a course

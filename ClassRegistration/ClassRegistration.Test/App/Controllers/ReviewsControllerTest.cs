@@ -67,13 +67,13 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestAdd ()
         {
-            OkResult response = await _reviewsController.Add (new ReviewsModel
+            OkObjectResult response = await _reviewsController.Add (new ReviewsModel
             {
                 CourseId = 1,
                 StudentId = 1,
                 Score = 100,
                 Text = "Test Review"
-            }) as OkResult;
+            }) as OkObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (200, response.StatusCode);
