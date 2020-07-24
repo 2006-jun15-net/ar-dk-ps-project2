@@ -30,7 +30,9 @@ namespace ClassRegistration.Test.DataAccess.Repository
                 Course = new Course
                 {
                     CourseName = "Test Course",
-                    Reviews = new List<Reviews> ()
+
+                    Credits = 1,
+                    Fees = 1.0m
                 }
             });
 

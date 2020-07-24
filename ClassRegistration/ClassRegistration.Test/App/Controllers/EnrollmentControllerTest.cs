@@ -31,7 +31,7 @@ namespace ClassRegistration.Test.App.Controllers
                     Section = new SectionModel
                     {
                         SectId = 1,
-                        Term = "Test Term 1",
+                        Term = "fall",
 
                         Course = new CourseModel
                         {
@@ -50,7 +50,7 @@ namespace ClassRegistration.Test.App.Controllers
                     Section = new SectionModel
                     {
                         SectId = 2,
-                        Term = "Test Term 2",
+                        Term = "spring",
 
                         Course = new CourseModel
                         {
@@ -115,7 +115,7 @@ namespace ClassRegistration.Test.App.Controllers
                 repo => repo.Delete (It.IsAny<int> (), It.IsAny<int> ())
             ).Returns (
                 async (int id, int studentId) =>
-                    await Task.Run (() => enrollments.RemoveAll (e => e.EnrollmentId == id && e.StudentId == studentId) > 0)
+                    await Task.Run (() => enrollments.Where (e => e.EnrollmentId == id && e.StudentId == studentId).Any ())
             );
 
             // Student repo setup
@@ -158,33 +158,33 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestGetTotalCredits ()
         {
-            OkObjectResult response = await _enrollmentController.GetTotalCredits (1, "Test Term 1") as OkObjectResult;
+            OkObjectResult response = await _enrollmentController.GetTotalCredits (1, "fall") as OkObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (200, response.StatusCode);
 
-            dynamic result = response.Value;
+            bool result = (bool)response.Value;
 
-            Assert.True (result.requirmentsMet);
+            Assert.True (result);
         }
 
         [Fact]
         public async void TestGetTotalCreditsTermReqNotMet ()
         {
-            OkObjectResult response = await _enrollmentController.GetTotalCredits (1, "Test Term 2") as OkObjectResult;
+            OkObjectResult response = await _enrollmentController.GetTotalCredits (2, "spring") as OkObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (200, response.StatusCode);
 
-            dynamic result = response.Value;
+            bool result = (bool)response.Value;
 
-            Assert.False (result.requirmentsMet);
+            Assert.False (result);
         }
 
         [Fact]
         public async void TestGetTotalCreditsFailById ()
         {
-            BadRequestResult response = await _enrollmentController.GetTotalCredits (2, "Test Term 2") as BadRequestResult;
+            BadRequestResult response = await _enrollmentController.GetTotalCredits (3, "fall") as BadRequestResult;
 
             Assert.NotNull (response);
             Assert.Equal (400, response.StatusCode);
@@ -250,16 +250,16 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestDeleteFailById ()
         {
-            BadRequestResult response = await _enrollmentController.Delete (2, 1) as BadRequestResult;
+            NotFoundResult response = await _enrollmentController.Delete (3, 1) as NotFoundResult;
 
             Assert.NotNull (response);
-            Assert.Equal (400, response.StatusCode);
+            Assert.Equal (404, response.StatusCode);
         }
 
         [Fact]
         public async void TestDeleteFailByStudentId ()
         {
-            BadRequestResult response = await _enrollmentController.Delete (1, 2) as BadRequestResult;
+            BadRequestResult response = await _enrollmentController.Delete (1, 3) as BadRequestResult;
 
             Assert.NotNull (response);
             Assert.Equal (400, response.StatusCode);

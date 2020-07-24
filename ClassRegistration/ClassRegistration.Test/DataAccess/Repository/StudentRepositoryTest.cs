@@ -24,7 +24,9 @@ namespace ClassRegistration.Test.DataAccess.Repository
             context.Add (new Student
             {
                 StudentId = 1,
-                Enrollment = new List<Enrollment> ()
+
+                FirstName = "Test",
+                LastName = "Student"
             });
 
             context.SaveChanges ();

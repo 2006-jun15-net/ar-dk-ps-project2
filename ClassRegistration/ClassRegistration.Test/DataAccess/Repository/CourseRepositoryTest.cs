@@ -27,6 +27,9 @@ namespace ClassRegistration.Test.DataAccess.Repository
                 CourseId = 1,
                 CourseName = "Test",
 
+                Credits = 1,
+                Fees = 1.0m,
+
                 DeptId = 1,
                 Dept = new Department
                 {

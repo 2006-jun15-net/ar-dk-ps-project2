@@ -2,6 +2,7 @@ using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace ClassRegistration.App.Controllers
@@ -40,14 +41,14 @@ namespace ClassRegistration.App.Controllers
         [HttpDelete ("{id}")]
         public async Task<IActionResult> Delete (int id, [FromBody] int studentId)
         {
-            var student = _studentRepository.FindById (studentId);
+            var student = await _studentRepository.FindById (studentId);
 
             if (student == default)
             {
                 return BadRequest ();
             }
 
-            bool deleted = await _enrollmentRepository.Delete (student.Id, id);
+            bool deleted = await _enrollmentRepository.Delete (student.StudentId, id);
 
             if (!deleted)
             {
@@ -81,7 +82,7 @@ namespace ClassRegistration.App.Controllers
                 return BadRequest ();
             }
 
-            return Ok (new { requirementsMet = totalCredits >= minimumCredits });
+            return Ok (totalCredits >= minimumCredits);
         }
 
         /// <summary>
@@ -93,12 +94,12 @@ namespace ClassRegistration.App.Controllers
         [HttpPost]
         public async Task<IActionResult> Post ([FromBody] EnrollmentModel enrollmentModel)
         {
-            if (_sectionRepository.FindById (enrollmentModel.SectId) == default)
+            if (await _sectionRepository.FindById (enrollmentModel.SectId) == default)
             {
                 return BadRequest ();
             }
 
-            if (_studentRepository.FindById (enrollmentModel.StudentId) == default)
+            if (await _studentRepository.FindById (enrollmentModel.StudentId) == default)
             {
                 return BadRequest ();
             }
