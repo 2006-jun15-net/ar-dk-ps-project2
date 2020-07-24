@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using Okta.AspNetCore;
 
 namespace ClassRegistration.App
 {
@@ -35,6 +36,19 @@ namespace ClassRegistration.App
             services.AddScoped<IStudentRepository, StudentRepository> ();
             services.AddScoped<ISectionRepository, SectionRepository> ();
             services.AddScoped<IReviewsRepository, ReviewsRepository>();
+
+            /*
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = OktaDefaults.ApiAuthenticationScheme;
+                options.DefaultChallengeScheme = OktaDefaults.ApiAuthenticationScheme;
+                options.DefaultSignInScheme = OktaDefaults.ApiAuthenticationScheme;
+            })
+            .AddOktaWebApi(new OktaWebApiOptions()
+            {
+                OktaDomain = "https://${yourOktaDomain}"
+            });
+            */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +61,7 @@ namespace ClassRegistration.App
 
             app.UseRouting ();
 
+            app.UseAuthentication ();
             app.UseAuthorization ();
 
             app.UseEndpoints (endpoints =>
