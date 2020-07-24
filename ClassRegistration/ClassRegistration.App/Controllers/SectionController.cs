@@ -39,17 +39,8 @@ namespace ClassRegistration.App.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCoursesByInstructorID (int instructorId)
         {
-            IEnumerable<SectionModel> theSections;
-
             // get all the sections and associated courses for an instructor
-            try
-            {
-                theSections = await _sectionRepository.FindByInstrId (instructorId);
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest (new ValidationError (e));
-            }
+            var theSections = await _sectionRepository.FindByInstrId (instructorId);
 
             if (!theSections.Any ())
             {

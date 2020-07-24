@@ -27,16 +27,7 @@ namespace ClassRegistration.App.Controllers
         [HttpGet]
         public async Task<IActionResult> Get ()
         {
-            IEnumerable<CourseModel> theClasses;
-
-            try
-            {
-                theClasses = await _courseRepository.FindAll ();
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest (new ValidationError (e));
-            }
+            var theClasses = await _courseRepository.FindAll ();
 
             return Ok (theClasses);
         }
