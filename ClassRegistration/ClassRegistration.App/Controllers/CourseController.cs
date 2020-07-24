@@ -1,4 +1,6 @@
-﻿using ClassRegistration.DataAccess.Interfaces;
+﻿
+using ClassRegistration.DataAccess.Interfaces;
+using ClassRegistration.DataAccess.ModelFilters;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -7,6 +9,7 @@ using System.Threading.Tasks;
 namespace ClassRegistration.App.Controllers
 {
     [Route ("api/[controller]")]
+   
     public class CourseController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;
@@ -22,9 +25,9 @@ namespace ClassRegistration.App.Controllers
         /// <returns></returns>
         // GET: api/course
         [HttpGet]
-        public async Task<IActionResult> Get ()
+        public async Task<IActionResult> Get ([FromQuery] CoursePagination coursePagination)
         {
-            var theClasses = await _courseRepository.FindAll ();
+            var theClasses = await _courseRepository.FindAll (coursePagination);
             return Ok (theClasses);
         }
 
