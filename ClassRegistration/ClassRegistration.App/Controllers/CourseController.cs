@@ -96,7 +96,7 @@ namespace ClassRegistration.App.Controllers
         /// <returns></returns>
         // GET api/courses?deptId=5
         [HttpGet]
-        public async Task<IActionResult> GetByDepartmentId ([FromBody] int deptId)
+        public async Task<IActionResult> GetByDepartmentId ([FromQuery] int deptId)
         {
             IEnumerable<CourseModel> theCourses;
 

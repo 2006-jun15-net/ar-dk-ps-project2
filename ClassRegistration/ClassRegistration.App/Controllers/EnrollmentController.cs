@@ -38,7 +38,7 @@ namespace ClassRegistration.App.Controllers
         /// <returns></returns>
         // DELETE api/<EnrollmentController>/5?studentId=5
         [HttpDelete ("{id}")]
-        public async Task<IActionResult> Delete (int id, [FromBody] int studentId)
+        public async Task<IActionResult> Delete (int id, [FromQuery] int studentId)
         {
             StudentModel student;
 

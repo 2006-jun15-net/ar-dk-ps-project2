@@ -33,7 +33,7 @@ namespace ClassRegistration.App.Controllers
         /// <returns></returns>
         // GET api/section?instructorId=50
         [HttpGet]
-        public async Task<IActionResult> Get ([FromBody] int instructorId)
+        public async Task<IActionResult> Get ([FromQuery] int instructorId)
         {
             // get all the sections and associated courses for an instructor
             var theSections = await _sectionRepository.FindByInstrId (instructorId);
