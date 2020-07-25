@@ -67,7 +67,7 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestAdd ()
         {
-            OkObjectResult response = await _reviewsController.Add (new ReviewsModel
+            OkObjectResult response = await _reviewsController.Post (new ReviewsModel
             {
                 CourseId = 1,
                 StudentId = 1,

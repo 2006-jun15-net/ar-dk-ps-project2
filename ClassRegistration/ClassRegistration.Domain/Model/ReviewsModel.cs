@@ -44,6 +44,13 @@ namespace ClassRegistration.Domain.Model
                     throw new ArgumentException("A review's comments cannot be empty or null.", nameof(value));
                 }
                 _text = value;
+
+                if(value.Length > 2000)
+                {
+                    throw new ArgumentOutOfRangeException("Comments cannot exceed 2000 characters.", nameof(value));
+
+                }
+                _text = value;
             }
         }
 

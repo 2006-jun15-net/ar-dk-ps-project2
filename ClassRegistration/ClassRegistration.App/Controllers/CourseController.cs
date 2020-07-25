@@ -1,6 +1,5 @@
 using ClassRegistration.App.ResponseObjects;
 using ClassRegistration.DataAccess.Interfaces;
-using ClassRegistration.DataAccess.Pagination;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,7 +10,6 @@ using System.Threading.Tasks;
 namespace ClassRegistration.App.Controllers
 {
     [Route ("api/[controller]")]
-   
     public class CourseController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;
@@ -30,18 +28,17 @@ namespace ClassRegistration.App.Controllers
         public async Task<IActionResult> Get ([FromQuery] CoursePagination coursePagination)
         {
             var theClasses = await _courseRepository.FindAll (coursePagination);
-            var theClasses = await _courseRepository.FindAll ();
 
             return Ok (theClasses);
         }
-
+         
         /// <summary>
         /// search a course by ID
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        // GET api/course/class/100
-        [HttpGet ("class/{id}")]
+        // GET api/course/100
+        [HttpGet ("{id}")]
         public async Task<IActionResult> Get (int id)
         {
             CourseModel theCourse;
@@ -66,17 +63,17 @@ namespace ClassRegistration.App.Controllers
         /// <summary>
         /// search a course by its name
         /// </summary>
-        /// <param name="search"></param>
+        /// <param name="name"></param>
         /// <returns></returns>
         // GET api/course/Robotics
-        [HttpGet ("course/{search}")]
-        public async Task<IActionResult> GetByName (string search)
+        [HttpGet ("{name}")]
+        public async Task<IActionResult> Get (string name)
         {
             CourseModel theCourse;
 
             try
             {
-                theCourse = await _courseRepository.FindByName (search);
+                theCourse = await _courseRepository.FindByName (name);
             }
             catch (ArgumentException e)
             {
@@ -88,7 +85,7 @@ namespace ClassRegistration.App.Controllers
                 return Ok (theClass);
             }
 
-            return NotFound (new ErrorObject ($"Course '{search}' does not exist"));
+            return NotFound (new ErrorObject ($"Course '{name}' does not exist"));
         }
 
         /// <summary>
@@ -96,9 +93,9 @@ namespace ClassRegistration.App.Controllers
         /// </summary>
         /// <param name="deptId"></param>
         /// <returns></returns>
-        // GET api/courses/1500
-        [HttpGet ("courses/{deptId}")]
-        public async Task<IActionResult> GetByDepartmentId (int deptId)
+        // GET api/courses?deptId=5
+        [HttpGet]
+        public async Task<IActionResult> GetByDepartmentId ([FromBody] int deptId)
         {
             IEnumerable<CourseModel> theCourses;
 

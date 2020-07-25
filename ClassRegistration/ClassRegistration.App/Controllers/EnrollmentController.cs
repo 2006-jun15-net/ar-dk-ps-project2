@@ -36,7 +36,7 @@ namespace ClassRegistration.App.Controllers
         /// <param name="id"></param>
         /// <param name="studentId"></param>
         /// <returns></returns>
-        // DELETE api/<EnrollmentController>/id
+        // DELETE api/<EnrollmentController>/5?studentId=5
         [HttpDelete ("{id}")]
         public async Task<IActionResult> Delete (int id, [FromBody] int studentId)
         {
@@ -102,6 +102,11 @@ namespace ClassRegistration.App.Controllers
         [HttpPost]
         public async Task<IActionResult> Post ([FromBody] EnrollmentModel enrollmentModel)
         {
+            if (!ModelState.IsValid) 
+            {
+                return BadRequest (new ErrorObject ("Invalid enrollment data sent"));
+            }
+            
             SectionModel section;
             StudentModel student;
 
