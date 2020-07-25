@@ -46,7 +46,7 @@ namespace ClassRegistration.Test.App.Controllers
         }
 
         [Fact]
-        public async void TestGet ()
+        public async void TestGetAll ()
         {
             OkObjectResult response = await _sectionController.Get () as OkObjectResult;
 
@@ -62,7 +62,7 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestGetCourseByInstructor ()
         {
-            OkObjectResult response = await _sectionController.GetCoursesByInstructorID (1) as OkObjectResult;
+            OkObjectResult response = await _sectionController.Get (1) as OkObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (200, response.StatusCode);
@@ -76,7 +76,7 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestGetCourseByInstructorFail ()
         {
-            NotFoundResult response = await _sectionController.GetCoursesByInstructorID (2) as NotFoundResult;
+            NotFoundResult response = await _sectionController.Get (2) as NotFoundResult;
 
             Assert.NotNull (response);
             Assert.Equal (404, response.StatusCode);

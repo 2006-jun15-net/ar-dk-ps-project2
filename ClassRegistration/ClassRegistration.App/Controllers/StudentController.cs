@@ -108,7 +108,7 @@ namespace ClassRegistration.App.Controllers
         /// <param name="id"></param>
         /// <param name="term"></param>
         /// <returns></returns>
-        // GET api/<StudentController>/1/Fall
+        // GET api/<StudentController>/1/fall
         [HttpGet ("{id}/{term}")]
         public async Task<IActionResult> GetTotalAmount (int id, string term)
         {

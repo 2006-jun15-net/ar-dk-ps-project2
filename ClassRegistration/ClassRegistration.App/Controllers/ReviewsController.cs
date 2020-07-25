@@ -33,9 +33,9 @@ namespace ClassRegistration.App.Controllers
         /// </summary>
         /// <param name="review"></param>
         /// <returns></returns>
-        // POST: api/reviews/item
-        [HttpPost ("{item}")]
-        public async Task<IActionResult> Add ([FromBody] ReviewsModel review)
+        // POST: api/reviews
+        [HttpPost]
+        public async Task<IActionResult> Post ([FromBody] ReviewsModel review)
         {
             if (!ModelState.IsValid)
             {

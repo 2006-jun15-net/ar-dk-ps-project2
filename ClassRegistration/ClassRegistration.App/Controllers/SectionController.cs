@@ -18,8 +18,8 @@ namespace ClassRegistration.App.Controllers
         /// <summary>
         /// get all the sections available 
         /// <returns></returns>
-        // GET: api/section/all
-        [HttpGet ("{all}")]
+        // GET: api/section
+        [HttpGet]
         public async Task<IActionResult> Get ()
         {
             var theClasses = await _sectionRepository.FindAll ();
@@ -33,7 +33,7 @@ namespace ClassRegistration.App.Controllers
         /// <returns></returns>
         // GET api/section?instructorId=50
         [HttpGet]
-        public async Task<IActionResult> GetCoursesByInstructorID (int instructorId)
+        public async Task<IActionResult> Get ([FromBody] int instructorId)
         {
             // get all the sections and associated courses for an instructor
             var theSections = await _sectionRepository.FindByInstrId (instructorId);
