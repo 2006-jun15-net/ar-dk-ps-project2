@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-
-namespace ClassRegistration.DataAccess.Pagination
+﻿namespace ClassRegistration.DataAccess.Pagination
 {
     /// <summary>
     /// This class limits the amount of output data.
     /// </summary>
     public class CoursePagination
     {
-        //setting the maximum page size
+        // setting the maximum page size
         const int maxPageSize = 50;
 
         public int PageNumber { get; set; } = 1;
@@ -25,13 +20,9 @@ namespace ClassRegistration.DataAccess.Pagination
             }
             set
             {
-                //setting the value of page size to be the maximum page size if the page size is greater than the maximum.
+                // setting the value of page size to be the maximum page size if the page size is greater than the maximum.
                 _pageSize = (value > maxPageSize) ? maxPageSize : value;
             }
         }
-        
-
-            
-       
     }
 }

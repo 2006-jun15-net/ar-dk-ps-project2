@@ -1,5 +1,6 @@
 ﻿using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Repository;
+using ClassRegistration.DataAccess.Pagination;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,7 +66,7 @@ namespace ClassRegistration.Test.DataAccess.Repository
         [Fact]
         public async void TestFindAll ()
         {
-            var courses = await _courseRepository.FindAll ();
+            var courses = await _courseRepository.FindAll (new CoursePagination ());
 
             Assert.Single (courses);
             Assert.Equal (1, courses.First ().CourseId);

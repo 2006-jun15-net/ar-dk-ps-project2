@@ -1,5 +1,6 @@
 ﻿using ClassRegistration.App.Controllers;
 using ClassRegistration.DataAccess.Repository;
+using ClassRegistration.DataAccess.Pagination;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -29,9 +30,9 @@ namespace ClassRegistration.Test.App.Controllers
             };
 
             mockCourseRepo.Setup (
-                repo => repo.FindAll ()
+                repo => repo.FindAll (It.IsAny<CoursePagination> ())
             ).Returns (
-                async () => await Task.Run (() => courses)
+                async (CoursePagination pagination) => await Task.Run (() => courses)
             );
 
             mockCourseRepo.Setup (
@@ -63,7 +64,7 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestGetAll ()
         {
-            OkObjectResult response = await _courseController.Get () as OkObjectResult;
+            OkObjectResult response = await _courseController.Get (new CoursePagination ()) as OkObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (200, response.StatusCode);

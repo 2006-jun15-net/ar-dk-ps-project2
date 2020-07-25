@@ -49,7 +49,6 @@ namespace ClassRegistration.DataAccess.Repository
                 
             
             return _mapper.Map<IEnumerable<CourseModel>> (classes);
-            
         }
 
         /// <summary>
