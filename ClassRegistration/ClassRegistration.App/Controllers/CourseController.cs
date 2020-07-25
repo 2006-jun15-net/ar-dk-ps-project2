@@ -21,16 +21,35 @@ namespace ClassRegistration.App.Controllers
         }
 
         /// <summary>
-        /// get all the courses available
+        /// get all the courses by department, if specified
         /// </summary>
         /// <returns></returns>
-        // GET: api/course
+        // GET: api/course?PageNumber=1&PageSize=5 or api/course?deptId=5
         [HttpGet]
-        public async Task<IActionResult> Get ([FromQuery] CoursePagination coursePagination)
+        public async Task<IActionResult> Get ([FromQuery] CoursePagination coursePagination, [FromQuery] int? deptId = null)
         {
-            var theClasses = await _courseRepository.FindAll (coursePagination);
+            if (!ModelState.IsValid) 
+            {
+                return BadRequest (new ErrorObject ("Invalid data sent"));
+            }
+            
+            IEnumerable<CourseModel> courses;
 
-            return Ok (theClasses);
+            if (deptId != null) 
+            {
+                courses = await _courseRepository.FindByDeptId (Convert.ToInt32(deptId));
+            }
+            else
+            {
+                courses = await _courseRepository.FindAll (coursePagination);
+            }
+
+            if (!courses.Any ()) 
+            {
+                return NoContent ();
+            }
+
+            return Ok (courses);
         }
          
         /// <summary>
@@ -87,34 +106,6 @@ namespace ClassRegistration.App.Controllers
             }
 
             return NotFound (new ErrorObject ($"Course '{name}' does not exist"));
-        }
-
-        /// <summary>
-        /// search for courses available in a department
-        /// </summary>
-        /// <param name="deptId"></param>
-        /// <returns></returns>
-        // GET api/courses?deptId=5
-        [HttpGet]
-        public async Task<IActionResult> GetByDepartmentId ([FromQuery] int deptId)
-        {
-            IEnumerable<CourseModel> theCourses;
-
-            try
-            {
-                theCourses = await _courseRepository.FindByDeptId (deptId);
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest (new ValidationError (e));
-            }
-
-            if (!theCourses.Any ())
-            {
-                return NotFound (new ErrorObject ($"Department id {deptId} does not exist"));
-            }
-
-            return Ok (theCourses);
         }
     }
 }

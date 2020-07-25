@@ -1,7 +1,10 @@
 ﻿using ClassRegistration.DataAccess.Interfaces;
+using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace ClassRegistration.App.Controllers
 {
@@ -16,34 +19,30 @@ namespace ClassRegistration.App.Controllers
         }
 
         /// <summary>
-        /// get all the sections available 
-        /// <returns></returns>
-        // GET: api/section
-        [HttpGet]
-        public async Task<IActionResult> Get ()
-        {
-            var theClasses = await _sectionRepository.FindAll ();
-            return Ok (theClasses);
-        }
-
-        /// <summary>
-        /// Returns an instructor's sections, courses, and the courses' associated reviews 
-        /// </summary>
+        /// Get all the sections with matching instructor, if specified
         /// <param name="instructorId"></param>
         /// <returns></returns>
-        // GET api/section?instructorId=50
+        // GET: api/section or api/section?instructorId=5
         [HttpGet]
-        public async Task<IActionResult> Get ([FromQuery] int instructorId)
+        public async Task<IActionResult> Get ([FromQuery] int? instructorId = null)
         {
-            // get all the sections and associated courses for an instructor
-            var theSections = await _sectionRepository.FindByInstrId (instructorId);
+            IEnumerable<SectionModel> sections;
 
-            if (!theSections.Any ())
+            if (instructorId != null) 
             {
-                return NotFound ();
+                sections = await _sectionRepository.FindByInstrId (Convert.ToInt32(instructorId));
+            }
+            else 
+            {
+                sections = await _sectionRepository.FindAll ();
             }
 
-            return Ok (theSections);
+            if (!sections.Any ()) 
+            {
+                return NoContent ();
+            }
+            
+            return Ok (sections);
         }
     }
 }

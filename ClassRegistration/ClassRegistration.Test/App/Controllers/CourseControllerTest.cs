@@ -122,7 +122,7 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestGetByDepartmentId ()
         {
-            OkObjectResult response = await _courseController.GetByDepartmentId (1) as OkObjectResult;
+            OkObjectResult response = await _courseController.Get (null, 1) as OkObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (200, response.StatusCode);
@@ -136,10 +136,10 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestGetByDepartmentIdFail ()
         {
-            NotFoundObjectResult response = await _courseController.GetByDepartmentId (2) as NotFoundObjectResult;
+            NoContentResult response = await _courseController.Get (null, 2) as NoContentResult;
 
             Assert.NotNull (response);
-            Assert.Equal (404, response.StatusCode);
+            Assert.Equal (204, response.StatusCode);
         }
     }
 }

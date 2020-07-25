@@ -76,10 +76,10 @@ namespace ClassRegistration.Test.App.Controllers
         [Fact]
         public async void TestGetCourseByInstructorFail ()
         {
-            NotFoundResult response = await _sectionController.Get (2) as NotFoundResult;
+            NoContentResult response = await _sectionController.Get (2) as NoContentResult;
 
             Assert.NotNull (response);
-            Assert.Equal (404, response.StatusCode);
+            Assert.Equal (204, response.StatusCode);
         }
     }
 }
