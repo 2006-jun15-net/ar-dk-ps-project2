@@ -38,6 +38,19 @@ namespace ClassRegistration.App
             services.AddScoped<IStudentTypeRepository, StudentTypeRepository> ();
 
             services.AddSwaggerGen ();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AllowLocalNgServe",
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:4200")
+                                          .AllowAnyMethod()
+                                          .AllowAnyHeader()
+                                          .AllowCredentials();
+                                  });
+            });
+
             /*
             services.AddAuthentication(options =>
             {
@@ -72,6 +85,8 @@ namespace ClassRegistration.App
              });
 
             app.UseRouting ();
+
+            app.UseCors("AllowLocalNgServe");
 
             app.UseAuthentication ();
             app.UseAuthorization ();
