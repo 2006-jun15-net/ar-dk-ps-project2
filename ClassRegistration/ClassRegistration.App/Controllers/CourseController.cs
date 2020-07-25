@@ -1,4 +1,4 @@
-﻿using ClassRegistration.App.ResponseObjects;
+using ClassRegistration.App.ResponseObjects;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -25,9 +25,9 @@ namespace ClassRegistration.App.Controllers
         /// <returns></returns>
         // GET: api/course
         [HttpGet]
-        public async Task<IActionResult> Get ()
+        public async Task<IActionResult> Get ([FromQuery] CoursePagination coursePagination)
         {
-            var theClasses = await _courseRepository.FindAll ();
+            var theClasses = await _courseRepository.FindAll (coursePagination);
 
             return Ok (theClasses);
         }

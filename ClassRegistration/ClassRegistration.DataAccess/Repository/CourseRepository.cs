@@ -1,5 +1,6 @@
 ﻿using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Interfaces;
+using ClassRegistration.DataAccess.Pagination;
 using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -38,10 +39,17 @@ namespace ClassRegistration.DataAccess.Repository
         /// Get all courses available
         /// </summary>
         /// <returns></returns>
-        public virtual async Task<IEnumerable<CourseModel>> FindAll ()
+        public virtual async Task<IEnumerable<CourseModel>> FindAll (CoursePagination coursePagination)
         {
-            var classes = await _context.Course.ToListAsync ();
+            
+            var classes = await _context.Course
+                .Skip((coursePagination.PageNumber - 1) * coursePagination.PageSize) //skipping some pages 
+                .Take(coursePagination.PageSize)
+                .ToListAsync();
+                
+            
             return _mapper.Map<IEnumerable<CourseModel>> (classes);
+            
         }
 
         /// <summary>
