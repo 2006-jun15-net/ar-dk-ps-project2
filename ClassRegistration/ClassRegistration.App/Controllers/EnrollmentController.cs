@@ -102,13 +102,14 @@ namespace ClassRegistration.App.Controllers
         /// <returns></returns>
         // POST api/<EnrollmentController>
         [HttpPost]
+        [Authorize (Roles = "Student")]
         public async Task<IActionResult> Post ([FromBody] EnrollmentModel enrollmentModel)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 return BadRequest (new ErrorObject ("Invalid enrollment data sent"));
             }
-            
+
             SectionModel section;
             StudentModel student;
 
@@ -132,7 +133,12 @@ namespace ClassRegistration.App.Controllers
                 return BadRequest (new ErrorObject ($"Section id {enrollmentModel.SectId} does not exist"));
             }
 
-            await _enrollmentRepository.Add (enrollmentModel.StudentId, enrollmentModel.SectId);
+            var success = await _enrollmentRepository.Add (enrollmentModel.StudentId, enrollmentModel.SectId);
+
+            if (!success)
+            {
+                return BadRequest (new ErrorObject ("Failed to add enrollment"));
+            }
 
             return Ok (MessageObject.Success);
         }

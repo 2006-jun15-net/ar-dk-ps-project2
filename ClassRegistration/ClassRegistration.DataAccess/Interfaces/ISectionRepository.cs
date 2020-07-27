@@ -1,4 +1,5 @@
 using ClassRegistration.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -20,5 +21,7 @@ namespace ClassRegistration.DataAccess.Interfaces
         /// <param name="instructorId"></param>
         /// <returns></returns>
         Task<IEnumerable<SectionModel>> FindByInstrId (int instructorId);
+
+        Task<bool> Add (int instructorId, int courseId, string term, TimeSpan start, TimeSpan end);
     }
 }

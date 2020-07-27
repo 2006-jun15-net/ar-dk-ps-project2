@@ -2,6 +2,7 @@ using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,6 +47,21 @@ namespace ClassRegistration.DataAccess.Repository
                                     .Where (s => s.InstructorId == instructorId).ToListAsync ();
 
             return _mapper.Map<IEnumerable<SectionModel>> (sections);
+        }
+
+        public virtual async Task<bool> Add (int instructorId, int courseId, string term, TimeSpan start, TimeSpan end)
+        {
+            var section = new Section
+            {
+                InstructorId = instructorId,
+                CourseId = courseId,
+                Term = term,
+                StartTime = start,
+                EndTime = end
+            };
+
+            await _context.Section.AddAsync (section);
+            return await _context.SaveChangesAsync () > 0;
         }
     }
 }

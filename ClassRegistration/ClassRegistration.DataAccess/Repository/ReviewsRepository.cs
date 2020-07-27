@@ -22,20 +22,21 @@ namespace ClassRegistration.DataAccess.Repository
         /// <param name="score"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public virtual async Task Add (int studentid, int courseid, int score, string text)
+        public virtual async Task<bool> Add (int studentid, int courseid, int score, string text)
         {
             var reviewDate = DateTime.Today;
 
-            _context.Reviews.Add (new Reviews
+            var review = new Reviews
             {
                 CourseId = courseid,
                 StudentId = studentid,
                 Date = reviewDate,
                 Score = score,
                 Text = text
-            });
+            };
 
-            await _context.SaveChangesAsync ();
+            await _context.Reviews.AddAsync (review);
+            return await _context.SaveChangesAsync () > 0;
         }
 
 

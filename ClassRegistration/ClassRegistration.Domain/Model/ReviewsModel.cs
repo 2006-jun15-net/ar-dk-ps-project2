@@ -25,7 +25,7 @@ namespace ClassRegistration.Domain.Model
             {
                 if (value < 0)
                 {
-                    throw new ArgumentException("A review's score cannot be negative.", nameof(value));
+                    throw new ArgumentException ("A review's score cannot be negative.", nameof (value));
                 }
                 _score = value;
             }
@@ -34,20 +34,20 @@ namespace ClassRegistration.Domain.Model
         /// <summary>
         /// A student can leave some comments along with the review
         /// </summary>
-        public string Text 
+        public string Text
         {
             get => _text;
             set
             {
-                if (string.IsNullOrEmpty(value))
+                if (string.IsNullOrEmpty (value))
                 {
-                    throw new ArgumentException("A review's comments cannot be empty or null.", nameof(value));
+                    throw new ArgumentException ("A review's comments cannot be empty or null.", nameof (value));
                 }
                 _text = value;
 
-                if(value.Length > 2000)
+                if (value.Length > 2000)
                 {
-                    throw new ArgumentOutOfRangeException("Comments cannot exceed 2000 characters.", nameof(value));
+                    throw new ArgumentOutOfRangeException ("Comments cannot exceed 2000 characters.", nameof (value));
 
                 }
                 _text = value;

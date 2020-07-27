@@ -44,7 +44,13 @@ namespace ClassRegistration.App.Controllers
                 return BadRequest (new ErrorObject ("Invalid review data sent"));
             }
 
-            await _reviewsRepository.Add (review.StudentId, review.CourseId, review.Score, review.Text);
+            var success = await _reviewsRepository.Add (review.StudentId, review.CourseId, review.Score, review.Text);
+
+            if (!success)
+            { 
+                return BadRequest ("Failed to add review");    
+            }
+
             return Ok (MessageObject.Success);
         }
     }

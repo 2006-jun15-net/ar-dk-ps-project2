@@ -2,6 +2,7 @@ using ClassRegistration.App.ResponseObjects;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.DataAccess.Pagination;
 using ClassRegistration.Domain.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -28,30 +29,30 @@ namespace ClassRegistration.App.Controllers
         [HttpGet]
         public async Task<IActionResult> Get ([FromQuery] CoursePagination coursePagination, [FromQuery] int? deptId = null)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 return BadRequest (new ErrorObject ("Invalid data sent"));
             }
-            
+
             IEnumerable<CourseModel> courses;
 
-            if (deptId != null) 
+            if (deptId != null)
             {
-                courses = await _courseRepository.FindByDeptId (Convert.ToInt32(deptId));
+                courses = await _courseRepository.FindByDeptId (Convert.ToInt32 (deptId));
             }
             else
             {
                 courses = await _courseRepository.FindAll (coursePagination);
             }
 
-            if (!courses.Any ()) 
+            if (!courses.Any ())
             {
                 return NoContent ();
             }
 
             return Ok (courses);
         }
-         
+
         /// <summary>
         /// search a course by ID
         /// </summary>
@@ -85,8 +86,8 @@ namespace ClassRegistration.App.Controllers
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        // GET api/course/Robotics
-        [HttpGet ("{name}")]
+        // GET api/course/name/class/Robotics
+        [HttpGet ("class/{name}")]
         public async Task<IActionResult> Get (string name)
         {
             CourseModel theCourse;
@@ -106,6 +107,26 @@ namespace ClassRegistration.App.Controllers
             }
 
             return NotFound (new ErrorObject ($"Course '{name}' does not exist"));
+        }
+
+        [HttpPost]
+        [Authorize (Roles = "admin")]
+        public async Task<IActionResult> Post ([FromBody] CourseModel course)
+        {
+            if (!ModelState.IsValid || course.Credits == null)
+            {
+                return BadRequest (new ErrorObject ("Invalid data sent"));
+            }
+
+            var credits = Convert.ToInt32 (course.Credits);
+            var success = await _courseRepository.Add (course.CourseId, course.CourseName, course.DeptId, credits, course.Fees);
+
+            if (!success)
+            {
+                return BadRequest (new ErrorObject ("Failed to add course"));
+            }
+
+            return Ok (MessageObject.Success);
         }
     }
 }

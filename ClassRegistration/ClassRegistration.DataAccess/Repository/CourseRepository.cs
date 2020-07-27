@@ -94,5 +94,20 @@ namespace ClassRegistration.DataAccess.Repository
             List<Course> searchedCourses = await _context.Course.Where (c => c.Dept.DeptName == deptName).ToListAsync ();
             return _mapper.Map<IEnumerable<CourseModel>> (searchedCourses);
         }
+
+        public virtual async Task<bool> Add (int id, string name, int deptId, int credits, decimal fees)
+        {
+            var course = new Course
+            {
+                CourseId = id,
+                CourseName = name,
+                DeptId = deptId,
+                Credits = credits,
+                Fees = fees
+            };
+
+            await _context.Course.AddAsync (course);
+            return await _context.SaveChangesAsync () > 0;
+        }
     }
 }

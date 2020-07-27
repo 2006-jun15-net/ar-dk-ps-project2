@@ -22,7 +22,7 @@ namespace ClassRegistration.App.Controllers
         private readonly IStudentTypeRepository _studentTypeRepository;
 
         public StudentController (ICourseRepository courseRepository,
-                                    IStudentRepository studentRepository, 
+                                    IStudentRepository studentRepository,
                                     IEnrollmentRepository enrollmentRepository,
                                     IStudentTypeRepository studentTypeRepository)
         {
@@ -71,7 +71,7 @@ namespace ClassRegistration.App.Controllers
         {
             StudentModel student;
 
-            try 
+            try
             {
                 student = await _studentRepository.FindById (id);
             }
@@ -87,13 +87,13 @@ namespace ClassRegistration.App.Controllers
 
             IEnumerable<CourseModel> courses;
 
-            try 
+            try
             {
                 courses = await _courseRepository.FindByStudent (id);
             }
             catch (ArgumentException e)
             {
-                return BadRequest(new ValidationError (e));
+                return BadRequest (new ValidationError (e));
             }
 
             if (!courses.Any ())
@@ -116,7 +116,7 @@ namespace ClassRegistration.App.Controllers
         {
             StudentModel student;
 
-            try 
+            try
             {
                 student = await _studentRepository.FindById (id);
             }

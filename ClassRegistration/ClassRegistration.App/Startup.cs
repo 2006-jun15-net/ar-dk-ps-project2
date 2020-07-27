@@ -64,8 +64,7 @@ namespace ClassRegistration.App
             })
             .AddOktaWebApi (new OktaWebApiOptions ()
             {
-                OktaDomain = "https://dev-638266.okta.com",
-                ClientId = "0oan3a2afYLWJgufo4x6"
+                OktaDomain = "https://dev-638266.okta.com"
             });
         }
 
