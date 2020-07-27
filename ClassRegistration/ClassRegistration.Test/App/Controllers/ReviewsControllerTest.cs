@@ -36,13 +36,17 @@ namespace ClassRegistration.Test.App.Controllers
                 repo => repo.Add (It.IsAny<int> (), It.IsAny<int> (), It.IsAny<int> (), It.IsAny<string> ())
             ).Returns (
                 async (int studentId, int courseId, int score, string text) =>
-                    await Task.Run (() => reviews.Add (new ReviewsModel
+                    await Task.Run (() =>
                     {
-                        CourseId = courseId,
-                        StudentId = studentId,
-                        Score = score,
-                        Text = text
-                    }))
+                        reviews.Add (new ReviewsModel
+                        {
+                            CourseId = courseId,
+                            StudentId = studentId,
+                            Score = score,
+                            Text = text
+                        });
+                        return true;
+                    })
             );
 
             mockReviewsRepo.SetupAllProperties ();
