@@ -13,7 +13,7 @@ namespace ClassRegistration.App.Controllers
 {
     [Route ("api/[controller]")]
     [ApiController]
-    
+    [Authorize]
     public class StudentController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;

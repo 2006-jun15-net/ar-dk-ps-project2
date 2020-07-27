@@ -1,6 +1,7 @@
 ﻿using ClassRegistration.App.ResponseObjects;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -35,6 +36,7 @@ namespace ClassRegistration.App.Controllers
         /// <returns></returns>
         // POST: api/reviews
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Post ([FromBody] ReviewsModel review)
         {
             if (!ModelState.IsValid)

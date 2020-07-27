@@ -2,6 +2,7 @@ using ClassRegistration.App.ResponseObjects;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain;
 using ClassRegistration.Domain.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace ClassRegistration.App.Controllers
 {
     [Route ("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class EnrollmentController : ControllerBase
     {
         private readonly IEnrollmentRepository _enrollmentRepository;
