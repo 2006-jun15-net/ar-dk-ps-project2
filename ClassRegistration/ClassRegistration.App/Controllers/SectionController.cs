@@ -44,7 +44,7 @@ namespace ClassRegistration.App.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize (Policy = "AdminAccess")]
         public async Task<IActionResult> Post ([FromBody] SectionModel section)
         {
             if (!ModelState.IsValid)

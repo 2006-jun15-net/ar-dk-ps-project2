@@ -110,7 +110,7 @@ namespace ClassRegistration.App.Controllers
         }
 
         [HttpPost]
-        [Authorize (Roles = "admin")]
+        [Authorize (Policy = "AdminAccess")]
         public async Task<IActionResult> Post ([FromBody] CourseModel course)
         {
             if (!ModelState.IsValid || course.Credits == null)

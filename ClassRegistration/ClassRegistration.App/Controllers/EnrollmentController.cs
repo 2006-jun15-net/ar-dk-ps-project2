@@ -102,7 +102,7 @@ namespace ClassRegistration.App.Controllers
         /// <returns></returns>
         // POST api/<EnrollmentController>
         [HttpPost]
-        [Authorize (Roles = "Student")]
+        [Authorize (Policy = "StudentAccess")]
         public async Task<IActionResult> Post ([FromBody] EnrollmentModel enrollmentModel)
         {
             if (!ModelState.IsValid)

@@ -66,6 +66,12 @@ namespace ClassRegistration.App
             {
                 OktaDomain = "https://dev-638266.okta.com"
             });
+
+            services.AddAuthorization (options =>
+            {
+                options.AddPolicy ("AdminAccess", policy => policy.RequireRole ("Admin"));
+                options.AddPolicy ("StudentAccess", policy => policy.RequireRole ("Student"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
