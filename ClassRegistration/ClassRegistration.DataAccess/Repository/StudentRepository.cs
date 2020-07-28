@@ -25,6 +25,13 @@ namespace ClassRegistration.DataAccess.Repository
             return _mapper.Map<StudentModel> (student);
         }
 
+
+        public virtual async Task<StudentModel> FindByName(string lastname)
+        {
+            var student = await _context.Student.FirstOrDefaultAsync(s => s.LastName == lastname);
+            return _mapper.Map<StudentModel>(student);
+        }
+
         /// <summary>
         /// This method returns a student by their last name
         /// </summary>

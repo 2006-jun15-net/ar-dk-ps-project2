@@ -20,5 +20,14 @@ namespace ClassRegistration.DataAccess.Interfaces
         /// <param name="instructorId"></param>
         /// <returns></returns>
         Task<IEnumerable<SectionModel>> FindByInstrId (int instructorId);
+
+
+
+        /// <summary>
+        /// To get access to a course and its reviews by instructor's last name
+        /// </summary>
+        /// <param name="instructorname"></param>
+        /// <returns></returns>
+        Task<IEnumerable<SectionModel>> FindByInstrName(string instructorname);
     }
 }

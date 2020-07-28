@@ -47,6 +47,20 @@ namespace ClassRegistration.DataAccess.Repository
 
             return _mapper.Map<IEnumerable<SectionModel>> (sections);
         }
+
+
+        /// <summary>
+        /// Find the courses and their reviews by instructor's last name
+        /// </summary>
+        /// <param name="instructorname"></param>
+        /// <returns></returns>
+        public virtual async Task<IEnumerable<SectionModel>> FindByInstrName(string instructorname)
+        {
+            var sections = await _context.Section.Include(s => s.Course).ThenInclude(c => c.Reviews)
+                                    .Where(s => s.Instructor.LastName == instructorname).ToListAsync();
+
+            return _mapper.Map<IEnumerable<SectionModel>>(sections);
+        }
     }
 }
 
