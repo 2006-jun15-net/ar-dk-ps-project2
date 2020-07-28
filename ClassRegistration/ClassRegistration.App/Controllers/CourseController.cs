@@ -86,7 +86,7 @@ namespace ClassRegistration.App.Controllers
         /// <param name="name"></param>
         /// <returns></returns>
         // GET api/course/Robotics
-        [HttpGet ("{name}")]
+        [HttpGet ("class/{name}")]
         public async Task<IActionResult> Get (string name)
         {
             CourseModel theCourse;

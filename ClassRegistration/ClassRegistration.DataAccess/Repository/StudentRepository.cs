@@ -22,5 +22,12 @@ namespace ClassRegistration.DataAccess.Repository
             var student = await _context.Student.FirstOrDefaultAsync (s => s.StudentId == id);
             return _mapper.Map<StudentModel> (student);
         }
+
+
+        public virtual async Task<StudentModel> FindByName(string lastname)
+        {
+            var student = await _context.Student.FirstOrDefaultAsync(s => s.LastName == lastname);
+            return _mapper.Map<StudentModel>(student);
+        }
     }
 }

@@ -44,5 +44,32 @@ namespace ClassRegistration.App.Controllers
             
             return Ok (sections);
         }
+
+
+
+
+        //using instructor's last name here
+        // GET: api/section/{Erickson}
+        [HttpGet("{instructorname}")]
+        public async Task<IActionResult> GetCoursesandReviews (string instructorname)
+        {
+            IEnumerable<SectionModel> sections;
+
+            if (instructorname != null)
+            {
+                sections = await _sectionRepository.FindByInstrName(instructorname);
+            }
+            else
+            {
+                sections = await _sectionRepository.FindAll();
+            }
+
+            if (!sections.Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(sections);
+        }
     }
 }

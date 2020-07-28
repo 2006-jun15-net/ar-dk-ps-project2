@@ -4,6 +4,7 @@ using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ClassRegistration.DataAccess.Repository
@@ -22,20 +23,40 @@ namespace ClassRegistration.DataAccess.Repository
         /// <param name="score"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public virtual async Task Add (int studentid, int courseid, int score, string text)
+        //public virtual async Task Add (int studentid, int courseid, int score, string text)
+        //{
+        //    var reviewDate = DateTime.Today;
+
+        //    _context.Reviews.Add (new Reviews
+        //    {
+        //        CourseId = courseid,
+        //        StudentId = studentid,
+        //        Date = reviewDate,
+        //        Score = score,
+        //        Text = text
+        //    });
+
+        //    await _context.SaveChangesAsync ();
+        //}
+
+
+
+        //add with student's name
+        public virtual async Task Add(StudentModel student, int courseid, int score, string text)
         {
             var reviewDate = DateTime.Today;
+            
 
-            _context.Reviews.Add (new Reviews
+            _context.Reviews.Add(new Reviews
             {
                 CourseId = courseid,
-                StudentId = studentid,
+                StudentId = student.StudentId,
                 Date = reviewDate,
                 Score = score,
                 Text = text
             });
 
-            await _context.SaveChangesAsync ();
+            await _context.SaveChangesAsync();
         }
 
 

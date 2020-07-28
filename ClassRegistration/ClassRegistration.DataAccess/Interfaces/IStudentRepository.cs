@@ -11,5 +11,7 @@ namespace ClassRegistration.Domain
         /// <param name="id"></param>
         /// <returns></returns>
         Task<StudentModel> FindById (int id);
+
+        Task<StudentModel> FindByName(string lastname);
     }
 }
