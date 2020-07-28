@@ -3,7 +3,7 @@
     /// <summary>
     /// This class limits the amount of output data.
     /// </summary>
-    public class CoursePagination
+    public class ModelPagination
     {
         // setting the maximum page size
         const int maxPageSize = 50;

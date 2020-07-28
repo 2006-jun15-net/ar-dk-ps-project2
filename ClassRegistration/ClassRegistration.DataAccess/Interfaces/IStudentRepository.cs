@@ -1,4 +1,5 @@
-﻿using ClassRegistration.Domain.Model;
+﻿using ClassRegistration.DataAccess.Pagination;
+using ClassRegistration.Domain.Model;
 using System.Threading.Tasks;
 
 namespace ClassRegistration.Domain
@@ -12,6 +13,8 @@ namespace ClassRegistration.Domain
         /// <returns></returns>
         Task<StudentModel> FindById (int id);
 
-        Task<StudentModel> FindByName(string lastname);
+
+        Task<StudentModel> FindByName(string name);
+         master
     }
 }

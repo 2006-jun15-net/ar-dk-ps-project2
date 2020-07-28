@@ -66,7 +66,7 @@ namespace ClassRegistration.Test.DataAccess.Repository
         [Fact]
         public async void TestFindAll ()
         {
-            var courses = await _courseRepository.FindAll (new CoursePagination ());
+            var courses = await _courseRepository.FindAll (new ModelPagination ());
 
             Assert.Single (courses);
             Assert.Equal (1, courses.First ().CourseId);
