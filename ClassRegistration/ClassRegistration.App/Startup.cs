@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using Okta.AspNetCore;
 
 namespace ClassRegistration.App
 {
@@ -51,7 +52,6 @@ namespace ClassRegistration.App
                                   });
             });
 
-            /*
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = OktaDefaults.ApiAuthenticationScheme;
@@ -60,9 +60,8 @@ namespace ClassRegistration.App
             })
             .AddOktaWebApi(new OktaWebApiOptions()
             {
-                OktaDomain = "https://${yourOktaDomain}"
+                OktaDomain = "https://dev-638266.okta.com"
             });
-            */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
