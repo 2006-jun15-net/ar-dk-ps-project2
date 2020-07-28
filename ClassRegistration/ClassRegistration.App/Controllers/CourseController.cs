@@ -26,7 +26,7 @@ namespace ClassRegistration.App.Controllers
         /// <returns></returns>
         // GET: api/course?PageNumber=1&PageSize=5 or api/course?deptId=5
         [HttpGet]
-        public async Task<IActionResult> Get ([FromQuery] CoursePagination coursePagination, [FromQuery] int? deptId = null)
+        public async Task<IActionResult> Get ([FromQuery] ModelPagination modelPagination, [FromQuery] int? deptId = null)
         {
             if (!ModelState.IsValid) 
             {
@@ -41,7 +41,7 @@ namespace ClassRegistration.App.Controllers
             }
             else
             {
-                courses = await _courseRepository.FindAll (coursePagination);
+                courses = await _courseRepository.FindAll (modelPagination);
             }
 
             if (!courses.Any ()) 
