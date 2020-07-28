@@ -18,7 +18,7 @@ namespace ClassRegistration.DataAccess.Interfaces
         /// gets some courses using pagination.
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<CourseModel>> FindAll (CoursePagination coursePagination);
+        Task<IEnumerable<CourseModel>> FindAll (ModelPagination coursePagination);
 
         /// <summary>
         /// Search a course by course ID

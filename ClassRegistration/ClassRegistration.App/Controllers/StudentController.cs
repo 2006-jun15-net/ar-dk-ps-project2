@@ -1,5 +1,7 @@
 using ClassRegistration.App.ResponseObjects;
+using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Interfaces;
+using ClassRegistration.DataAccess.Pagination;
 using ClassRegistration.Domain;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Authorization;
@@ -38,7 +40,7 @@ namespace ClassRegistration.App.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         // GET api/<StudentController>/5
-        [HttpGet ("{id}")]
+        [HttpGet ("{id:int}")]
         public async Task<IActionResult> Get (int id)
         {
             StudentModel student;
@@ -59,6 +61,42 @@ namespace ClassRegistration.App.Controllers
 
             return Ok (student);
         }
+
+        /// <summary>
+        /// This method gets a student by their last name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+
+        //GET api/<studentController>/Smith
+        [HttpGet("{name}")]
+        public async Task<IActionResult> Get(string name)
+
+        {
+            StudentModel studentModel;
+
+            try
+            {
+                studentModel = await _studentRepository.FindByName(name);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(new ValidationError(e));
+            }
+
+           
+
+            if (studentModel is StudentModel theClass)
+            {
+                return Ok(theClass);
+            }
+
+            return NotFound(new ErrorObject($"Course '{name}' does not exist"));
+
+
+        }
+
+        
 
         /// <summary>
         /// Returns a student's courses
