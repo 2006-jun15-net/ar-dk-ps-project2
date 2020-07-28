@@ -48,7 +48,7 @@ namespace ClassRegistration.App.Controllers
 
             if (!success)
             { 
-                return BadRequest ("Failed to add review");    
+                return BadRequest ("Failed to add review");
             }
 
             return Ok (MessageObject.Success);

@@ -44,12 +44,12 @@ namespace ClassRegistration.App
             {
                 options.AddPolicy (name: "AllowLocalNgServe", builder =>
                 {
-                    builder.WithOrigins ("http://localhost:47144")
+                    builder.WithOrigins ("http://localhost:4200")
                           .AllowAnyMethod ()
                           .AllowAnyHeader ()
                           .AllowCredentials ();
 
-                    builder.WithOrigins ("https://ar-dk-ps-project2.azurewebsites.net")
+                    builder.WithOrigins ("https://ar-dk-ps-project2-site.azurewebsites.net")
                           .AllowAnyMethod ()
                           .AllowAnyHeader ()
                           .AllowCredentials ();

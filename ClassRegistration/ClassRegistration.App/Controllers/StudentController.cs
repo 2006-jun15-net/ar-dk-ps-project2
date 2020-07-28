@@ -13,7 +13,7 @@ namespace ClassRegistration.App.Controllers
 {
     [Route ("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize]// (Policy = "StudentAccess")]
     public class StudentController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;
@@ -32,6 +32,45 @@ namespace ClassRegistration.App.Controllers
             _studentTypeRepository = studentTypeRepository;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get ([FromQuery] string FirstName, [FromQuery] string LastName)
+        {
+            if (string.IsNullOrEmpty(FirstName) && string.IsNullOrEmpty(LastName))
+            {
+                return BadRequest (new ErrorObject ("This method requires a firstname or a lastname to be provided"));
+            }
+
+            if (string.IsNullOrEmpty (FirstName))
+            {
+                var students = await _studentRepository.FindByLastname (LastName);
+                
+                if (!students.Any ())
+                {
+                    return NoContent ();
+                }
+
+                return Ok (students);
+            }
+
+            else if (string.IsNullOrEmpty (LastName))
+            {
+                var students = await _studentRepository.FindByFirstname (FirstName);
+                
+                if (!students.Any ())
+                {
+                    return NoContent ();
+                }
+
+                return Ok (students);
+            }
+
+            else
+            {
+                var student = await _studentRepository.FindByName (FirstName, LastName);
+                return Ok (student);
+            }
+        }
+
         /// <summary>
         /// Search for a student by ID
         /// </summary>
@@ -41,6 +80,10 @@ namespace ClassRegistration.App.Controllers
         [HttpGet ("{id}")]
         public async Task<IActionResult> Get (int id)
         {
+            foreach (var identity in HttpContext.User.Identities) {
+                Console.WriteLine (identity.Name);
+            }
+
             StudentModel student;
 
             try
