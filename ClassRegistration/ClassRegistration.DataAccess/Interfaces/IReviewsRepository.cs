@@ -14,7 +14,7 @@ namespace ClassRegistration.DataAccess.Interfaces
         /// <param name="score"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        Task<bool> Add (int studentid, int courseid, int score, string text);
+        Task<bool> Add (StudentModel student, int courseid, int score, string text);
 
         /// <summary>
         /// Get all the reviews available

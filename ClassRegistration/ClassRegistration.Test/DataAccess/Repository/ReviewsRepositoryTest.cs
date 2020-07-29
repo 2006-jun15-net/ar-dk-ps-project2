@@ -1,5 +1,6 @@
 ﻿using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Repository;
+using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Xunit;
@@ -45,7 +46,10 @@ namespace ClassRegistration.Test.DataAccess.Repository
         [Fact]
         public async void TestAdd ()
         {
-            await _reviewsRepository.Add (1, 1, 100, "Test");
+            await _reviewsRepository.Add (new StudentModel 
+            {
+
+            }, 1, 100, "Test");
         }
     }
 }

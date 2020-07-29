@@ -40,16 +40,16 @@ namespace ClassRegistration.App.Controllers
         // POST: api/reviews
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Post([FromBody] string studentName, [FromBody] ReviewsModel review)
+        public async Task<IActionResult> Post([FromBody] ReviewsModel review)
         {
-            var currentStudent = await _studentRepository.FindByName(studentname);
+            var currentStudent = await _studentRepository.FindById (review.StudentId);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(new ErrorObject("Invalid review data sent"));
             }
             
-            var success = await _reviewsRepository.Add (review.StudentId, review.CourseId, review.Score, review.Text);
+            var success = await _reviewsRepository.Add (currentStudent, review.CourseId, review.Score, review.Text);
 
             if (!success)
             { 

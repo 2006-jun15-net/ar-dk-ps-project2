@@ -22,6 +22,6 @@ namespace ClassRegistration.DataAccess.Interfaces
         /// <returns></returns>
         Task<IEnumerable<SectionModel>> FindByInstrId (int instructorId);
 
-        Task<bool> Add (int instructorId, int courseId, string term, TimeSpan start, TimeSpan end);
+        Task<IEnumerable<SectionModel>> FindByInstrName(string instructorname);
     }
 }

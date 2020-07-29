@@ -17,6 +17,7 @@ namespace ClassRegistration.Test.App.Controllers
         public ReviewsControllerTest ()
         {
             var mockReviewsRepo = new Mock<ReviewsRepository> ();
+            var mockStudentRepo = new Mock<StudentRepository> ();
 
             var reviews = new List<ReviewsModel>
             {
@@ -26,6 +27,15 @@ namespace ClassRegistration.Test.App.Controllers
                 }
             };
 
+            var students = new List<StudentModel>
+            {
+                new StudentModel
+                {
+                    StudentId = 1
+                }
+            };
+
+            // Reviews repo setup
             mockReviewsRepo.Setup (
                 repo => repo.FindAll ()
             ).Returns (
@@ -33,15 +43,15 @@ namespace ClassRegistration.Test.App.Controllers
             );
 
             mockReviewsRepo.Setup (
-                repo => repo.Add (It.IsAny<int> (), It.IsAny<int> (), It.IsAny<int> (), It.IsAny<string> ())
+                repo => repo.Add (It.IsAny<StudentModel> (), It.IsAny<int> (), It.IsAny<int> (), It.IsAny<string> ())
             ).Returns (
-                async (int studentId, int courseId, int score, string text) =>
+                async (StudentModel student, int courseId, int score, string text) =>
                     await Task.Run (() =>
                     {
                         reviews.Add (new ReviewsModel
                         {
                             CourseId = courseId,
-                            StudentId = studentId,
+                            StudentId = student.StudentId,
                             Score = score,
                             Text = text
                         });
@@ -49,9 +59,16 @@ namespace ClassRegistration.Test.App.Controllers
                     })
             );
 
+            // Student repo setup
+            mockStudentRepo.Setup (
+                repo => repo.FindById (It.IsAny<int> ())  
+            ).Returns (
+                async (int id) => await Task.Run (() => students.Where (s => s.StudentId == id).FirstOrDefault ())
+            );
+
             mockReviewsRepo.SetupAllProperties ();
 
-            _reviewsController = new ReviewsController (mockReviewsRepo.Object);
+            _reviewsController = new ReviewsController (mockReviewsRepo.Object, mockStudentRepo.Object);
         }
 
         [Fact]

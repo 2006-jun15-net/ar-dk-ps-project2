@@ -37,8 +37,6 @@ namespace ClassRegistration.App.Controllers
         [HttpGet]
         public async Task<IActionResult> Get ([FromQuery] string FirstName, [FromQuery] string LastName)
         {
-            var UserID = User.Identity.Name;
-
             if (string.IsNullOrEmpty (FirstName) && string.IsNullOrEmpty (LastName))
             {
                 return BadRequest (new ErrorObject ("This method requires a firstname or a lastname to be provided"));
@@ -71,6 +69,11 @@ namespace ClassRegistration.App.Controllers
             else
             {
                 var student = await _studentRepository.FindByName (FirstName, LastName);
+
+                if (student == default)
+                {
+                    return NotFound (new ErrorObject ($"Student '{FirstName} {LastName}' does not exist"));
+                }
                 return Ok (student);
             }
         }
@@ -107,42 +110,6 @@ namespace ClassRegistration.App.Controllers
 
             return Ok (student);
         }
-
-        /// <summary>
-        /// This method gets a student by their last name
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-
-        //GET api/<studentController>/Smith
-        [HttpGet("{name}")]
-        public async Task<IActionResult> Get(string name)
-
-        {
-            StudentModel studentModel;
-
-            try
-            {
-                studentModel = await _studentRepository.FindByName(name);
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest(new ValidationError(e));
-            }
-
-           
-
-            if (studentModel is StudentModel theClass)
-            {
-                return Ok(theClass);
-            }
-
-            return NotFound(new ErrorObject($"Course '{name}' does not exist"));
-
-
-        }
-
-        
 
         /// <summary>
         /// Returns a student's courses

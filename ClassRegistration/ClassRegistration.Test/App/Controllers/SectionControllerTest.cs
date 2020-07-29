@@ -51,24 +51,6 @@ namespace ClassRegistration.Test.App.Controllers
                     await Task.Run (() => sections.Where (s => s.InstructorId == instructorId))
             );
 
-            mockSectionRepo.Setup (
-                repo => repo.Add (It.IsAny<int> (), It.IsAny<int> (), It.IsAny<string> (), It.IsAny<TimeSpan> (), It.IsAny<TimeSpan> ())
-            ).Returns (
-                async (int instructorId, int courseId, string term, TimeSpan start, TimeSpan end) =>
-                    await Task.Run (() =>
-                    {
-                        sections.Add (new SectionModel
-                        {
-                            InstructorId = instructorId,
-                            CourseId = courseId,
-                            Term = term,
-                            StartTime = start,
-                            EndTime = end
-                        });
-                        return true;
-                    })
-           );
-
             // Course repo setup
             mockCourseRepo.Setup (
                 repo => repo.FindById (It.IsAny<int> ())
@@ -103,38 +85,6 @@ namespace ClassRegistration.Test.App.Controllers
 
             Assert.NotNull (response);
             Assert.Equal (204, response.StatusCode);
-        }
-
-        [Fact]
-        public async void TestAdd ()
-        {
-            OkObjectResult response = await _sectionController.Post (new SectionModel
-            {
-                InstructorId = 1,
-                CourseId = 1,
-                Term = "fall",
-                StartTime = new TimeSpan (),
-                EndTime = new TimeSpan ()
-            }) as OkObjectResult;
-
-            Assert.NotNull (response);
-            Assert.Equal (200, response.StatusCode);
-        }
-
-        [Fact]
-        public async void TestAddFail ()
-        {
-            BadRequestObjectResult response = await _sectionController.Post (new SectionModel
-            {
-                InstructorId = 1,
-                CourseId = 2,
-                Term = "fall",
-                StartTime = new TimeSpan (),
-                EndTime = new TimeSpan ()
-            }) as BadRequestObjectResult;
-
-            Assert.NotNull (response);
-            Assert.Equal (400, response.StatusCode);
         }
     }
 }
