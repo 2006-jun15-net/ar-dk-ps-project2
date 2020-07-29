@@ -34,16 +34,6 @@ namespace ClassRegistration.Test.DataAccess.Repository
         }
 
         [Fact]
-        public async void TestFindAll ()
-        {
-            var reviews = await _reviewsRepository.FindAll ();
-
-            Assert.NotNull (reviews);
-            Assert.Single (reviews);
-            Assert.Equal (1, reviews.First ().ReviewId);
-        }
-
-        [Fact]
         public async void TestAdd ()
         {
             await _reviewsRepository.Add (new StudentModel

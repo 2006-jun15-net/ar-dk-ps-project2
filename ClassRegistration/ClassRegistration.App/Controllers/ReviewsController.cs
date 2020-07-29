@@ -22,18 +22,6 @@ namespace ClassRegistration.App.Controllers
         }
 
         /// <summary>
-        /// Returns all available reviews
-        /// </summary>
-        /// <returns></returns>
-        // GET: api/reviews/5
-        [HttpGet ("{courseId}")]
-        public async Task<IActionResult> Get (int courseId)
-        {
-            var theReviews = await _reviewsRepository.FindByCourse (courseId);
-            return Ok (theReviews);
-        }
-
-        /// <summary>
         /// Add a review for a course based on a student's name
         /// </summary>
         /// <param name="review"></param>

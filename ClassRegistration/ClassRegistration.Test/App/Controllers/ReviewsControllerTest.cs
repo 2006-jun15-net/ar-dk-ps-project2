@@ -35,13 +35,6 @@ namespace ClassRegistration.Test.App.Controllers
                 }
             };
 
-            // Reviews repo setup
-            mockReviewsRepo.Setup (
-                repo => repo.FindAll ()
-            ).Returns (
-                async () => await Task.Run (() => reviews)
-            );
-
             mockReviewsRepo.Setup (
                 repo => repo.Add (It.IsAny<StudentModel> (), It.IsAny<int> (), It.IsAny<int> (), It.IsAny<string> ())
             ).Returns (
@@ -69,20 +62,6 @@ namespace ClassRegistration.Test.App.Controllers
             mockReviewsRepo.SetupAllProperties ();
 
             _reviewsController = new ReviewsController (mockReviewsRepo.Object, mockStudentRepo.Object);
-        }
-
-        [Fact]
-        public async void TestGet ()
-        {
-            OkObjectResult response = await _reviewsController.Get () as OkObjectResult;
-
-            Assert.NotNull (response);
-            Assert.Equal (200, response.StatusCode);
-
-            var result = response.Value as IEnumerable<ReviewsModel>;
-
-            Assert.Single (result);
-            Assert.Equal (1, result.First ().ReviewId);
         }
 
         [Fact]

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ClassRegistration.Domain.Model
 {
@@ -10,6 +11,11 @@ namespace ClassRegistration.Domain.Model
         private string _courseName;
         private decimal _fees;
         private int? _credits;
+
+        public CourseModel ()
+        {
+            Reviews = new HashSet<ReviewsModel> ();
+        }
 
         /// <summary>
         /// A course has a name
@@ -26,6 +32,8 @@ namespace ClassRegistration.Domain.Model
                 _courseName = value;
             }
         }
+
+        public ICollection<ReviewsModel> Reviews { get; set; }
 
         /// <summary>
         /// A course has an ID number
