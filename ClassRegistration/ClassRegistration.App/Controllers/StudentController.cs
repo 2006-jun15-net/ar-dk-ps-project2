@@ -16,14 +16,17 @@ namespace ClassRegistration.App.Controllers
     [Authorize]
     public class StudentController : ControllerBase
     {
+        private readonly ICourseRepository _courseRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly IEnrollmentRepository _enrollmentRepository;
         private readonly IStudentTypeRepository _studentTypeRepository;
 
-        public StudentController (IStudentRepository studentRepository,
+        public StudentController (ICourseRepository courseRepository,
+                                    IStudentRepository studentRepository,
                                     IEnrollmentRepository enrollmentRepository,
                                     IStudentTypeRepository studentTypeRepository)
         {
+            _courseRepository = courseRepository;
             _studentRepository = studentRepository;
             _enrollmentRepository = enrollmentRepository;
             _studentTypeRepository = studentTypeRepository;
@@ -111,12 +114,12 @@ namespace ClassRegistration.App.Controllers
         public async Task<IActionResult> GetCourses (int id)
         {
             StudentModel student;
-            IEnumerable<EnrollmentModel> courses;
+            IEnumerable<CourseModel> courses;
 
             try
             {
                 student = await _studentRepository.FindById (id);
-                courses = await _enrollmentRepository.FindByStudent (id);
+                courses = await _courseRepository.FindByStudent (id);
             }
             catch (ArgumentException e)
             {

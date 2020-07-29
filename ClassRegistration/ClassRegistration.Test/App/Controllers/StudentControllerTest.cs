@@ -16,6 +16,7 @@ namespace ClassRegistration.Test.Controllers.App
 
         public StudentControllerTest ()
         {
+            var mockCoursesRepo = new Mock<CourseRepository> ();
             var mockStudentRepo = new Mock<StudentRepository> ();
             var mockEnrollRepo = new Mock<EnrollmentRepository> ();
             var mockStudentTypeRepo = new Mock<StudentTypeRepository> ();
@@ -61,6 +62,15 @@ namespace ClassRegistration.Test.Controllers.App
                 }
             };
 
+            // Course repo setup
+            mockCoursesRepo.Setup (
+                repo => repo.FindByStudent (It.IsAny<int> ())
+            ).Returns (
+                async (int id) => 
+                    await Task.Run (() => enrollments.Where (e => e.StudentId == id)
+                                            .Select (e => e.Section).Select (s => s.Course))
+            );
+
             // Student repo setup
             mockStudentRepo.Setup (
                 repo => repo.FindById (It.IsAny<int> ())
@@ -71,19 +81,11 @@ namespace ClassRegistration.Test.Controllers.App
 
             // Enrollment repo setup
             mockEnrollRepo.Setup (
-                repo => repo.FindByStudent (It.IsAny<int> ())
-            ).Returns (
-                async (int id) =>
-                    await Task.Run (() => enrollments.Where (e => e.StudentId == id))
-            );
-
-            mockEnrollRepo.Setup (
                 repo => repo.GetTotalAmount (It.IsAny<int> (), It.IsAny<string> ())
             ).Returns (
                 async (int id, string term) =>
                     await Task.Run (() =>
                     {
-
                         var courses = enrollments.Where (e => e.EnrollmentId == id).Select (e => e.Section)
                                                 .Where (s => s.Term == term).Select (s => s.Course);
 
@@ -104,11 +106,13 @@ namespace ClassRegistration.Test.Controllers.App
                     await Task.Run (() => id == "in-state" ? 1m : 0m)
             );
 
+            mockCoursesRepo.SetupAllProperties();
             mockStudentRepo.SetupAllProperties ();
             mockEnrollRepo.SetupAllProperties ();
             mockStudentTypeRepo.SetupAllProperties ();
 
-            _studentController = new StudentController (mockStudentRepo.Object, mockEnrollRepo.Object, mockStudentTypeRepo.Object);
+            _studentController = new StudentController (mockCoursesRepo.Object, mockStudentRepo.Object, 
+                mockEnrollRepo.Object, mockStudentTypeRepo.Object);
         }
 
         [Fact]
@@ -143,7 +147,7 @@ namespace ClassRegistration.Test.Controllers.App
             Assert.NotNull (response);
             Assert.Equal (200, response.StatusCode);
 
-            var courses = response.Value as IEnumerable<EnrollmentModel>;
+            var courses = response.Value as IEnumerable<CourseModel>;
 
             Assert.Single (courses);
         }

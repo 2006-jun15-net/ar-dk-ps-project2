@@ -1,6 +1,5 @@
 using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Interfaces;
-using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,15 +16,6 @@ namespace ClassRegistration.DataAccess.Repository
         public EnrollmentRepository (Course_registration_dbContext context) : base (context) { }
 
         public EnrollmentRepository () : this (null) { }
-
-        public virtual async Task<IEnumerable<EnrollmentModel>> FindByStudent (int studentId)
-        {
-            var enrollments = await (from e in _context.Enrollment
-                                     where e.StudentId == studentId
-                                     select e).ToListAsync ();
-
-            return _mapper.Map<IEnumerable<EnrollmentModel>> (enrollments);
-        }
 
         /// <summary>
         /// This method returns the total credits of a student with a specified id and semester

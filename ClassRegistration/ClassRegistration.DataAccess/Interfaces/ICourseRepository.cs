@@ -40,5 +40,7 @@ namespace ClassRegistration.DataAccess.Interfaces
         /// <param name="deptName"></param>
         /// <returns></returns>
         Task<IEnumerable<CourseModel>> FindByDeptName (string deptName);
+
+        Task<IEnumerable<CourseModel>> FindByStudent (int studentId);
     }
 }

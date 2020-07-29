@@ -1,6 +1,4 @@
-﻿using ClassRegistration.Domain.Model;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace ClassRegistration.DataAccess.Interfaces
 {
@@ -9,7 +7,6 @@ namespace ClassRegistration.DataAccess.Interfaces
     /// </summary>
     public interface IEnrollmentRepository
     {
-        Task<IEnumerable<EnrollmentModel>> FindByStudent (int studentId);
         /// <summary>
         /// This method returns the total credits of a student with a specified id and semester
         /// </summary>
