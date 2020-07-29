@@ -25,16 +25,16 @@ namespace ClassRegistration.Test.Controllers.App
                 new StudentModel {
 
                     StudentId = 1,
-                    Name = "Test 1",
-
+                    FirstName = "Test",
+                    LastName = "1",
                     ResidentId = "in-state"
                 },
 
                 new StudentModel {
 
                     StudentId = 2,
-                    Name = "Test 2",
-
+                    FirstName = "Test",
+                    LastName = "2",
                     ResidentId = "out-of-state"
                 }
             };
@@ -44,6 +44,7 @@ namespace ClassRegistration.Test.Controllers.App
                 new EnrollmentModel
                 {
                     EnrollmentId = 1,
+                    StudentId = 1,
 
                     Section = new SectionModel
                     {
@@ -69,6 +70,13 @@ namespace ClassRegistration.Test.Controllers.App
             );
 
             // Enrollment repo setup
+            mockEnrollRepo.Setup (
+                repo => repo.FindByStudent (It.IsAny<int> ())
+            ).Returns (
+                async (int id) => 
+                    await Task.Run (() => enrollments.Where (e => e.StudentId == id))
+            );
+
             mockEnrollRepo.Setup (
                 repo => repo.GetTotalAmount (It.IsAny<int> (), It.IsAny<string> ())  
             ).Returns (
@@ -113,7 +121,8 @@ namespace ClassRegistration.Test.Controllers.App
             var student = response.Value as StudentModel;
 
             Assert.Equal (1, student.StudentId);
-            Assert.Equal ("Test 1", student.Name);
+            Assert.Equal ("Test", student.FirstName);
+            Assert.Equal ("1", student.LastName);
         }
 
         [Fact]
@@ -133,7 +142,7 @@ namespace ClassRegistration.Test.Controllers.App
             Assert.NotNull (response);
             Assert.Equal (200, response.StatusCode);
 
-            var courses = response.Value as IEnumerable<CourseModel>;
+            var courses = response.Value as IEnumerable<EnrollmentModel>;
 
             Assert.Single (courses);
         }

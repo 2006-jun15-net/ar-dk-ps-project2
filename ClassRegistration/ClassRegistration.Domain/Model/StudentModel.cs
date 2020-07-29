@@ -20,8 +20,9 @@ namespace ClassRegistration.Domain.Model
         public StudentModel ()
         {
             Enrollment = new HashSet<EnrollmentModel> ();
-            Reviews = new HashSet<ReviewsModel> ();
         }
+
+        public ICollection<EnrollmentModel> Enrollment { get; set; }
 
         /// <summary>
         /// A student's ID number

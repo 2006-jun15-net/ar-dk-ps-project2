@@ -66,13 +66,15 @@ namespace ClassRegistration.Test.App.Controllers
                 new StudentModel
                 {
                     StudentId = 1,
-                    Name = "Test Student 1"
+                    FirstName = "Test",
+                    LastName = "1"
                 },
 
                 new StudentModel
                 {
                     StudentId = 2,
-                    Name = "Test Student 2"
+                    FirstName = "Test",
+                    LastName = "2"
                 }
             };
 
@@ -167,22 +169,9 @@ namespace ClassRegistration.Test.App.Controllers
             Assert.NotNull (response);
             Assert.Equal (200, response.StatusCode);
 
-            bool result = (bool)response.Value;
+            int result = (int)response.Value;
 
-            Assert.True (result);
-        }
-
-        [Fact]
-        public async void TestGetTotalCreditsTermReqNotMet ()
-        {
-            OkObjectResult response = await _enrollmentController.GetTotalCredits (2, "spring") as OkObjectResult;
-
-            Assert.NotNull (response);
-            Assert.Equal (200, response.StatusCode);
-
-            bool result = (bool)response.Value;
-
-            Assert.False (result);
+            Assert.Equal (20, result);
         }
 
         [Fact]

@@ -84,11 +84,6 @@ namespace ClassRegistration.App.Controllers
         [HttpGet ("{id:int}")]
         public async Task<IActionResult> Get (int id)
         {
-            foreach (var identity in HttpContext.User.Identities)
-            {
-                Console.WriteLine (identity.Name);
-            }
-
             StudentModel student;
 
             try
