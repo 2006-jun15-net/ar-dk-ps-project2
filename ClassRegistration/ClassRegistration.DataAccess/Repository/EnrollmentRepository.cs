@@ -89,15 +89,16 @@ namespace ClassRegistration.DataAccess.Repository
         /// <param name="studentId"></param>
         /// <param name="sectionId"></param>
         /// <returns></returns>
-        public virtual async Task Add (int studentId, int sectionId)
+        public virtual async Task<bool> Add (int studentId, int sectionId)
         {
-            _context.Enrollment.Add (new Enrollment
+            var enrollment = new Enrollment
             {
                 StudentId = studentId,
                 SectId = sectionId
-            });
+            };
 
-            await _context.SaveChangesAsync ();
+            await _context.Enrollment.AddAsync (enrollment);
+            return await _context.SaveChangesAsync () > 0;
         }
     }
 }

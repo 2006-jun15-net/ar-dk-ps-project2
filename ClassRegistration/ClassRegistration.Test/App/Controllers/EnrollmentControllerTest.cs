@@ -42,7 +42,7 @@ namespace ClassRegistration.Test.App.Controllers
                 },
 
                 new EnrollmentModel
-                { 
+                {
                     EnrollmentId = 2,
                     SectId = 2,
                     StudentId = 2,
@@ -57,7 +57,7 @@ namespace ClassRegistration.Test.App.Controllers
                             CourseId = 2,
                             Credits = 1
                         }
-                    }   
+                    }
                 }
             };
 
@@ -97,18 +97,22 @@ namespace ClassRegistration.Test.App.Controllers
             ).Returns (
                 async (int id, string term) =>
                     await Task.Run (() => enrollments.Where (e => e.EnrollmentId == id).Select (e => e.Section)
-                                        .Where (s => s.Term == term).Select (s => s.Course.Credits).FirstOrDefault ()) 
+                                        .Where (s => s.Term == term).Select (s => s.Course.Credits).FirstOrDefault ())
             );
 
             mockEnrollmentRepo.Setup (
                 repo => repo.Add (It.IsAny<int> (), It.IsAny<int> ())
             ).Returns (
                 async (int studentId, int sectionId) =>
-                    await Task.Run (() => enrollments.Add (new EnrollmentModel
+                    await Task.Run (() =>
                     {
-                        StudentId = studentId,
-                        SectId = sectionId
-                    }))
+                        enrollments.Add (new EnrollmentModel
+                        {
+                            StudentId = studentId,
+                            SectId = sectionId
+                        });
+                        return true;
+                    })
             );
 
             mockEnrollmentRepo.Setup (

@@ -14,7 +14,7 @@ namespace ClassRegistration.Domain.Model
 
         public CourseModel ()
         {
-            Reviews = new HashSet<ReviewsModel>();
+            Reviews = new HashSet<ReviewsModel> ();
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace ClassRegistration.Domain.Model
         /// </summary>
         public int CourseId { get; set; }
 
-        
+
         public int StudentId { get; set; }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace ClassRegistration.Domain.Model
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentException("Course cannot be worth zero or negative credits.", nameof(value));
+                    throw new ArgumentException ("Course cannot be worth zero or negative credits.", nameof (value));
                 }
                 _credits = value;
             }
@@ -73,7 +73,7 @@ namespace ClassRegistration.Domain.Model
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentException("Course fee cannot be zero.", nameof(value));
+                    throw new ArgumentException ("Course fee cannot be zero.", nameof (value));
                 }
                 _fees = value;
             }

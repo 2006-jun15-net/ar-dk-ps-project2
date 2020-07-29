@@ -3,6 +3,7 @@ using ClassRegistration.DataAccess.Pagination;
 using ClassRegistration.Domain;
 using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -43,6 +44,26 @@ namespace ClassRegistration.DataAccess.Repository
             var student = await _context.Student.FirstOrDefaultAsync(s => s.LastName == name);
             return _mapper.Map<StudentModel>(student);
 
+        }
+
+        public virtual async Task<IEnumerable<StudentModel>> FindByFirstname (string FirstName)
+        {
+            var students = await _context.Student.Where (s => s.FirstName == FirstName).ToListAsync ();
+            return _mapper.Map<IEnumerable<StudentModel>> (students);
+        }
+
+        public virtual async Task<IEnumerable<StudentModel>> FindByLastname (string LastName)
+        {
+            var students = await _context.Student.Where (s => s.LastName == LastName).ToListAsync ();
+            return _mapper.Map<IEnumerable<StudentModel>> (students);
+        }
+
+        public virtual async Task<StudentModel> FindByName (string FirstName, string LastName)
+        {
+            var student = await _context.Student.FirstOrDefaultAsync (
+                s => s.FirstName == FirstName && s.LastName == LastName
+            );
+            return _mapper.Map<StudentModel> (student);
         }
     }
 }

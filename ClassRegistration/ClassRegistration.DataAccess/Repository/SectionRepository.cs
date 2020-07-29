@@ -2,6 +2,7 @@ using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,7 +48,6 @@ namespace ClassRegistration.DataAccess.Repository
 
             return _mapper.Map<IEnumerable<SectionModel>> (sections);
         }
-
 
         /// <summary>
         /// Find the courses and their reviews by instructor's last name

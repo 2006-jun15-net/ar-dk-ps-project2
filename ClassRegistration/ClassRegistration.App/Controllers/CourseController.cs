@@ -2,6 +2,7 @@ using ClassRegistration.App.ResponseObjects;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.DataAccess.Pagination;
 using ClassRegistration.Domain.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -28,30 +29,30 @@ namespace ClassRegistration.App.Controllers
         [HttpGet]
         public async Task<IActionResult> Get ([FromQuery] ModelPagination modelPagination, [FromQuery] int? deptId = null)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 return BadRequest (new ErrorObject ("Invalid data sent"));
             }
-            
+
             IEnumerable<CourseModel> courses;
 
-            if (deptId != null) 
+            if (deptId != null)
             {
-                courses = await _courseRepository.FindByDeptId (Convert.ToInt32(deptId));
+                courses = await _courseRepository.FindByDeptId (Convert.ToInt32 (deptId));
             }
             else
             {
                 courses = await _courseRepository.FindAll (modelPagination);
             }
 
-            if (!courses.Any ()) 
+            if (!courses.Any ())
             {
                 return NoContent ();
             }
 
             return Ok (courses);
         }
-         
+
         /// <summary>
         /// search a course by ID
         /// </summary>

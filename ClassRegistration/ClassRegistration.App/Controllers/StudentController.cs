@@ -15,7 +15,7 @@ namespace ClassRegistration.App.Controllers
 {
     [Route ("api/[controller]")]
     [ApiController]
-    
+    [Authorize]
     public class StudentController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;
@@ -24,7 +24,7 @@ namespace ClassRegistration.App.Controllers
         private readonly IStudentTypeRepository _studentTypeRepository;
 
         public StudentController (ICourseRepository courseRepository,
-                                    IStudentRepository studentRepository, 
+                                    IStudentRepository studentRepository,
                                     IEnrollmentRepository enrollmentRepository,
                                     IStudentTypeRepository studentTypeRepository)
         {
@@ -32,6 +32,47 @@ namespace ClassRegistration.App.Controllers
             _studentRepository = studentRepository;
             _enrollmentRepository = enrollmentRepository;
             _studentTypeRepository = studentTypeRepository;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get ([FromQuery] string FirstName, [FromQuery] string LastName)
+        {
+            var UserID = User.Identity.Name;
+
+            if (string.IsNullOrEmpty (FirstName) && string.IsNullOrEmpty (LastName))
+            {
+                return BadRequest (new ErrorObject ("This method requires a firstname or a lastname to be provided"));
+            }
+
+            if (string.IsNullOrEmpty (FirstName))
+            {
+                var students = await _studentRepository.FindByLastname (LastName);
+
+                if (!students.Any ())
+                {
+                    return NoContent ();
+                }
+
+                return Ok (students);
+            }
+
+            else if (string.IsNullOrEmpty (LastName))
+            {
+                var students = await _studentRepository.FindByFirstname (FirstName);
+
+                if (!students.Any ())
+                {
+                    return NoContent ();
+                }
+
+                return Ok (students);
+            }
+
+            else
+            {
+                var student = await _studentRepository.FindByName (FirstName, LastName);
+                return Ok (student);
+            }
         }
 
         /// <summary>
@@ -43,6 +84,11 @@ namespace ClassRegistration.App.Controllers
         [HttpGet ("{id:int}")]
         public async Task<IActionResult> Get (int id)
         {
+            foreach (var identity in HttpContext.User.Identities)
+            {
+                Console.WriteLine (identity.Name);
+            }
+
             StudentModel student;
 
             try
@@ -109,7 +155,7 @@ namespace ClassRegistration.App.Controllers
         {
             StudentModel student;
 
-            try 
+            try
             {
                 student = await _studentRepository.FindById (id);
             }
@@ -125,13 +171,13 @@ namespace ClassRegistration.App.Controllers
 
             IEnumerable<CourseModel> courses;
 
-            try 
+            try
             {
                 courses = await _courseRepository.FindByStudent (id);
             }
             catch (ArgumentException e)
             {
-                return BadRequest(new ValidationError (e));
+                return BadRequest (new ValidationError (e));
             }
 
             if (!courses.Any ())
@@ -154,7 +200,7 @@ namespace ClassRegistration.App.Controllers
         {
             StudentModel student;
 
-            try 
+            try
             {
                 student = await _studentRepository.FindById (id);
             }

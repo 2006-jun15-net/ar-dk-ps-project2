@@ -1,4 +1,5 @@
 using ClassRegistration.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,13 +22,6 @@ namespace ClassRegistration.DataAccess.Interfaces
         /// <returns></returns>
         Task<IEnumerable<SectionModel>> FindByInstrId (int instructorId);
 
-
-
-        /// <summary>
-        /// To get access to a course and its reviews by instructor's last name
-        /// </summary>
-        /// <param name="instructorname"></param>
-        /// <returns></returns>
-        Task<IEnumerable<SectionModel>> FindByInstrName(string instructorname);
+        Task<bool> Add (int instructorId, int courseId, string term, TimeSpan start, TimeSpan end);
     }
 }

@@ -2,6 +2,7 @@ using ClassRegistration.App.ResponseObjects;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain;
 using ClassRegistration.Domain.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace ClassRegistration.App.Controllers
 {
     [Route ("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class EnrollmentController : ControllerBase
     {
         private readonly IEnrollmentRepository _enrollmentRepository;
@@ -83,14 +85,7 @@ namespace ClassRegistration.App.Controllers
                 return BadRequest (new ErrorObject ($"Couldn't find total credits for student id {id} and term {term}"));
             }
 
-            var minimumCredits = EnrollmentModel.MinimumCredits (term);
-
-            if (minimumCredits == -1)
-            {
-                return BadRequest (new ErrorObject ($"Invalid term {term}"));
-            }
-
-            return Ok (totalCredits >= minimumCredits);
+            return Ok (totalCredits);
         }
 
         /// <summary>
@@ -102,11 +97,11 @@ namespace ClassRegistration.App.Controllers
         [HttpPost]
         public async Task<IActionResult> Post ([FromBody] EnrollmentModel enrollmentModel)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 return BadRequest (new ErrorObject ("Invalid enrollment data sent"));
             }
-            
+
             SectionModel section;
             StudentModel student;
 
@@ -130,7 +125,12 @@ namespace ClassRegistration.App.Controllers
                 return BadRequest (new ErrorObject ($"Section id {enrollmentModel.SectId} does not exist"));
             }
 
-            await _enrollmentRepository.Add (enrollmentModel.StudentId, enrollmentModel.SectId);
+            var success = await _enrollmentRepository.Add (enrollmentModel.StudentId, enrollmentModel.SectId);
+
+            if (!success)
+            {
+                return BadRequest (new ErrorObject ("Failed to add enrollment"));
+            }
 
             return Ok (MessageObject.Success);
         }

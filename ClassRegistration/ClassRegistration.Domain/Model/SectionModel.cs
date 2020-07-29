@@ -8,9 +8,9 @@ namespace ClassRegistration.Domain.Model
     /// </summary>
     public class SectionModel : BaseBusinessModel
     {
-        public SectionModel()
+        public SectionModel ()
         {
-            Enrollment = new HashSet<EnrollmentModel>();
+            Enrollment = new HashSet<EnrollmentModel> ();
         }
 
         public int SectId { get; set; }
@@ -20,9 +20,8 @@ namespace ClassRegistration.Domain.Model
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
 
-        public CourseModel Course { get; set; } 
+        public CourseModel Course { get; set; }
         public InstructorModel Instructor { get; set; }
         public ICollection<EnrollmentModel> Enrollment { get; set; }
     }
 }
- 

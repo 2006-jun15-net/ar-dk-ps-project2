@@ -37,6 +37,6 @@ namespace ClassRegistration.DataAccess.Interfaces
         /// <param name="studentId"></param>
         /// <param name="sectionId"></param>
         /// <returns></returns>
-        Task Add (int studentId, int sectionId);
+        Task<bool> Add (int studentId, int sectionId);
     }
 }

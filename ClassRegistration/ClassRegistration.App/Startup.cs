@@ -40,25 +40,29 @@ namespace ClassRegistration.App
 
             services.AddSwaggerGen ();
 
-            services.AddCors(options =>
+            services.AddCors (options =>
             {
-                options.AddPolicy(name: "AllowLocalNgServe",
-                                  builder =>
-                                  {
-                                      builder.WithOrigins("http://localhost:4200")
-                                          .AllowAnyMethod()
-                                          .AllowAnyHeader()
-                                          .AllowCredentials();
-                                  });
+                options.AddPolicy (name: "AllowLocalNgServe", builder =>
+                {
+                    builder.WithOrigins ("http://localhost:4200")
+                          .AllowAnyMethod ()
+                          .AllowAnyHeader ()
+                          .AllowCredentials ();
+
+                    builder.WithOrigins ("https://ar-dk-ps-project2-site.azurewebsites.net")
+                          .AllowAnyMethod ()
+                          .AllowAnyHeader ()
+                          .AllowCredentials ();
+                });
             });
 
-            services.AddAuthentication(options =>
+            services.AddAuthentication (options =>
             {
                 options.DefaultAuthenticateScheme = OktaDefaults.ApiAuthenticationScheme;
                 options.DefaultChallengeScheme = OktaDefaults.ApiAuthenticationScheme;
                 options.DefaultSignInScheme = OktaDefaults.ApiAuthenticationScheme;
             })
-            .AddOktaWebApi(new OktaWebApiOptions()
+            .AddOktaWebApi (new OktaWebApiOptions ()
             {
                 OktaDomain = "https://dev-638266.okta.com"
             });
@@ -71,7 +75,7 @@ namespace ClassRegistration.App
             {
                 app.UseDeveloperExceptionPage ();
             }
-            
+
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger ();
 
@@ -85,7 +89,7 @@ namespace ClassRegistration.App
 
             app.UseRouting ();
 
-            app.UseCors("AllowLocalNgServe");
+            app.UseCors ("AllowLocalNgServe");
 
             app.UseAuthentication ();
             app.UseAuthorization ();
