@@ -12,11 +12,6 @@ namespace ClassRegistration.Domain.Model
         private decimal _fees;
         private int? _credits;
 
-        public CourseModel ()
-        {
-            Reviews = new HashSet<ReviewsModel> ();
-        }
-
         /// <summary>
         /// A course has a name
         /// </summary>
@@ -75,11 +70,5 @@ namespace ClassRegistration.Domain.Model
                 _fees = value;
             }
         }
-
-
-        /// <summary>
-        /// List of reviews for a course
-        /// </summary>
-        public ICollection<ReviewsModel> Reviews { get; set; }
     }
 }

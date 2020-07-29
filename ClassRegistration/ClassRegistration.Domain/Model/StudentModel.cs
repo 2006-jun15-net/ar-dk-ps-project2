@@ -84,21 +84,6 @@ namespace ClassRegistration.Domain.Model
         /// </summary>
         public int DeptId { get; set; }
 
-        public ICollection<EnrollmentModel> Enrollment { get; set; }
-        public ICollection<ReviewsModel> Reviews { get; set; }
-
-        public string Name
-        {
-            get => FirstName + " " + LastName;
-            set
-            {
-                var names = value.Split (" ");
-
-                FirstName = names[0];
-                LastName = names[1];
-            }
-        }
-
         public bool CreditRequirementsMet
         {
             get
