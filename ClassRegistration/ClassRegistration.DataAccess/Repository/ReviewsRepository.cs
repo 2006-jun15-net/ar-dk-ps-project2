@@ -4,6 +4,7 @@ using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ClassRegistration.DataAccess.Repository
@@ -40,15 +41,10 @@ namespace ClassRegistration.DataAccess.Repository
             return await _context.SaveChangesAsync () > 0;
         }
 
-
-        /// <summary>
-        /// Get all the reviews available
-        /// </summary>
-        /// <returns></returns>
-        public virtual async Task<IEnumerable<ReviewsModel>> FindAll ()
+        public virtual async Task<IEnumerable<ReviewsModel>> FindByCourse(int courseId)
         {
-            var classes = await _context.Reviews.ToListAsync ();
-            return _mapper.Map<IEnumerable<ReviewsModel>> (classes);
+            var reviews = await _context.Reviews.Where (r => r.CourseId == courseId).ToListAsync ();
+            return _mapper.Map<IEnumerable<ReviewsModel>> (reviews);
         }
     }
 }

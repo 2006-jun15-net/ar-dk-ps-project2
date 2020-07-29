@@ -16,11 +16,7 @@ namespace ClassRegistration.DataAccess.Interfaces
         /// <returns></returns>
         Task<bool> Add (StudentModel student, int courseid, int score, string text);
 
-        /// <summary>
-        /// Get all the reviews available
-        /// </summary>
-        /// <returns></returns>
-        Task<IEnumerable<ReviewsModel>> FindAll ();
+        Task<IEnumerable<ReviewsModel>> FindByCourse(int courseId);
     }
 }
 

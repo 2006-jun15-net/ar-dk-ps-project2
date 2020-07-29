@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace ClassRegistration.App.Controllers
 {
     [Route ("api/[controller]")]
+    [Authorize]
     public class ReviewsController : ControllerBase
     {
         private readonly IReviewsRepository _reviewsRepository;
@@ -24,11 +25,11 @@ namespace ClassRegistration.App.Controllers
         /// Returns all available reviews
         /// </summary>
         /// <returns></returns>
-        // GET: api/reviews
-        [HttpGet]
-        public async Task<IActionResult> Get ()
+        // GET: api/reviews/5
+        [HttpGet ("{courseId}")]
+        public async Task<IActionResult> Get (int courseId)
         {
-            var theReviews = await _reviewsRepository.FindAll ();
+            var theReviews = await _reviewsRepository.FindByCourse (courseId);
             return Ok (theReviews);
         }
 
@@ -39,7 +40,6 @@ namespace ClassRegistration.App.Controllers
         /// <returns></returns>
         // POST: api/reviews
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Post ([FromBody] ReviewsModel review)
         {
             var currentStudent = await _studentRepository.FindById (review.StudentId);
