@@ -38,9 +38,6 @@ namespace ClassRegistration.Domain.Model
         /// </summary>
         public int CourseId { get; set; }
 
-
-        public int StudentId { get; set; }
-
         /// <summary>
         /// The department the course is in
         /// </summary>

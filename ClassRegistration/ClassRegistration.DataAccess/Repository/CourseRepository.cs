@@ -16,26 +16,6 @@ namespace ClassRegistration.DataAccess.Repository
         public CourseRepository () : this (null) { }
 
         /// <summary>
-        /// Search courses by student
-        /// </summary>
-        /// <param name="studentId"></param>
-        /// <returns></returns>
-        public virtual async Task<IEnumerable<CourseModel>> FindByStudent (int studentId)
-        {
-            var courses = from c in _context.Course
-                          join s in _context.Section on c.CourseId equals s.CourseId
-                          join e in _context.Enrollment on s.SectId equals e.SectId
-                          where e.StudentId == studentId
-                          select c;
-
-            return await courses.Select (c => new CourseModel
-            {
-                CourseName = c.CourseName,
-                StudentId = studentId
-            }).ToListAsync ();
-        }
-
-        /// <summary>
         /// Get all courses available
         /// </summary>
         /// <returns></returns>

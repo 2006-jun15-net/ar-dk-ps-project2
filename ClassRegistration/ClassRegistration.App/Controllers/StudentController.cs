@@ -18,17 +18,14 @@ namespace ClassRegistration.App.Controllers
     [Authorize]
     public class StudentController : ControllerBase
     {
-        private readonly ICourseRepository _courseRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly IEnrollmentRepository _enrollmentRepository;
         private readonly IStudentTypeRepository _studentTypeRepository;
 
-        public StudentController (ICourseRepository courseRepository,
-                                    IStudentRepository studentRepository,
+        public StudentController (IStudentRepository studentRepository,
                                     IEnrollmentRepository enrollmentRepository,
                                     IStudentTypeRepository studentTypeRepository)
         {
-            _courseRepository = courseRepository;
             _studentRepository = studentRepository;
             _enrollmentRepository = enrollmentRepository;
             _studentTypeRepository = studentTypeRepository;
@@ -136,11 +133,11 @@ namespace ClassRegistration.App.Controllers
                 return NotFound (new ErrorObject ($"Student id {id} does not exist"));
             }
 
-            IEnumerable<CourseModel> courses;
+            IEnumerable<EnrollmentModel> courses;
 
             try
             {
-                courses = await _courseRepository.FindByStudent (id);
+                courses = await _enrollmentRepository.FindByStudent (id);
             }
             catch (ArgumentException e)
             {

@@ -8,13 +8,6 @@ namespace ClassRegistration.DataAccess.Interfaces
     public interface ICourseRepository
     {
         /// <summary>
-        /// Search for a course by student ID
-        /// </summary>
-        /// <param name="studentId"></param>
-        /// <returns></returns>
-        Task<IEnumerable<CourseModel>> FindByStudent (int studentId);
-
-        /// <summary>
         /// gets some courses using pagination.
         /// </summary>
         /// <returns></returns>
