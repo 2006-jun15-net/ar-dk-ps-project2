@@ -73,15 +73,16 @@ namespace ClassRegistration.Test.Controllers.App
             mockEnrollRepo.Setup (
                 repo => repo.FindByStudent (It.IsAny<int> ())
             ).Returns (
-                async (int id) => 
+                async (int id) =>
                     await Task.Run (() => enrollments.Where (e => e.StudentId == id))
             );
 
             mockEnrollRepo.Setup (
-                repo => repo.GetTotalAmount (It.IsAny<int> (), It.IsAny<string> ())  
+                repo => repo.GetTotalAmount (It.IsAny<int> (), It.IsAny<string> ())
             ).Returns (
                 async (int id, string term) =>
-                    await Task.Run (() => {
+                    await Task.Run (() =>
+                    {
 
                         var courses = enrollments.Where (e => e.EnrollmentId == id).Select (e => e.Section)
                                                 .Where (s => s.Term == term).Select (s => s.Course);
@@ -99,10 +100,10 @@ namespace ClassRegistration.Test.Controllers.App
             mockStudentTypeRepo.Setup (
                 repo => repo.FindDiscount (It.IsAny<string> ())
             ).Returns (
-                async (string id) => 
+                async (string id) =>
                     await Task.Run (() => id == "in-state" ? 1m : 0m)
             );
-            
+
             mockStudentRepo.SetupAllProperties ();
             mockEnrollRepo.SetupAllProperties ();
             mockStudentTypeRepo.SetupAllProperties ();
@@ -181,7 +182,7 @@ namespace ClassRegistration.Test.Controllers.App
 
         [Fact]
         public async void TestGetTotalAmountFailById ()
-        { 
+        {
             NotFoundObjectResult response = await _studentController.GetTotalAmount (5, "fall") as NotFoundObjectResult;
 
             Assert.NotNull (response);

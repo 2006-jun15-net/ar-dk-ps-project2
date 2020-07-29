@@ -1,5 +1,4 @@
 using ClassRegistration.DataAccess.Entity;
-using ClassRegistration.DataAccess.Pagination;
 using ClassRegistration.Domain;
 using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
@@ -27,10 +26,10 @@ namespace ClassRegistration.DataAccess.Repository
         }
 
 
-        public virtual async Task<StudentModel> FindByName(string lastname)
+        public virtual async Task<StudentModel> FindByName (string lastname)
         {
-            var student = await _context.Student.FirstOrDefaultAsync(s => s.LastName == lastname);
-            return _mapper.Map<StudentModel>(student);
+            var student = await _context.Student.FirstOrDefaultAsync (s => s.LastName == lastname);
+            return _mapper.Map<StudentModel> (student);
         }
 
         public virtual async Task<IEnumerable<StudentModel>> FindByFirstname (string FirstName)

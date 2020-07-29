@@ -61,7 +61,7 @@ namespace ClassRegistration.Test.App.Controllers
 
             // Student repo setup
             mockStudentRepo.Setup (
-                repo => repo.FindById (It.IsAny<int> ())  
+                repo => repo.FindById (It.IsAny<int> ())
             ).Returns (
                 async (int id) => await Task.Run (() => students.Where (s => s.StudentId == id).FirstOrDefault ())
             );

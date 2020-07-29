@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using ClassRegistration.DataAccess.Pagination;
 using ClassRegistration.Domain.Model;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ClassRegistration.Domain

@@ -21,13 +21,13 @@ namespace ClassRegistration.DataAccess.Repository
         /// <returns></returns>
         public virtual async Task<IEnumerable<CourseModel>> FindAll (ModelPagination coursePagination)
         {
-            
+
             var classes = await _context.Course
-                .Skip((coursePagination.PageNumber - 1) * coursePagination.PageSize) //skipping some pages 
-                .Take(coursePagination.PageSize)
-                .ToListAsync();
-                
-            
+                .Skip ((coursePagination.PageNumber - 1) * coursePagination.PageSize) //skipping some pages 
+                .Take (coursePagination.PageSize)
+                .ToListAsync ();
+
+
             return _mapper.Map<IEnumerable<CourseModel>> (classes);
         }
 

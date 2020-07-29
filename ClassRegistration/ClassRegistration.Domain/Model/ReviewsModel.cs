@@ -47,7 +47,7 @@ namespace ClassRegistration.Domain.Model
 
                 if (value.Length > 2000)
                 {
-                    throw new ArgumentOutOfRangeException ("Comments cannot exceed 2000 characters.", nameof (value));
+                    throw new ArgumentOutOfRangeException (nameof (value), "Comments cannot exceed 2000 characters.");
 
                 }
                 _text = value;

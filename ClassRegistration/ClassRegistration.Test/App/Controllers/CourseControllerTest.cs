@@ -1,6 +1,6 @@
 ﻿using ClassRegistration.App.Controllers;
-using ClassRegistration.DataAccess.Repository;
 using ClassRegistration.DataAccess.Pagination;
+using ClassRegistration.DataAccess.Repository;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

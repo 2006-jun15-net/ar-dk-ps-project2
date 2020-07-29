@@ -3,7 +3,6 @@ using ClassRegistration.DataAccess.Repository;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +17,6 @@ namespace ClassRegistration.Test.App.Controllers
         public SectionControllerTest ()
         {
             var mockSectionRepo = new Mock<SectionRepository> ();
-            var mockCourseRepo = new Mock<CourseRepository> ();
 
             List<SectionModel> sections = new List<SectionModel>
             {
@@ -26,14 +24,6 @@ namespace ClassRegistration.Test.App.Controllers
                 {
                     SectId = 1,
                     InstructorId = 1
-                }
-            };
-
-            List<CourseModel> courses = new List<CourseModel>
-            {
-                new CourseModel
-                {
-                    CourseId = 1,
                 }
             };
 
@@ -51,17 +41,9 @@ namespace ClassRegistration.Test.App.Controllers
                     await Task.Run (() => sections.Where (s => s.InstructorId == instructorId))
             );
 
-            // Course repo setup
-            mockCourseRepo.Setup (
-                repo => repo.FindById (It.IsAny<int> ())
-            ).Returns (
-                async (int id) =>
-                    await Task.Run (() => courses.Where (c => c.CourseId == id).FirstOrDefault ())
-            );
-
             mockSectionRepo.SetupAllProperties ();
 
-            _sectionController = new SectionController (mockSectionRepo.Object, mockCourseRepo.Object);
+            _sectionController = new SectionController (mockSectionRepo.Object);
         }
 
         [Fact]

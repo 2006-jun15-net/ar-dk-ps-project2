@@ -1,6 +1,6 @@
 ﻿using ClassRegistration.DataAccess.Entity;
-using ClassRegistration.DataAccess.Repository;
 using ClassRegistration.DataAccess.Pagination;
+using ClassRegistration.DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;

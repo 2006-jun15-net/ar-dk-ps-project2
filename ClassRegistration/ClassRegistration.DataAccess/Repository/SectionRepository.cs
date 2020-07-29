@@ -2,7 +2,6 @@ using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,19 +10,19 @@ namespace ClassRegistration.DataAccess.Repository
 {
     public class SectionRepository : Repository, ISectionRepository
     {
-        public SectionRepository(Course_registration_dbContext context) : base(context) { }
+        public SectionRepository (Course_registration_dbContext context) : base (context) { }
 
-        public SectionRepository() : this(null) { }
+        public SectionRepository () : this (null) { }
 
         /// <summary>
         /// All the sections available
         /// </summary>
         /// <returns></returns>
         // get all the sections : just to verify in postman
-        public virtual async Task<IEnumerable<SectionModel>> FindAll()
+        public virtual async Task<IEnumerable<SectionModel>> FindAll ()
         {
-            List<Section> sections = await _context.Section.ToListAsync();
-            return _mapper.Map<IEnumerable<SectionModel>>(sections);
+            List<Section> sections = await _context.Section.ToListAsync ();
+            return _mapper.Map<IEnumerable<SectionModel>> (sections);
         }
 
         public virtual async Task<SectionModel> FindById (int id)
@@ -54,21 +53,21 @@ namespace ClassRegistration.DataAccess.Repository
         /// </summary>
         /// <param name="instructorname"></param>
         /// <returns></returns>
-        public virtual async Task<IEnumerable<SectionModel>> FindByInstrName(string instructorname)
+        public virtual async Task<IEnumerable<SectionModel>> FindByInstrName (string instructorname)
         {
-            var sections = await _context.Section.Include(s => s.Course).ThenInclude(c => c.Reviews)
-                                    .Where(s => s.Instructor.LastName == instructorname).ToListAsync();
+            var sections = await _context.Section.Include (s => s.Course).ThenInclude (c => c.Reviews)
+                                    .Where (s => s.Instructor.LastName == instructorname).ToListAsync ();
 
-            return _mapper.Map<IEnumerable<SectionModel>>(sections);
+            return _mapper.Map<IEnumerable<SectionModel>> (sections);
         }
     }
 }
 
-       
-    
 
 
-        
+
+
+
 
 
 

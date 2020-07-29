@@ -6,7 +6,7 @@ namespace ClassRegistration.Domain.Model
     /// Business Logic Section
     /// </summary>
     public class SectionModel : BaseBusinessModel
-    { 
+    {
         public int SectId { get; set; }
         public int InstructorId { get; set; }
         public CourseModel Course { get; set; }

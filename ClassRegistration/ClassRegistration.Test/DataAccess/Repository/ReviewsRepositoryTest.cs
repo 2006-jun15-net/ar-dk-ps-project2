@@ -46,7 +46,7 @@ namespace ClassRegistration.Test.DataAccess.Repository
         [Fact]
         public async void TestAdd ()
         {
-            await _reviewsRepository.Add (new StudentModel 
+            await _reviewsRepository.Add (new StudentModel
             {
 
             }, 1, 100, "Test");

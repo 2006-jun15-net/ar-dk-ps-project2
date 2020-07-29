@@ -1,7 +1,5 @@
-﻿using ClassRegistration.App.ResponseObjects;
-using ClassRegistration.DataAccess.Interfaces;
+﻿using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,13 +12,10 @@ namespace ClassRegistration.App.Controllers
     public class SectionController : ControllerBase
     {
         private readonly ISectionRepository _sectionRepository;
-        private readonly ICourseRepository _courseRepository;
 
-        public SectionController (ISectionRepository sectionRepository,
-                                    ICourseRepository courseRepository)
+        public SectionController (ISectionRepository sectionRepository)
         {
             _sectionRepository = sectionRepository;
-            _courseRepository = courseRepository;
         }
 
         /// <summary>
@@ -43,31 +38,28 @@ namespace ClassRegistration.App.Controllers
             return Ok (sections);
         }
 
-
-
-
-        //using instructor's last name here
+        // using instructor's last name here
         // GET: api/section/{Erickson}
-        [HttpGet("{instructorName}")]
-        public async Task<IActionResult> GetCoursesandReviews (string instructorName)
+        [HttpGet ("{instructorName}")]
+        public async Task<IActionResult> GetCoursesAndReviews (string instructorName)
         {
             IEnumerable<SectionModel> sections;
 
             if (!string.IsNullOrEmpty (instructorName))
             {
-                sections = await _sectionRepository.FindByInstrName(instructorName);
+                sections = await _sectionRepository.FindByInstrName (instructorName);
             }
             else
             {
-                sections = await _sectionRepository.FindAll();
+                sections = await _sectionRepository.FindAll ();
             }
 
-            if (!sections.Any())
+            if (!sections.Any ())
             {
-                return NoContent();
+                return NoContent ();
             }
 
-            return Ok(sections);
+            return Ok (sections);
         }
     }
 }

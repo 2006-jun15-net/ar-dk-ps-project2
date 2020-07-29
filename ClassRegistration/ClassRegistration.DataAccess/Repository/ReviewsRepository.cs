@@ -4,7 +4,6 @@ using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ClassRegistration.DataAccess.Repository
@@ -25,7 +24,7 @@ namespace ClassRegistration.DataAccess.Repository
         /// <returns></returns>
 
         //add with student's name
-        public virtual async Task<bool> Add(StudentModel student, int courseid, int score, string text)
+        public virtual async Task<bool> Add (StudentModel student, int courseid, int score, string text)
         {
             var reviewDate = DateTime.Today;
             var review = new Reviews

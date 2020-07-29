@@ -1,5 +1,4 @@
 using ClassRegistration.Domain.Model;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -22,6 +21,6 @@ namespace ClassRegistration.DataAccess.Interfaces
         /// <returns></returns>
         Task<IEnumerable<SectionModel>> FindByInstrId (int instructorId);
 
-        Task<IEnumerable<SectionModel>> FindByInstrName(string instructorname);
+        Task<IEnumerable<SectionModel>> FindByInstrName (string instructorname);
     }
 }

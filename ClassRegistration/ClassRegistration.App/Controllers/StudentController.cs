@@ -1,7 +1,5 @@
 using ClassRegistration.App.ResponseObjects;
-using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Interfaces;
-using ClassRegistration.DataAccess.Pagination;
 using ClassRegistration.Domain;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Authorization;
@@ -113,10 +111,12 @@ namespace ClassRegistration.App.Controllers
         public async Task<IActionResult> GetCourses (int id)
         {
             StudentModel student;
+            IEnumerable<EnrollmentModel> courses;
 
             try
             {
                 student = await _studentRepository.FindById (id);
+                courses = await _enrollmentRepository.FindByStudent (id);
             }
             catch (ArgumentException e)
             {
@@ -126,17 +126,6 @@ namespace ClassRegistration.App.Controllers
             if (student == default)
             {
                 return NotFound (new ErrorObject ($"Student id {id} does not exist"));
-            }
-
-            IEnumerable<EnrollmentModel> courses;
-
-            try
-            {
-                courses = await _enrollmentRepository.FindByStudent (id);
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest (new ValidationError (e));
             }
 
             if (!courses.Any ())

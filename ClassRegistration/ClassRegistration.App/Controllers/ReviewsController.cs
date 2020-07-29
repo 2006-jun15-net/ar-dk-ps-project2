@@ -40,19 +40,19 @@ namespace ClassRegistration.App.Controllers
         // POST: api/reviews
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Post([FromBody] ReviewsModel review)
+        public async Task<IActionResult> Post ([FromBody] ReviewsModel review)
         {
             var currentStudent = await _studentRepository.FindById (review.StudentId);
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(new ErrorObject("Invalid review data sent"));
+                return BadRequest (new ErrorObject ("Invalid review data sent"));
             }
-            
+
             var success = await _reviewsRepository.Add (currentStudent, review.CourseId, review.Score, review.Text);
 
             if (!success)
-            { 
+            {
                 return BadRequest ("Failed to add review");
             }
 
