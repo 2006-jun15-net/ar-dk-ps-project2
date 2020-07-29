@@ -13,7 +13,7 @@ namespace ClassRegistration.App.Controllers
 {
     [Route ("api/[controller]")]
     [ApiController]
-    [Authorize]// (Policy = "StudentAccess")]
+    [Authorize]
     public class StudentController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;
@@ -35,7 +35,9 @@ namespace ClassRegistration.App.Controllers
         [HttpGet]
         public async Task<IActionResult> Get ([FromQuery] string FirstName, [FromQuery] string LastName)
         {
-            if (string.IsNullOrEmpty(FirstName) && string.IsNullOrEmpty(LastName))
+            var UserID = User.Identity.Name;
+
+            if (string.IsNullOrEmpty (FirstName) && string.IsNullOrEmpty (LastName))
             {
                 return BadRequest (new ErrorObject ("This method requires a firstname or a lastname to be provided"));
             }
@@ -43,7 +45,7 @@ namespace ClassRegistration.App.Controllers
             if (string.IsNullOrEmpty (FirstName))
             {
                 var students = await _studentRepository.FindByLastname (LastName);
-                
+
                 if (!students.Any ())
                 {
                     return NoContent ();
@@ -55,7 +57,7 @@ namespace ClassRegistration.App.Controllers
             else if (string.IsNullOrEmpty (LastName))
             {
                 var students = await _studentRepository.FindByFirstname (FirstName);
-                
+
                 if (!students.Any ())
                 {
                     return NoContent ();
@@ -80,7 +82,8 @@ namespace ClassRegistration.App.Controllers
         [HttpGet ("{id}")]
         public async Task<IActionResult> Get (int id)
         {
-            foreach (var identity in HttpContext.User.Identities) {
+            foreach (var identity in HttpContext.User.Identities)
+            {
                 Console.WriteLine (identity.Name);
             }
 

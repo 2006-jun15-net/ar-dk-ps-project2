@@ -108,25 +108,5 @@ namespace ClassRegistration.App.Controllers
 
             return NotFound (new ErrorObject ($"Course '{name}' does not exist"));
         }
-
-        [HttpPost]
-        [Authorize (Policy = "AdminAccess")]
-        public async Task<IActionResult> Post ([FromBody] CourseModel course)
-        {
-            if (!ModelState.IsValid || course.Credits == null)
-            {
-                return BadRequest (new ErrorObject ("Invalid data sent"));
-            }
-
-            var credits = Convert.ToInt32 (course.Credits);
-            var success = await _courseRepository.Add (course.CourseId, course.CourseName, course.DeptId, credits, course.Fees);
-
-            if (!success)
-            {
-                return BadRequest (new ErrorObject ("Failed to add course"));
-            }
-
-            return Ok (MessageObject.Success);
-        }
     }
 }

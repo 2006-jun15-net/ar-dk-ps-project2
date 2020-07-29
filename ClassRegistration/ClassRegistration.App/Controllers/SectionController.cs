@@ -42,40 +42,5 @@ namespace ClassRegistration.App.Controllers
 
             return Ok (sections);
         }
-
-        [HttpPost]
-        [Authorize (Policy = "AdminAccess")]
-        public async Task<IActionResult> Post ([FromBody] SectionModel section)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest (new ErrorObject ("Invalid data sent"));
-            }
-
-            CourseModel course;
-
-            try
-            {
-                course = await _courseRepository.FindById (section.CourseId);
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest (new ValidationError (e));
-            }
-
-            if (course == default)
-            {
-                return BadRequest (new ErrorObject ($"Course id {section.CourseId} does not exist"));
-            }
-
-            var success = await _sectionRepository.Add (section.InstructorId, section.CourseId, section.Term, section.StartTime, section.EndTime);
-
-            if (!success)
-            {
-                return BadRequest (new ErrorObject ("Failed to add course"));
-            }
-
-            return Ok (MessageObject.Success);
-        }
     }
 }

@@ -85,14 +85,7 @@ namespace ClassRegistration.App.Controllers
                 return BadRequest (new ErrorObject ($"Couldn't find total credits for student id {id} and term {term}"));
             }
 
-            var minimumCredits = EnrollmentModel.MinimumCredits (term);
-
-            if (minimumCredits == -1)
-            {
-                return BadRequest (new ErrorObject ($"Invalid term {term}"));
-            }
-
-            return Ok (totalCredits >= minimumCredits);
+            return Ok (totalCredits);
         }
 
         /// <summary>
@@ -102,7 +95,6 @@ namespace ClassRegistration.App.Controllers
         /// <returns></returns>
         // POST api/<EnrollmentController>
         [HttpPost]
-        [Authorize (Policy = "StudentAccess")]
         public async Task<IActionResult> Post ([FromBody] EnrollmentModel enrollmentModel)
         {
             if (!ModelState.IsValid)
