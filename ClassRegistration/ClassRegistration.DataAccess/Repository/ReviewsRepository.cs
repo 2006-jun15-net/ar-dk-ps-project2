@@ -1,9 +1,10 @@
-﻿using ClassRegistration.DataAccess.Entity;
+using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ClassRegistration.DataAccess.Repository
@@ -22,14 +23,15 @@ namespace ClassRegistration.DataAccess.Repository
         /// <param name="score"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public virtual async Task<bool> Add (int studentid, int courseid, int score, string text)
+
+        //add with student's name
+        public virtual async Task<bool> Add(StudentModel student, int courseid, int score, string text)
         {
             var reviewDate = DateTime.Today;
-
             var review = new Reviews
             {
                 CourseId = courseid,
-                StudentId = studentid,
+                StudentId = student.StudentId,
                 Date = reviewDate,
                 Score = score,
                 Text = text

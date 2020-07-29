@@ -39,7 +39,7 @@ namespace ClassRegistration.DataAccess.Repository
         /// Get all courses available
         /// </summary>
         /// <returns></returns>
-        public virtual async Task<IEnumerable<CourseModel>> FindAll (CoursePagination coursePagination)
+        public virtual async Task<IEnumerable<CourseModel>> FindAll (ModelPagination coursePagination)
         {
             
             var classes = await _context.Course

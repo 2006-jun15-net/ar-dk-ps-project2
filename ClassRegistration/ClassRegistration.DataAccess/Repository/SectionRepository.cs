@@ -49,19 +49,17 @@ namespace ClassRegistration.DataAccess.Repository
             return _mapper.Map<IEnumerable<SectionModel>> (sections);
         }
 
-        public virtual async Task<bool> Add (int instructorId, int courseId, string term, TimeSpan start, TimeSpan end)
+        /// <summary>
+        /// Find the courses and their reviews by instructor's last name
+        /// </summary>
+        /// <param name="instructorname"></param>
+        /// <returns></returns>
+        public virtual async Task<IEnumerable<SectionModel>> FindByInstrName(string instructorname)
         {
-            var section = new Section
-            {
-                InstructorId = instructorId,
-                CourseId = courseId,
-                Term = term,
-                StartTime = start,
-                EndTime = end
-            };
+            var sections = await _context.Section.Include(s => s.Course).ThenInclude(c => c.Reviews)
+                                    .Where(s => s.Instructor.LastName == instructorname).ToListAsync();
 
-            await _context.Section.AddAsync (section);
-            return await _context.SaveChangesAsync () > 0;
+            return _mapper.Map<IEnumerable<SectionModel>>(sections);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ClassRegistration.App.ResponseObjects;
 using ClassRegistration.DataAccess.Interfaces;
+using ClassRegistration.Domain;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +12,12 @@ namespace ClassRegistration.App.Controllers
     public class ReviewsController : ControllerBase
     {
         private readonly IReviewsRepository _reviewsRepository;
+        private readonly IStudentRepository _studentRepository;
 
-        public ReviewsController (IReviewsRepository reviewsRepository)
+        public ReviewsController (IReviewsRepository reviewsRepository, IStudentRepository studentRepository)
         {
             _reviewsRepository = reviewsRepository;
+            _studentRepository = studentRepository;
         }
 
         /// <summary>
@@ -30,20 +33,22 @@ namespace ClassRegistration.App.Controllers
         }
 
         /// <summary>
-        /// Add a review for a course
+        /// Add a review for a course based on a student's name
         /// </summary>
         /// <param name="review"></param>
         /// <returns></returns>
         // POST: api/reviews
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Post ([FromBody] ReviewsModel review)
+        public async Task<IActionResult> Post([FromBody] string studentName, [FromBody] ReviewsModel review)
         {
+            var currentStudent = await _studentRepository.FindByName(studentname);
+
             if (!ModelState.IsValid)
             {
-                return BadRequest (new ErrorObject ("Invalid review data sent"));
+                return BadRequest(new ErrorObject("Invalid review data sent"));
             }
-
+            
             var success = await _reviewsRepository.Add (review.StudentId, review.CourseId, review.Score, review.Text);
 
             if (!success)
