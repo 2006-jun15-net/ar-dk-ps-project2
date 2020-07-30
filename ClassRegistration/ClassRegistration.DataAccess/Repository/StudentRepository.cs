@@ -21,20 +21,28 @@ namespace ClassRegistration.DataAccess.Repository
         /// <returns></returns>
         public virtual async Task<StudentModel> FindById (int id)
         {
-            var student = await _context.Student.FirstOrDefaultAsync (s => s.StudentId == id);
+            var student = await _context.Student.Include (s => s.Enrollment)
+                                .ThenInclude(e => e.Sect).ThenInclude (s => s.Course)
+                                .FirstOrDefaultAsync (s => s.StudentId == id);
+
             return _mapper.Map<StudentModel> (student);
         }
 
 
         public virtual async Task<StudentModel> FindByName (string lastname)
         {
-            var student = await _context.Student.FirstOrDefaultAsync (s => s.LastName == lastname);
+            var student = await _context.Student.Include (s => s.Enrollment)
+                                .ThenInclude(e => e.Sect).ThenInclude (s => s.Course)
+                                .FirstOrDefaultAsync (s => s.LastName == lastname);
+
             return _mapper.Map<StudentModel> (student);
         }
 
         public virtual async Task<IEnumerable<StudentModel>> FindByFirstname (string FirstName)
         {
-            var students = await _context.Student.Where (s => s.FirstName == FirstName).ToListAsync ();
+            var students = await _context.Student.Include (s => s.Enrollment).ThenInclude(e => e.Sect)
+                                .ThenInclude (s => s.Course).Where (s => s.FirstName == FirstName).ToListAsync ();
+
             return _mapper.Map<IEnumerable<StudentModel>> (students);
         }
 
