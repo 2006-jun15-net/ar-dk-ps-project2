@@ -98,6 +98,13 @@ namespace ClassRegistration.Test.Controllers.App
                     })
             );
 
+            mockEnrollRepo.Setup (
+                repo => repo.FindByStudent (It.IsAny<int> (), It.IsAny<string> ())
+            ).Returns (
+                async (int id, string term) =>
+                    await Task.Run (() => enrollments.Where (e => e.StudentId == id && e.Sect.Term == term))
+            );
+
             // StudentType repo setup
             mockStudentTypeRepo.Setup (
                 repo => repo.FindDiscount (It.IsAny<string> ())
@@ -142,12 +149,12 @@ namespace ClassRegistration.Test.Controllers.App
         [Fact]
         public async void TestGetCourses ()
         {
-            OkObjectResult response = await _studentController.GetCourses (1) as OkObjectResult;
+            OkObjectResult response = await _studentController.GetCourses (1, "fall") as OkObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (200, response.StatusCode);
 
-            var courses = response.Value as IEnumerable<CourseModel>;
+            var courses = response.Value as IEnumerable<EnrollmentModel>;
 
             Assert.Single (courses);
         }
@@ -155,7 +162,7 @@ namespace ClassRegistration.Test.Controllers.App
         [Fact]
         public async void TestGetCoursesFail ()
         {
-            NotFoundObjectResult response = await _studentController.GetCourses (3) as NotFoundObjectResult;
+            NotFoundObjectResult response = await _studentController.GetCourses (3, "fall") as NotFoundObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (404, response.StatusCode);
@@ -165,7 +172,7 @@ namespace ClassRegistration.Test.Controllers.App
         [Fact]
         public async void TestGetCoursesEmpty ()
         {
-            NoContentResult response = await _studentController.GetCourses (2) as NoContentResult;
+            NoContentResult response = await _studentController.GetCourses (2, "fall") as NoContentResult;
 
             Assert.NotNull (response);
             Assert.Equal (204, response.StatusCode);
