@@ -60,11 +60,6 @@ jobs:
     displayName: dotnet publish
     workingDirectory: $(solutionPath)
 
-  - task: Docker@2
-    inputs:
-      command: 'buildAndPush'
-      Dockerfile: '**/Dockerfile'
-
   - task: AzureRmWebAppDeployment@4
     displayName: azure app service deploy
     inputs:
