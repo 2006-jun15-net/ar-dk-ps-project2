@@ -28,7 +28,7 @@ namespace ClassRegistration.Test.App.Controllers
                     SectId = 1,
                     StudentId = 1,
 
-                    Section = new SectionModel
+                    Sect = new SectionModel
                     {
                         SectId = 1,
                         Term = "fall",
@@ -47,7 +47,7 @@ namespace ClassRegistration.Test.App.Controllers
                     SectId = 2,
                     StudentId = 2,
 
-                    Section = new SectionModel
+                    Sect = new SectionModel
                     {
                         SectId = 2,
                         Term = "spring",
@@ -98,7 +98,7 @@ namespace ClassRegistration.Test.App.Controllers
                 repo => repo.GetCredits (It.IsAny<int> (), It.IsAny<string> ())
             ).Returns (
                 async (int id, string term) =>
-                    await Task.Run (() => enrollments.Where (e => e.EnrollmentId == id).Select (e => e.Section)
+                    await Task.Run (() => enrollments.Where (e => e.EnrollmentId == id).Select (e => e.Sect)
                                         .Where (s => s.Term == term).Select (s => s.Course.Credits).FirstOrDefault ())
             );
 

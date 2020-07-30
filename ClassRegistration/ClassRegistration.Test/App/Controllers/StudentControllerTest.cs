@@ -47,7 +47,7 @@ namespace ClassRegistration.Test.Controllers.App
                     EnrollmentId = 1,
                     StudentId = 1,
 
-                    Section = new SectionModel
+                    Sect = new SectionModel
                     {
                         Term = "fall",
 
@@ -68,7 +68,7 @@ namespace ClassRegistration.Test.Controllers.App
             ).Returns (
                 async (int id) => 
                     await Task.Run (() => enrollments.Where (e => e.StudentId == id)
-                                            .Select (e => e.Section).Select (s => s.Course))
+                                            .Select (e => e.Sect).Select (s => s.Course))
             );
 
             // Student repo setup
@@ -86,7 +86,7 @@ namespace ClassRegistration.Test.Controllers.App
                 async (int id, string term) =>
                     await Task.Run (() =>
                     {
-                        var courses = enrollments.Where (e => e.EnrollmentId == id).Select (e => e.Section)
+                        var courses = enrollments.Where (e => e.EnrollmentId == id).Select (e => e.Sect)
                                                 .Where (s => s.Term == term).Select (s => s.Course);
 
                         if (!courses.Any ())
