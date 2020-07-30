@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using ClassRegistration.Domain.Model;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ClassRegistration.DataAccess.Interfaces
 {
@@ -38,5 +40,7 @@ namespace ClassRegistration.DataAccess.Interfaces
         /// <param name="sectionId"></param>
         /// <returns></returns>
         Task<bool> Add (int studentId, int sectionId);
+
+        Task<IEnumerable<EnrollmentModel>> FindByStudent (int studentId, string term);
     }
 }

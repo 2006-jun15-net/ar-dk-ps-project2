@@ -35,33 +35,9 @@ namespace ClassRegistration.App.Controllers
         [HttpGet]
         public async Task<IActionResult> Get ([FromQuery] string FirstName, [FromQuery] string LastName)
         {
-            if (string.IsNullOrEmpty (FirstName) && string.IsNullOrEmpty (LastName))
+            if (string.IsNullOrEmpty (FirstName) || string.IsNullOrEmpty (LastName))
             {
-                return BadRequest (new ErrorObject ("This method requires a firstname or a lastname to be provided"));
-            }
-
-            if (string.IsNullOrEmpty (FirstName))
-            {
-                var students = await _studentRepository.FindByLastname (LastName);
-
-                if (!students.Any ())
-                {
-                    return NoContent ();
-                }
-
-                return Ok (students);
-            }
-
-            else if (string.IsNullOrEmpty (LastName))
-            {
-                var students = await _studentRepository.FindByFirstname (FirstName);
-
-                if (!students.Any ())
-                {
-                    return NoContent ();
-                }
-
-                return Ok (students);
+                return BadRequest (new ErrorObject ("This method requires a firstname and a lastname to be provided"));
             }
 
             else
@@ -73,7 +49,6 @@ namespace ClassRegistration.App.Controllers
                     return NotFound (new ErrorObject ($"Student '{FirstName} {LastName}' does not exist"));
                 }
 
-                Console.WriteLine (student.Enrollment.Count());
                 return Ok (student);
             }
         }
@@ -112,16 +87,16 @@ namespace ClassRegistration.App.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         // GET api/<StudentController>/5/courses
-        [HttpGet ("{id}/courses")]
-        public async Task<IActionResult> GetCourses (int id)
+        [HttpGet ("{id}/{term}/courses")]
+        public async Task<IActionResult> GetCourses (int id, string term)
         {
             StudentModel student;
-            IEnumerable<CourseModel> courses;
+            IEnumerable<EnrollmentModel> courses;
 
             try
             {
                 student = await _studentRepository.FindById (id);
-                courses = await _courseRepository.FindByStudent (id);
+                courses = await _enrollmentRepository.FindByStudent (id, term);
             }
             catch (ArgumentException e)
             {

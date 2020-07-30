@@ -1,5 +1,6 @@
 using ClassRegistration.DataAccess.Entity;
 using ClassRegistration.DataAccess.Interfaces;
+using ClassRegistration.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -100,6 +101,14 @@ namespace ClassRegistration.DataAccess.Repository
 
             await _context.Enrollment.AddAsync (enrollment);
             return await _context.SaveChangesAsync () > 0;
+        }
+
+        public virtual async Task<IEnumerable<EnrollmentModel>> FindByStudent (int studentId, string term)
+        {
+            var enrollments = await _context.Enrollment.Include(e => e.Sect).ThenInclude (s => s.Course)
+                                        .Where (e => e.Sect.Term.ToLower () == term && e.StudentId == studentId).ToListAsync ();
+
+            return _mapper.Map<IEnumerable<EnrollmentModel>> (enrollments);
         }
     }
 }
