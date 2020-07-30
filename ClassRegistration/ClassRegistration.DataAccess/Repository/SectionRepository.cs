@@ -68,6 +68,14 @@ namespace ClassRegistration.DataAccess.Repository
 
             return _mapper.Map<IEnumerable<SectionModel>> (sections);
         }
+
+        public virtual async Task<SectionModel> FindByCourseId (int courseId)
+        {
+            var section = await _context.Section.Include (s => s.Course).ThenInclude (c => c.Reviews)
+                                    .FirstOrDefaultAsync (s => s.CourseId == courseId);
+
+            return _mapper.Map<SectionModel> (section);
+        }
     }
 }
 

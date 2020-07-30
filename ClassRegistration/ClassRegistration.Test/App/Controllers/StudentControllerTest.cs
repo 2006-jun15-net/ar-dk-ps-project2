@@ -201,15 +201,6 @@ namespace ClassRegistration.Test.Controllers.App
         }
 
         [Fact]
-        public async void TestGetTotalAmountFailByTerm ()
-        {
-            BadRequestObjectResult response = await _studentController.GetTotalAmount (1, "Not a term") as BadRequestObjectResult;
-
-            Assert.NotNull (response);
-            Assert.Equal (400, response.StatusCode);
-        }
-
-        [Fact]
         public async void TestGetDiscount ()
         {
             OkObjectResult response = await _studentController.GetDiscount (1) as OkObjectResult;

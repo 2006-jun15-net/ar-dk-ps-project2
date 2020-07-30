@@ -142,12 +142,7 @@ namespace ClassRegistration.App.Controllers
                 return NotFound (new ErrorObject ($"Student id {id} does not exist"));
             }
 
-            decimal? totalAmount = await _enrollmentRepository.GetTotalAmount (id, term); //getting the amount owed by a student in a particular semester.
-
-            if (totalAmount == null)
-            {
-                return BadRequest (new ErrorObject ($"Unable to find total amount for student id {id} and term {term}"));
-            }
+            decimal? totalAmount = await _enrollmentRepository.GetTotalAmount (id, term);
 
             return Ok (Convert.ToDecimal (totalAmount));
         }

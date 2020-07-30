@@ -24,5 +24,6 @@ namespace ClassRegistration.DataAccess.Interfaces
         Task<IEnumerable<SectionModel>> FindByInstrName (string instructorName);
 
         Task<IEnumerable<SectionModel>> FindByCourseName (string courseName);
+        Task<SectionModel> FindByCourseId (int courseId);
     }
 }

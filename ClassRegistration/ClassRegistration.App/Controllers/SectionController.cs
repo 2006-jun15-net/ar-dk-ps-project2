@@ -1,4 +1,5 @@
-﻿using ClassRegistration.DataAccess.Interfaces;
+﻿using ClassRegistration.App.ResponseObjects;
+using ClassRegistration.DataAccess.Interfaces;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -20,22 +21,24 @@ namespace ClassRegistration.App.Controllers
 
         /// <summary>
         /// Get all the sections with matching instructor, if specified
-        /// <param name="instructorId"></param>
+        /// <param name="courseId"></param>
         /// <returns></returns>
-        // GET: api/section?instructorId=5
+        // GET: api/section?courseId=5
         [HttpGet]
-        public async Task<IActionResult> Get ([FromQuery] int instructorId)
+        public async Task<IActionResult> Get ([FromQuery] int courseId)
         {
-            IEnumerable<SectionModel> sections;
+            SectionModel section;
 
-            sections = await _sectionRepository.FindByInstrId (Convert.ToInt32 (instructorId));
-
-            if (!sections.Any ())
+            try
             {
-                return NoContent ();
+                section = await _sectionRepository.FindByCourseId(courseId);
+            }
+            catch(ArgumentException e)
+            {
+                return BadRequest (new ValidationError (e));
             }
 
-            return Ok (sections);
+            return Ok (section);
         }
 
         // using instructor's last name here

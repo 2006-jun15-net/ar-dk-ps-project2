@@ -23,7 +23,8 @@ namespace ClassRegistration.Test.App.Controllers
                 new SectionModel
                 {
                     SectId = 1,
-                    InstructorId = 1
+                    InstructorId = 1,
+                    CourseId = 1
                 }
             };
 
@@ -41,32 +42,29 @@ namespace ClassRegistration.Test.App.Controllers
                     await Task.Run (() => sections.Where (s => s.InstructorId == instructorId))
             );
 
+            mockSectionRepo.Setup (
+                repo => repo.FindByCourseId (It.IsAny<int> ())
+            ).Returns (
+                async (int courseId) =>
+                    await Task.Run (() => sections.FirstOrDefault (s => s.CourseId == courseId))
+            );
+
             mockSectionRepo.SetupAllProperties ();
 
             _sectionController = new SectionController (mockSectionRepo.Object);
         }
 
         [Fact]
-        public async void TestGetCourseByInstructor ()
+        public async void TestGetByCourseId ()
         {
             OkObjectResult response = await _sectionController.Get (1) as OkObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (200, response.StatusCode);
 
-            var sections = response.Value as IEnumerable<SectionModel>;
+            var section = response.Value as SectionModel;
 
-            Assert.Single (sections);
-            Assert.Equal (1, sections.First ().InstructorId);
-        }
-
-        [Fact]
-        public async void TestGetCourseByInstructorFail ()
-        {
-            NoContentResult response = await _sectionController.Get (2) as NoContentResult;
-
-            Assert.NotNull (response);
-            Assert.Equal (204, response.StatusCode);
+            Assert.Equal (1, section.CourseId);
         }
     }
 }
