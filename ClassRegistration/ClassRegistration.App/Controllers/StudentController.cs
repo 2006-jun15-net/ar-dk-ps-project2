@@ -72,6 +72,8 @@ namespace ClassRegistration.App.Controllers
                 {
                     return NotFound (new ErrorObject ($"Student '{FirstName} {LastName}' does not exist"));
                 }
+
+                Console.WriteLine (student.Enrollment.Count());
                 return Ok (student);
             }
         }

@@ -28,16 +28,6 @@ namespace ClassRegistration.DataAccess.Repository
             return _mapper.Map<StudentModel> (student);
         }
 
-
-        public virtual async Task<StudentModel> FindByName (string lastname)
-        {
-            var student = await _context.Student.Include (s => s.Enrollment)
-                                .ThenInclude(e => e.Sect).ThenInclude (s => s.Course)
-                                .FirstOrDefaultAsync (s => s.LastName == lastname);
-
-            return _mapper.Map<StudentModel> (student);
-        }
-
         public virtual async Task<IEnumerable<StudentModel>> FindByFirstname (string FirstName)
         {
             var students = await _context.Student.Include (s => s.Enrollment).ThenInclude(e => e.Sect)
@@ -54,9 +44,9 @@ namespace ClassRegistration.DataAccess.Repository
 
         public virtual async Task<StudentModel> FindByName (string FirstName, string LastName)
         {
-            var student = await _context.Student.FirstOrDefaultAsync (
-                s => s.FirstName == FirstName && s.LastName == LastName
-            );
+            var student = await _context.Student.Include (s => s.Enrollment).ThenInclude(e => e.Sect).ThenInclude (s => s.Course)
+                                .FirstOrDefaultAsync (s => s.FirstName == FirstName && s.LastName == LastName);
+
             return _mapper.Map<StudentModel> (student);
         }
     }

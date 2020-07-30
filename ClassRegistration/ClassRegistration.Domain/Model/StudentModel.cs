@@ -93,7 +93,7 @@ namespace ClassRegistration.Domain.Model
 
                 foreach (var enrollment in Enrollment)
                 {
-                    var course = enrollment.Section.Course;
+                    var course = enrollment.Sect.Course;
                     var credits = Convert.ToInt32 (course.Credits);
 
                     if (course.DeptId == DeptId)
