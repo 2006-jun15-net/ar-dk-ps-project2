@@ -15,7 +15,7 @@ RUN dotnet restore
 
 COPY . .
 
-RUN dotnet publish ./AccountOwnerServer/AccountOwnerServer.csproj -o /publish/
+RUN dotnet publish ./ClassRegistration.App/ClassRegistration.App.csproj -o /publish/
  
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
  
