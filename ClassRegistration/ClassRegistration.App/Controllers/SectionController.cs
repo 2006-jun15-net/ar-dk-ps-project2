@@ -39,20 +39,28 @@ namespace ClassRegistration.App.Controllers
         }
 
         // using instructor's last name here
-        // GET: api/section/{Erickson}
-        [HttpGet ("{instructorName}")]
-        public async Task<IActionResult> GetCoursesAndReviews (string instructorName)
+        // GET: api/section/instructor/{Erickson}
+        [HttpGet ("instructor/{instructorName}")]
+        public async Task<IActionResult> GetByInstructor (string instructorName)
         {
             IEnumerable<SectionModel> sections;
 
-            if (!string.IsNullOrEmpty (instructorName))
+            sections = await _sectionRepository.FindByInstrName (instructorName);
+
+            if (!sections.Any ())
             {
-                sections = await _sectionRepository.FindByInstrName (instructorName);
+                return NoContent ();
             }
-            else
-            {
-                sections = await _sectionRepository.FindAll ();
-            }
+
+            return Ok (sections);
+        }
+
+        [HttpGet ("class/{courseName}")]
+        public async Task<IActionResult> GetByCourse (string courseName)
+        {
+            IEnumerable<SectionModel> sections;
+
+            sections = await _sectionRepository.FindByCourseName (courseName);
 
             if (!sections.Any ())
             {
