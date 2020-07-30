@@ -4,6 +4,7 @@ using ClassRegistration.Domain;
 using ClassRegistration.Domain.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -17,6 +18,7 @@ namespace ClassRegistration.App.Controllers
         private readonly IEnrollmentRepository _enrollmentRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly ISectionRepository _sectionRepository;
+        private readonly ILogger<EnrollmentController> _logger;
 
         /// <summary>
         /// Constructor initializes IEnrollment field.
@@ -25,11 +27,12 @@ namespace ClassRegistration.App.Controllers
         /// <param name="studentRepository"></param>
         public EnrollmentController (IEnrollmentRepository enrollmentRepository,
                                      IStudentRepository studentRepository,
-                                     ISectionRepository sectionRepository)
+                                     ISectionRepository sectionRepository, ILogger<EnrollmentController> logger)
         {
             _enrollmentRepository = enrollmentRepository;
             _studentRepository = studentRepository;
             _sectionRepository = sectionRepository;
+            _logger = logger;
         }
 
         /// <summary>
@@ -46,22 +49,28 @@ namespace ClassRegistration.App.Controllers
 
             try
             {
+                //logging information for awaiting to retrive a student
+                _logger.LogDebug($"Retrieving a student with ID:{id}");
                 student = await _studentRepository.FindById (studentId);
             }
             catch (ArgumentException e)
             {
+                _logger.LogError("Invalid enrollment request");
                 return BadRequest (new ValidationError (e));
             }
 
             if (student == default)
             {
+                _logger.LogWarning($"student with ID:{studentId}");
                 return BadRequest (new ErrorObject ($"Student id {studentId} does not exist"));
             }
 
+            _logger.LogInformation($"Awaiting to delete a student enrollment with id, {id}");
             bool deleted = await _enrollmentRepository.Delete (student.StudentId, id);
 
             if (!deleted)
             {
+                _logger.LogWarning($"student enrollment with id: {id}");
                 return NotFound (new ErrorObject ($"Student enrollment id {id} does not exist"));
             }
 
@@ -78,13 +87,15 @@ namespace ClassRegistration.App.Controllers
         [HttpGet ("{id}/{term}")]
         public async Task<IActionResult> GetTotalCredits (int id, string term)
         {
+            _logger.LogDebug($"Awaiting to get total credits for student with id, {id} in {term}");
             int? totalCredits = await _enrollmentRepository.GetCredits (id, term);  // gets total credits of a student with an id and term they are enrolled.
 
             if (totalCredits == null)
             {
+                _logger.LogWarning("The registered data does not exist.");
                 return BadRequest (new ErrorObject ($"Couldn't find total credits for student id {id} and term {term}"));
             }
-
+            _logger.LogInformation($"Retrieved total credits for student with id, {id} in {term}");
             return Ok (totalCredits);
         }
 
