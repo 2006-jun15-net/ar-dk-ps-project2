@@ -45,12 +45,8 @@ namespace ClassRegistration.App
             {
                 options.AddPolicy (name: "AllowLocalNgServe", builder =>
                 {
-                    builder.WithOrigins ("http://localhost:4200")
-                          .AllowAnyMethod ()
-                          .AllowAnyHeader ()
-                          .AllowCredentials ();
-
-                    builder.WithOrigins ("https://ar-dk-ps-project2-site.azurewebsites.net")
+                    builder.WithOrigins ("http://localhost:4200",
+                        "https://ar-dk-ps-project2-site.azurewebsites.net")
                           .AllowAnyMethod ()
                           .AllowAnyHeader ()
                           .AllowCredentials ();
@@ -72,7 +68,7 @@ namespace ClassRegistration.App
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure (IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddFile("Logs/ts-{Date}.txt");
+            loggerFactory.AddFile ("Logs/ts-{Date}.txt");
             if (env.IsDevelopment ())
             {
                 app.UseDeveloperExceptionPage ();
@@ -98,7 +94,7 @@ namespace ClassRegistration.App
 
             app.UseEndpoints (endpoints =>
             {
-                endpoints.MapControllers ();
+                endpoints.MapControllers ().RequireCors("AllowLocalNgServe");
             });
         }
     }

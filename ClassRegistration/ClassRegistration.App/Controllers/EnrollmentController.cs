@@ -66,7 +66,7 @@ namespace ClassRegistration.App.Controllers
             }
 
             _logger.LogInformation($"Awaiting to delete a student enrollment with id, {id}");
-            bool deleted = await _enrollmentRepository.Delete (student.StudentId, id);
+            bool deleted = await _enrollmentRepository.Delete (id, student.StudentId);
 
             if (!deleted)
             {
