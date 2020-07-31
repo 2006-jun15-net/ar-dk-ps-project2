@@ -50,27 +50,47 @@ namespace ClassRegistration.App.Controllers
             try
             {
                 //logging information for awaiting to retrive a student
-                _logger.LogDebug($"Retrieving a student with ID:{id}");
+                if (_logger != null)
+                {
+                    _logger.LogDebug ($"Retrieving a student with ID:{id}");
+                }
+
                 student = await _studentRepository.FindById (studentId);
             }
             catch (ArgumentException e)
             {
-                _logger.LogError("Invalid enrollment request");
+                if (_logger != null)
+                {
+                    _logger.LogError ("Invalid enrollment request");
+                }
+
                 return BadRequest (new ValidationError (e));
             }
 
             if (student == default)
             {
-                _logger.LogWarning($"student with ID:{studentId}");
+                if (_logger != null)
+                {
+                    _logger.LogWarning ($"student with ID:{studentId}");
+                }
+
                 return BadRequest (new ErrorObject ($"Student id {studentId} does not exist"));
             }
 
-            _logger.LogInformation($"Awaiting to delete a student enrollment with id, {id}");
+            if (_logger != null)
+            {
+                _logger.LogInformation ($"Awaiting to delete a student enrollment with id, {id}");
+            }
+
             bool deleted = await _enrollmentRepository.Delete (id, student.StudentId);
 
             if (!deleted)
             {
-                _logger.LogWarning($"student enrollment with id: {id}");
+                if (_logger != null)
+                {
+                    _logger.LogWarning ($"student enrollment with id: {id}");
+                }
+
                 return NotFound (new ErrorObject ($"Student enrollment id {id} does not exist"));
             }
 
@@ -87,15 +107,28 @@ namespace ClassRegistration.App.Controllers
         [HttpGet ("{id}/{term}")]
         public async Task<IActionResult> GetTotalCredits (int id, string term)
         {
-            _logger.LogDebug($"Awaiting to get total credits for student with id, {id} in {term}");
+            if (_logger != null)
+            {
+                _logger.LogDebug ($"Awaiting to get total credits for student with id, {id} in {term}");
+            }
+
             int? totalCredits = await _enrollmentRepository.GetCredits (id, term);  // gets total credits of a student with an id and term they are enrolled.
 
             if (totalCredits == null)
             {
-                _logger.LogWarning("The registered data does not exist.");
+                if (_logger != null)
+                {
+                    _logger.LogWarning ("The registered data does not exist.");
+                }
+
                 return BadRequest (new ErrorObject ($"Couldn't find total credits for student id {id} and term {term}"));
             }
-            _logger.LogInformation($"Retrieved total credits for student with id, {id} in {term}");
+
+            if (_logger != null)
+            {
+                _logger.LogInformation ($"Retrieved total credits for student with id, {id} in {term}");
+            }
+
             return Ok (totalCredits);
         }
 

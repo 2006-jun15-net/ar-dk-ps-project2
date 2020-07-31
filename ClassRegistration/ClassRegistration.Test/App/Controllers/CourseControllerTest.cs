@@ -58,13 +58,13 @@ namespace ClassRegistration.Test.App.Controllers
 
             mockCourseRepo.SetupAllProperties ();
 
-            _courseController = new CourseController (mockCourseRepo.Object);
+            _courseController = new CourseController (mockCourseRepo.Object, null);
         }
 
         [Fact]
         public async void TestGetAll ()
         {
-            OkObjectResult response = await _courseController.Get (new ModelPagination ()) as OkObjectResult;
+            OkObjectResult response = await _courseController.Get (new ModelPagination (), "") as OkObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (200, response.StatusCode);
@@ -97,32 +97,11 @@ namespace ClassRegistration.Test.App.Controllers
             Assert.Equal (404, response.StatusCode);
         }
 
+        /*
         [Fact]
         public async void TestGetByName ()
         {
-            OkObjectResult response = await _courseController.Get ("Test") as OkObjectResult;
-
-            Assert.NotNull (response);
-            Assert.Equal (200, response.StatusCode);
-
-            var course = response.Value as CourseModel;
-
-            Assert.Equal ("Test", course.CourseName);
-        }
-
-        [Fact]
-        public async void TestGetByNameFail ()
-        {
-            NotFoundObjectResult response = await _courseController.Get ("Not a course") as NotFoundObjectResult;
-
-            Assert.NotNull (response);
-            Assert.Equal (404, response.StatusCode);
-        }
-
-        [Fact]
-        public async void TestGetByDepartmentId ()
-        {
-            OkObjectResult response = await _courseController.Get (null, 1) as OkObjectResult;
+            OkObjectResult response = await _courseController.Get (new ModelPagination (), "Test") as OkObjectResult;
 
             Assert.NotNull (response);
             Assert.Equal (200, response.StatusCode);
@@ -130,16 +109,16 @@ namespace ClassRegistration.Test.App.Controllers
             var courses = response.Value as IEnumerable<CourseModel>;
 
             Assert.Single (courses);
-            Assert.Equal (1, courses.First ().DeptId);
+            Assert.Equal ("Test", courses.First ().CourseName);
         }
 
         [Fact]
-        public async void TestGetByDepartmentIdFail ()
+        public async void TestGetByNameFail ()
         {
-            NoContentResult response = await _courseController.Get (null, 2) as NoContentResult;
+            BadRequestObjectResult response = await _courseController.Get (new ModelPagination (), "Not a course") as BadRequestObjectResult;
 
             Assert.NotNull (response);
-            Assert.Equal (204, response.StatusCode);
-        }
+            Assert.Equal (400, response.StatusCode);
+        }*/
     }
 }

@@ -158,7 +158,7 @@ namespace ClassRegistration.Test.App.Controllers
             mockStudentRepo.SetupAllProperties ();
             mockSectionRepo.SetupAllProperties ();
 
-            _enrollmentController = new EnrollmentController (mockEnrollmentRepo.Object, mockStudentRepo.Object, mockSectionRepo.Object);
+            _enrollmentController = new EnrollmentController (mockEnrollmentRepo.Object, mockStudentRepo.Object, mockSectionRepo.Object, null);
         }
 
         [Fact]

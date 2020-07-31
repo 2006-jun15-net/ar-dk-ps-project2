@@ -49,7 +49,7 @@ namespace ClassRegistration.DataAccess.Repository
         /// <returns></returns>
         public virtual async Task<CourseModel> FindByName (string name)
         {
-            var searchedCourse = await _context.Course.FirstOrDefaultAsync (c => c.CourseName == name);
+            var searchedCourse = await _context.Course.Include (c => c.Reviews).FirstOrDefaultAsync (c => c.CourseName == name);
             return _mapper.Map<CourseModel> (searchedCourse);
         }
 
